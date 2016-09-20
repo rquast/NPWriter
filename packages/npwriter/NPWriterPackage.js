@@ -3,12 +3,13 @@ import { BasePackage } from 'substance'
 
 import NewsMLArticle from './NewsMLArticle'
 import NewsMLImporter from './NewsMLImporter'
+
 import BodyPackage from '../body/BodyPackage'
 import ParagraphPackage from '../paragraph/ParagraphPackage'
 import HeadlinePackage from '../headline/HeadlinePackage'
+import SubheadlinePackage from '../subheadline/SubheadlinePackage'
 import UnsupportedPackage from '../unsupported/UnsupportedPackage'
 import SwitchTextTypePackage from '../switch-text-type/SwitchTextTypePackage'
-
 
 export default {
     name: 'npwriter',
@@ -23,6 +24,7 @@ export default {
         config.import(BodyPackage)
         config.import(ParagraphPackage)
         config.import(HeadlinePackage)
+        config.import(SubheadlinePackage)
         config.import(UnsupportedPackage)
 
         // general purpose
