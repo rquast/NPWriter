@@ -5,45 +5,14 @@
 @import './substance/substance-pagestyle.css';
 /* Using url here, so font-awesome does not get bundled. */
 @import url('./font-awesome/css/font-awesome.min.css');
-body { overflow: hidden; }
 
-.sc-app { position: absolute; left: 0px; right: 0px; bottom: 0px; top: 0px; }
+@import './packages/headline/css/index.css';
+@import './packages/subheadline/css/index.css';
+@import './packages/paragraph/css/index.css';
 
 body {
     font-family: Lato, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    overflow: hidden;
 }
 
-/**
- * Headlines and paragraphs
- */
-.sc-headline {
-    font-family: Lato, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-    padding-bottom: 20px;
-    font-weight: 600;
-    letter-spacing: -0.5px;
-    font-size: 32px;
-    line-height: 35px;
-}
-
-.sc-subheadline {
-    font-family: Lato, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-    font-weight: bold;
-    padding-bottom: 20px;
-    letter-spacing: -0.5px;}
-
-.sc-subheadline.sc-level-1 {
-    font-size: 24px;
-    line-height: 28px;
-}
-
-.sc-subheadline.sc-level-2 {
-    font-size: 20px;
-}
-
-.sc-subheadline.sc-level-3 {
-    font-size: 16px;
-}
-
-.sc-paragraph {
-    padding-bottom: 20px;    
-}
+.sc-app { position: absolute; left: 0px; right: 0px; bottom: 0px; top: 0px; }
