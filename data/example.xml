@@ -1,0 +1,254 @@
+<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" version="1" conformance="power"
+    standardversion="2.20" standard="NewsML-G2" guid="1d02738f-7c99-42ba-a6da-3d1b97261523">
+    <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_27.xml"/>
+    <catalogRef href="http://infomaker.se/spec/catalog/catalog.infomaker.g2.1_0.xml"/>
+
+
+    <itemMeta>
+        <itemClass qcode="ninat:text"/>
+        <provider literal="John Doe"/>
+        <versionCreated>2015-07-01T14:11:20+02:00</versionCreated>
+        <firstCreated>2015-07-01T14:00:02+02:00</firstCreated>
+        <pubStatus qcode="stat:withheld"/>
+        <service qcode="imchn:8till5"/>
+        <service qcode="dummy:DummyService"/>
+        <title>Proin eget dignissim ipsum</title>
+        <edNote>Duis eget magna lacus. In sodales lectus vel egestas rhoncus</edNote>
+        <itemMetaExtProperty type="imext:uri" value="x-im://1d02738f-7c99-42ba-a6da-3d1b97261523"/>
+        <itemMetaExtProperty type="imext:url"
+            value="http://example.org/articles/1d02738f-7c99-42ba-a6da-3d1b97261523.xml"/>
+        <itemMetaExtProperty type="imext:pubstart" value="2015-07-01T14:27:00+02:00"/>
+        <itemMetaExtProperty type="imext:pubstop" value="2015-10-05T15:14:13+02:00"/>
+        <itemMetaExtProperty type="imext:type" value="Web article"/>
+        <itemMetaExtProperty type="imext:typeid" value="285"/>
+        <itemMetaExtProperty type="imext:subtype" value="Article"/>
+        <itemMetaExtProperty type="imext:subtypeid" value="1"/>
+        <links xmlns="http://www.infomaker.se/newsml/1.0">
+            <link title="Quisque pharetra id velit quis commodo" rel="article" type="x-im/article"
+                uuid="2175c4bb-fdcc-5a52-bc3b-658562f554cf"/>
+            <link title="John Doe" rel="creator" type="x-im/user"
+                uuid="9e1653f3-7575-4cb7-9b74-dc4dea63513e">
+                <data>
+                    <altId>58456</altId>
+                </data>
+            </link>
+            <link title="John Doe" rel="author" type="x-im/author"
+                uuid="9e1653f3-7575-4cb7-9b74-dc4dea63513e">
+                <data>
+                    <altId>58456</altId>
+                </data>
+            </link>
+            <link title="Jane Doe" rel="author" type="x-im/author"
+                uuid="bad4314c-7e33-11e5-8bcf-feff819cdc9f">
+                <data>
+                    <altId>456</altId>
+                </data>
+                <links>
+                    <link rel="avatar" type="x-im/image"
+                        url="//example.org/byline/images/janedoe.jpg"/>
+                </links>
+            </link>
+            <link title="Sport" rel="section" type="x-im/mainsection">
+                <data>
+                    <altId>87521</altId>
+                </data>
+            </link>
+            <link title="Local" rel="section" type="x-im/section">
+                <data>
+                    <altId>45784</altId>
+                </data>
+            </link>
+            <link title="Hedemora" rel="subject" type="x-im/category"
+                uuid="d72eb011-1552-4af4-8d15-cd4f8c157a87"/>
+            <link title="Dalarna" rel="subject" type="x-im/category"
+                uuid="03d22994-91e4-11e5-8994-feff819cdc9f">
+            </link>
+            <link title="Volvo" rel="subject" type="x-im/topic"
+                uuid="b201e042-555b-11e5-885d-feff819cdc9f">
+                <data/>
+            </link>
+            <link title="Saab" rel="subject" type="x-im/topic"
+                uuid="14d59118-91e4-11e5-8994-feff819cdc9f">
+                <data/>
+            </link>
+            <link title="Alvesta" rel="subject" type="x-im/place"
+                uuid="bce38dda-555b-11e5-885d-feff819cdc9f">
+                <data>
+                    <position>POINT(14.55600 56.89921)</position>
+                </data>
+            </link>
+            <link title="Stockholm" rel="subject" type="x-im/place"
+                uuid="48bdde54-91e4-11e5-8994-feff819cdc9f">
+                <data>
+                    <position>POINT(18.0685810 59.3293230)</position>
+                </data>
+            </link>
+        </links>
+    </itemMeta>
+    <contentMeta>
+        <contentCreated>2015-07-01T14:00:02+02:00</contentCreated>
+        <contentModified>2015-07-01T14:11:20+02:00</contentModified>
+        <slugline>Praesent nisl risus, lobortis sed congue at...</slugline>
+        <description>Quisque ullamcorper non ligula vel commodo.</description>
+        <language tag="sv"/>
+        <by>Jane Doe</by>
+        <headline>Lorem ipsum dolor sit amet, consectetur adipiscing elit</headline>
+        <metadata xmlns="http://www.infomaker.se/newsml/1.0">
+            <object id="8400c74d665x" type="x-im/newsvalue">
+                <data>
+                    <score>1</score>
+                    <description>7D</description>
+                    <text>P7D</text>
+                    <format>lifetimecode</format>
+                    <end>2016-01-31T10:00:00.000+01:00</end>
+                </data>
+            </object>
+            <object id="8400c74d667e" type="x-im/teaser"
+                title="Sed sit amet turpis a purus fringilla">
+                <data>
+                    <text>Duis eget magna lacus. In sodales lectus vel egestas rhoncus. Fusce
+                        ultrices urna vel ante sodales tincidunt. Maecenas at nisl in lorem egestas
+                        egestas id sed ipsum. Sed aliquam gravida dolor.</text>
+                </data>
+                <links>
+                    <link rel="image" type="x-im/image"
+                        uri="x-im://image/znX8U1CU124n26zu7gb40_jBzSk.jpeg"
+                        uuid="c382c937-8511-5d48-9677-55658c2bbb32">
+                        <data>
+                            <width>1536</width>
+                            <height>1024</height>
+                        </data>
+                    </link>
+                </links>
+            </object>
+            <object id="46f60ada63fd" type="x-im/image" uuid="c382c937-8511-5d48-9677-55658c2bbb32">
+                <links>
+                    <link rel="self" type="x-im/image"
+                        url="//s3.example-img.se/znX8U1C123JLDjlksdfgb40_jIka.jpeg"
+                        uri="x-im://image/znX8U1CU124n26zu7gb40_jBzSk.jpeg"
+                        uuid="c382c937-8511-5d48-9677-55658c2bbb32">
+                        <data>
+                            <caption>Maecenas at nisl in lorem egestas egestas.</caption>
+                            <width>1536</width>
+                            <height>1024</height>
+                        </data>
+                        <links>
+                            <link rel="author" type="x-im/user"
+                                uuid="bad4314c-7e33-11e5-8bcf-feff819cdc9f" title="Jane Doe"/>
+                        </links>
+                    </link>
+                    <link rel="2x1" type="x-im/softcrop">
+                        <data>
+                            <x>60</x>
+                            <y>85</y>
+                            <width>1212</width>
+                            <height>752</height>
+                        </data>
+                    </link>
+                    <link rel="3x2" type="x-im/softcrop">
+                        <data>
+                            <x>89</x>
+                            <y>55</y>
+                            <width>900</width>
+                            <height>600</height>
+                        </data>
+                    </link>
+                </links>
+            </object>
+        </metadata>
+    </contentMeta>
+
+    <contentSet>
+        <inlineXML>
+            <idf xml:lang="sv" xmlns="http://www.infomaker.se/idf/1.0">
+
+                <group type="body">
+                    <element id="d0dbf67d385e" type="headline" format="html">Artikel i utvecklingsmode</element>
+                    <element id="fafbedf02da1" type="paragraph" format="html">
+                        Lorem ipsum dolor sit amet, <a href="http://substance.io">consectetur adipiscing</a> elit. Sed luctus ipsum et convallis molestie. Sed quis volutpat ligula. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam in odio lacus. Nulla facilisi. Praesent dolor odio, finibus a ante at, gravida vestibulum quam. Cras in dolor diam. Cras elementum dapibus augue, ac malesuada sapien aliquam sed.
+                    </element>
+                    <element id="fafbedf02da2" type="paragraph" format="html">
+                        Mauris eleifend, orci nec volutpat efficitur, <span id="as097ae592c7" data-type="x-im/stockticker" data-last-price="234.91">AAPL</span> massa nibh congue libero, sed vehicula libero dui eget neque. In hac <strong>habitasse</strong> platea dictumst.
+                    </element>
+                    <element id="subhead1001" type="subheadline1" format="html">
+                        Subheadline 1 rubrik
+                    </element>
+                    <element id="pfafbedf022da2" type="paragraph" format="html">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis justo interdum quam vestibulum fermentum. Donec tincidunt quam in ligula fermentum, quis placerat leo mollis. Phasellus eget mi lacinia, tristique arcu ut, euismod magna. Nullam auctor egestas velit, sed ultricies orci egestas et. Sed luctus lorem id ligula consequat, nec tincidunt erat commodo. Morbi sagittis odio eu orci pretium porta. Quisque ornare massa lacus, non dictum massa euismod vitae. Donec commodo ipsum sed est interdum vestibulum. Pellentesque quis vestibulum purus. Curabitur sit amet dolor porta, eleifend lorem at, vulputate diam.
+                    </element>
+
+                    <object id="46f60ada63fd" type="x-im/image" uuid="c382c937-8511-5d48-9677-55658c2bbb32">
+                        <links>
+                            <link rel="self" type="x-im/image"
+                                url="http://www.evenemang.se/data/285/254/timo-p%C3%A5-turne-med-ted-tolkningar-1447843513-mega.jpg"
+                                uri="x-im://image/znX8U1CU124n26zu7gb40_jBzSk.jpeg"
+                                uuid="c382c937-8511-5d48-9677-55658c2bbb32">
+                                <data>
+                                    <text>Maecenas at nisl in lorem egestas egestas.</text>
+                                    <width>4800</width>
+                                    <height>3600</height>
+
+                                    <crops rel="original">
+                                        <crop name="16:9">
+                                            <x>8</x>
+                                            <y>8</y>
+                                            <width>3200</width>
+                                            <height>2800</height>
+                                        </crop>
+                                    </crops>
+
+                                    <crops rel="published">
+                                        <width>1536</width>
+                                        <height>1152</height>
+
+                                        <crop name="16:9">
+                                            <x>3</x>
+                                            <y>3</y>
+                                            <width>1024</width>
+                                            <height>896</height>
+                                        </crop>
+                                    </crops>
+                                </data>
+                                <links>
+                                    <link rel="author" type="x-im/user"
+                                        uuid="bad4314c-7e33-11e5-8bcf-feff819cdc9f" title="Jane Doe"/>
+                                </links>
+                            </link>
+                        </links>
+                    </object>
+
+                    <element id="subhead2001" type="subheadline2" format="html">
+                        Subheadline 2 rubrik
+                    </element>
+                    <element id="fafbedf022da2" type="paragraph" format="html">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis justo interdum quam vestibulum fermentum. Donec tincidunt quam in ligula fermenvulputate diam.
+                    </element>
+                    <element id="subhead2002" type="subheadline3" format="html">
+                        Subheadline 3 rubrik
+                    </element>
+                    <element id="paredf022da2" type="paragraph" format="html">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis justo interdum quam vestibulum fermentum. Donec tincidunt quam in ligula fermenvulputate diam.
+                        <strong>Here comes image.</strong>
+                    </element>
+
+                    <element id="_c93fe9cfad5d" type="paragraph" format="html">
+                        Aenean ullamcorper faucibus felis suscipit faucibus. Cras eu leo lectus.
+                    </element>
+                    <object id="_943b2917de0c" type="infomaker.se/embedhtml">
+                        <data>
+                            <format>html</format>
+                            <text><![CDATA[det här <strong>är</strong> <pre>en del hämtar info</pre> från rå markup]]></text>
+                        </data>
+                    </object>
+                    <element id="_c93fe9cfad5e" type="paragraph" format="html">
+                        Proin tempor enim auctor faucibus faucibus. Vivamus nisi odio, efficitur eu porta at, porta id metus. Nunc mattis iaculis ligula, eu fringilla elit pulvinar sed. Aliquam in ipsum justo. Quisque aliquam sapien vel dui aliquam ultricies. Sed posuere tellus porttitor semper suscipit. Curabitur egestas pharetra iaculis.
+                    </element>
+                    <blockquote id="jnsi3osnsk">Ett citat från någon som har något bra att säga till någon</blockquote>
+                    <element id="fafbedf02da1" type="paragraph" format="html">
+                        Mauris eleifend, orci nec volutpat efficitur, massa nibh congue libero, sed vehicula libero dui eget neque.
+                    </element>
+                </group>
+            </idf>
+        </inlineXML>
+    </contentSet>
+</newsItem>
