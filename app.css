@@ -28,3 +28,20 @@ body {
 }
 
 .sc-app { position: absolute; left: 0px; right: 0px; bottom: 0px; top: 0px; }
+
+.se-main-section {
+    width: 70%;
+}
+
+.se-context-section {
+    border-left: 1px solid #ddd;
+}
+
+.se-main-section .se-scrollable .se-content {
+    width: 100%;
+    padding: 40px 55px;
+}
+
+.sc-layout.sm-width-large {
+    max-width: 800px;
+}

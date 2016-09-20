@@ -13,7 +13,7 @@ class NPWriter extends ProseEditor {
   render($$) {
     let el = $$('div').addClass('sc-author')
     el.append(
-      $$(SplitPane, {splitType: 'vertical', sizeB: '400px'}).append(
+      $$(SplitPane, {splitType: 'vertical'}).append(
         this._renderMainSection($$),
         this._renderContextSection($$)
       )
@@ -26,7 +26,7 @@ class NPWriter extends ProseEditor {
   }
 
   _renderMainSection($$) {
-    let mainSection = $$('div').addClass('se-main-sectin')
+    let mainSection = $$('div').addClass('se-main-section')
 
     mainSection.append(
       this._renderContentPanel($$)
