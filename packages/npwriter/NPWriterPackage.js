@@ -5,9 +5,10 @@ import NewsMLArticle from './NewsMLArticle'
 import NewsMLImporter from './NewsMLImporter'
 
 import BodyPackage from '../body/BodyPackage'
-import ParagraphPackage from '../paragraph/ParagraphPackage'
 import HeadlinePackage from '../headline/HeadlinePackage'
 import SubheadlinePackage from '../subheadline/SubheadlinePackage'
+import ParagraphPackage from '../paragraph/ParagraphPackage'
+import BlockquotePackage from '../blockquote/BlockquotePackage'
 import UnsupportedPackage from '../unsupported/UnsupportedPackage'
 
 
@@ -23,9 +24,10 @@ export default {
         // Now import base packages
         config.import(BasePackage)
         config.import(BodyPackage)
-        config.import(ParagraphPackage)
         config.import(HeadlinePackage)
         config.import(SubheadlinePackage)
+        config.import(ParagraphPackage)
+        config.import(BlockquotePackage)
         config.import(UnsupportedPackage)
 
         // config.addComponent('sidebar', SidebarPanelComponent);
