@@ -1,5 +1,5 @@
 // Base packages
-import { BasePackage } from 'substance'
+import { BasePackage, StrongPackage, EmphasisPackage } from 'substance'
 
 import NewsMLArticle from './NewsMLArticle'
 import NewsMLImporter from './NewsMLImporter'
@@ -12,6 +12,8 @@ import BlockquotePackage from '../blockquote/BlockquotePackage'
 import UnsupportedPackage from '../unsupported/UnsupportedPackage'
 import SwitchTextTypePackage from '../switch-text-type/SwitchTextTypePackage'
 
+
+
 export default {
     name: 'npwriter',
     configure: function(config) {
@@ -20,6 +22,10 @@ export default {
             ArticleClass: NewsMLArticle,
             defaultTextType: 'paragraph'
         })
+
+        // core nodes
+        config.import(StrongPackage, {toolTarget: 'overlay'})
+        config.import(EmphasisPackage, {toolTarget: 'overlay'})
 
         // content-nodes
         config.import(BodyPackage)
