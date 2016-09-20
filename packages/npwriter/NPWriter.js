@@ -1,5 +1,7 @@
 import { SplitPane, ScrollPane, Layout, Overlay, ProseEditor } from 'substance'
 
+import SidebarPanelComponent from './components/SidebarPanelComponent';
+
 class NPWriter extends ProseEditor {
 
   _initialize(...args) {
@@ -19,9 +21,7 @@ class NPWriter extends ProseEditor {
   }
 
   _renderContextSection($$) {
-    return $$('div').addClass('se-context-section').append(
-      'TODO: render contextual stuff'
-    )
+    return $$(SidebarPanelComponent)
   }
 
   _renderMainSection($$) {

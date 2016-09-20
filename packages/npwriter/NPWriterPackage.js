@@ -3,10 +3,12 @@ import { BasePackage } from 'substance'
 
 import NewsMLArticle from './NewsMLArticle'
 import NewsMLImporter from './NewsMLImporter'
+
 import BodyPackage from '../body/BodyPackage'
 import ParagraphPackage from '../paragraph/ParagraphPackage'
 import HeadlinePackage from '../headline/HeadlinePackage'
 import UnsupportedPackage from '../unsupported/UnsupportedPackage'
+
 
 export default {
     name: 'npwriter',
@@ -23,6 +25,8 @@ export default {
         config.import(ParagraphPackage)
         config.import(HeadlinePackage)
         config.import(UnsupportedPackage)
+
+        // config.addComponent('sidebar', SidebarPanelComponent);
 
         // Override Importer/Exporter
         config.addImporter('newsml', NewsMLImporter)
