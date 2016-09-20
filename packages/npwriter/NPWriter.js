@@ -1,5 +1,7 @@
 import { SplitPane, ScrollPane, Layout, Overlay, ProseEditor } from 'substance'
 
+import ContentMenu from './ContentMenu'
+
 class NPWriter extends ProseEditor {
 
   _initialize(...args) {
@@ -33,6 +35,14 @@ class NPWriter extends ProseEditor {
     return mainSection
   }
 
+  _renderContentMenu($$) {
+    var commandStates = this.commandManager.getCommandStates()
+
+    return $$(ContentMenu, {
+      commandStates: commandStates
+    }).ref('contentMenu')
+  }
+
   _renderContentPanel($$) {
     const doc = this.documentSession.getDocument()
     const body = doc.get('body')
@@ -58,6 +68,7 @@ class NPWriter extends ProseEditor {
     )
 
     contentPanel.append(layout)
+    contentPanel.append(this._renderContentMenu($$))
     return contentPanel
   }
 
@@ -68,6 +79,18 @@ class NPWriter extends ProseEditor {
   _getExporter() {
     return {};
     // return this.props.configurator.createExporter('newsml')
+  }
+
+  _documentSessionUpdated(...args) {
+    super._documentSessionUpdated(...args)
+
+    var contentMenu = this.refs.contentMenu
+    if (contentMenu) {
+      var commandStates = this.commandManager.getCommandStates()
+      contentMenu.setProps({
+        commandStates: commandStates
+      });
+    }
   }
 
 }

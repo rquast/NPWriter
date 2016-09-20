@@ -1,0 +1,10 @@
+.sc-content-menu {
+  position: absolute;
+  top: 30px;
+  left: 10px;
+  background: white;
+}
+
+.sc-content-menu .se-available-tools {
+  background: #222;
+}

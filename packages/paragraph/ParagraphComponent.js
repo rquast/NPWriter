@@ -11,6 +11,4 @@ class ParagraphComponent extends Component {
   }
 }
 
-
-
 export default ParagraphComponent

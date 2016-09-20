@@ -7,6 +7,8 @@ import BodyPackage from '../body/BodyPackage'
 import ParagraphPackage from '../paragraph/ParagraphPackage'
 import HeadlinePackage from '../headline/HeadlinePackage'
 import UnsupportedPackage from '../unsupported/UnsupportedPackage'
+import SwitchTextTypePackage from '../switch-text-type/SwitchTextTypePackage'
+
 
 export default {
     name: 'npwriter',
@@ -17,12 +19,18 @@ export default {
             defaultTextType: 'paragraph'
         })
 
-        // Now import base packages
-        config.import(BasePackage)
+        // content-nodes
         config.import(BodyPackage)
         config.import(ParagraphPackage)
         config.import(HeadlinePackage)
         config.import(UnsupportedPackage)
+
+        // general purpose
+        config.import(BasePackage)
+        config.import(SwitchTextTypePackage)
+
+        config.addIcon('content-menu-open', { 'fontawesome': 'fa-pencil'});
+        config.addIcon('content-menu-close', { 'fontawesome': 'fa-times'});
 
         // Override Importer/Exporter
         config.addImporter('newsml', NewsMLImporter)
