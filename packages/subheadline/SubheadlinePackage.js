@@ -10,7 +10,7 @@ export default {
         config.addConverter('newsml', SubheadlineConverter)
         config.addTextType({
             name: 'subheadline',
-            data: {type: 'Subheadline'}
+            data: {type: 'subheadline'}
         })
         config.addLabel('subheadline.content', {
             en: 'Subheadline',
@@ -18,4 +18,4 @@ export default {
             sv: 'Rubrik'
         })
     }
-};
+}

@@ -10,7 +10,7 @@ import SubheadlinePackage from '../subheadline/SubheadlinePackage'
 import ParagraphPackage from '../paragraph/ParagraphPackage'
 import BlockquotePackage from '../blockquote/BlockquotePackage'
 import UnsupportedPackage from '../unsupported/UnsupportedPackage'
-
+import SwitchTextTypePackage from '../switch-text-type/SwitchTextTypePackage'
 
 export default {
     name: 'npwriter',
@@ -21,8 +21,7 @@ export default {
             defaultTextType: 'paragraph'
         })
 
-        // Now import base packages
-        config.import(BasePackage)
+        // content-nodes
         config.import(BodyPackage)
         config.import(HeadlinePackage)
         config.import(SubheadlinePackage)
@@ -30,7 +29,12 @@ export default {
         config.import(BlockquotePackage)
         config.import(UnsupportedPackage)
 
-        // config.addComponent('sidebar', SidebarPanelComponent);
+        // general purpose
+        config.import(BasePackage)
+        config.import(SwitchTextTypePackage)
+
+        config.addIcon('content-menu-open', { 'fontawesome': 'fa-pencil'});
+        config.addIcon('content-menu-close', { 'fontawesome': 'fa-times'});
 
         // Override Importer/Exporter
         config.addImporter('newsml', NewsMLImporter)

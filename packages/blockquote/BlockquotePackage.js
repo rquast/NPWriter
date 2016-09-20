@@ -13,12 +13,14 @@ export default {
             data: {type: 'blockquote'}
         })
         config.addLabel('blockquote', {
-            en: 'Paragraph',
-            de: 'Paragraph'
+            en: 'Blockquote',
+            de: 'Blockequote',
+            sv: 'Citat'
         })
         config.addLabel('blockquote.content', {
-            en: 'Paragraph',
-            de: 'Paragraph'
+            en: 'Blockequote',
+            de: 'Blockequote',
+            sv: "Citat"
         })
     }
 };

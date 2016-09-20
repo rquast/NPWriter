@@ -21,7 +21,7 @@ export default {
             type: node.contentType,
             format: node.format
         })
-        
+
         return el.attr('type', 'subheadline')
             .append(converter.annotatedText([node.id, 'content']));
     }

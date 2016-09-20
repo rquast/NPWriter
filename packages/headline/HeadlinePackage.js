@@ -10,12 +10,15 @@ export default {
         config.addConverter('newsml', HeadlineConverter)
         config.addTextType({
             name: 'headline',
-            data: {type: 'Headline'}
+            data: {type: 'headline'}
         })
-        config.addLabel('headline.content', {
+
+        var headlineLbl = {
             en: 'Headline',
             de: 'Headline',
             sv: 'Rubrik'
-        })
+        }
+        config.addLabel('headline.content', headlineLbl)
+        config.addLabel('headline', headlineLbl)
     }
 };

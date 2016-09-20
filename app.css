@@ -6,6 +6,8 @@
 /* Using url here, so font-awesome does not get bundled. */
 @import url('./font-awesome/css/font-awesome.min.css');
 
+/* writer-specific css */
+@import './packages/npwriter/_content-menu.css';
 @import './packages/headline/css/index.css';
 @import './packages/subheadline/css/index.css';
 @import './packages/paragraph/css/index.css';
