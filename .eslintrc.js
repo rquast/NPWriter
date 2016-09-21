@@ -15,7 +15,7 @@ module.exports = {
   },
   "rules": {
     // 0 - off, 1 - warning, 2 - error
-    "indent": ["off", 4, { "SwitchCase": 1 }],
+    "indent": [2, 4, { "SwitchCase": 1 }],
     "semi": [0, "never"],
     "comma-dangle": [2, "only-multiline"],
     "no-cond-assign": 2,
@@ -44,7 +44,7 @@ module.exports = {
     "no-sparse-arrays": 0,
     "no-unexpected-multiline": 2,
     "no-unreachable": 2,
-    "no-unsafe-finally": 2,
+   // "no-unsafe-finally": 2,
     "use-isnan": 2,
     "valid-jsdoc": 0,
     "valid-typeof": 2,
@@ -107,7 +107,7 @@ module.exports = {
     "no-unused-labels": 2,
     "no-useless-call": 2,
     "no-useless-concat": 2,
-    "no-useless-escape": 2,
+    //"no-useless-escape": 2,
     "no-void": 2,
     "no-warning-comments": 0,
     "no-with": 2,

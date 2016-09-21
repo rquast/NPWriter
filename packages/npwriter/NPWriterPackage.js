@@ -1,5 +1,5 @@
 // Base packages
-import { BasePackage, StrongPackage, EmphasisPackage } from 'substance'
+import {BasePackage, StrongPackage, EmphasisPackage} from 'substance'
 
 import NewsMLArticle from './NewsMLArticle'
 import NewsMLImporter from './NewsMLImporter'
@@ -11,12 +11,12 @@ import ParagraphPackage from '../paragraph/ParagraphPackage'
 import BlockquotePackage from '../blockquote/BlockquotePackage'
 import UnsupportedPackage from '../unsupported/UnsupportedPackage'
 import SwitchTextTypePackage from '../switch-text-type/SwitchTextTypePackage'
-
+import PreamblePackage from '../preamble/PreamblePackage'
 
 
 export default {
     name: 'npwriter',
-    configure: function(config) {
+    configure: function (config) {
         config.defineSchema({
             name: 'newsml-article',
             ArticleClass: NewsMLArticle,
@@ -33,14 +33,17 @@ export default {
         config.import(SubheadlinePackage)
         config.import(ParagraphPackage)
         config.import(BlockquotePackage)
+        config.import(PreamblePackage)
         config.import(UnsupportedPackage)
+
+
 
         // general purpose
         config.import(BasePackage)
         config.import(SwitchTextTypePackage)
 
-        config.addIcon('content-menu-open', { 'fontawesome': 'fa-pencil'});
-        config.addIcon('content-menu-close', { 'fontawesome': 'fa-times'});
+        config.addIcon('content-menu-open', {'fontawesome': 'fa-pencil'});
+        config.addIcon('content-menu-close', {'fontawesome': 'fa-times'});
 
         // Override Importer/Exporter
         config.addImporter('newsml', NewsMLImporter)
