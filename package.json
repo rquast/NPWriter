@@ -1,9 +1,9 @@
 {
-  "name": "substance-starter",
-  "description": "Substance example editor",
+  "name": "np-writer",
+  "description": "NewsPilot Writer",
   "dependencies": {
     "lodash": "^4.14.1",
-    "substance": "substance/substance#npwriter"
+    "substance": "substance/substance#tool-apis"
   },
   "devDependencies": {
     "eslint": "^3.2.2",

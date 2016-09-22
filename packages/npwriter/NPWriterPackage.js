@@ -36,8 +36,6 @@ export default {
         config.import(PreamblePackage)
         config.import(UnsupportedPackage)
 
-
-
         // general purpose
         config.import(BasePackage)
         config.import(SwitchTextTypePackage)

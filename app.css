@@ -8,6 +8,7 @@
 
 /* writer-specific css */
 @import './packages/npwriter/_content-menu.css';
+@import './packages/npwriter/_np-writer-overlay-tools.css';
 @import './packages/headline/css/index.css';
 @import './packages/subheadline/css/index.css';
 @import './packages/paragraph/css/index.css';
@@ -16,15 +17,6 @@
 body {
     font-family: Lato, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
     overflow: hidden;
-}
-
-.sc-default-overlay {
-  background: #fff;
-}
-
-.sc-default-overlay > * {
-  display: inline-block;
-  margin-right: 5px;
 }
 
 .sc-app { position: absolute; left: 0px; right: 0px; bottom: 0px; top: 0px; }
