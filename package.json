@@ -2,17 +2,31 @@
   "name": "substance-starter",
   "description": "Substance example editor",
   "dependencies": {
+    "express": "^4.14.0",
     "lodash": "^4.14.1",
+    "path": "^0.12.7",
     "substance": "substance/substance#npwriter"
   },
   "devDependencies": {
+    "babel-plugin-transform-runtime": "^6.15.0",
     "eslint": "^3.2.2",
     "font-awesome": "4.5.0",
+    "node-sass": "^3.10.0",
+    "npm-run-all": "^3.1.0",
+    "rollup": "^0.36.0",
+    "rollup-plugin-commonjs": "^5.0.4",
+    "rollup-plugin-eslint": "^3.0.0",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-sass": "^0.2.1",
+    "rollup-pluginutils": "^1.5.2",
+    "rollup-watch": "^2.5.0",
     "substance-bundler": "*"
   },
   "scripts": {
     "bundle": "node make",
-    "start": "node make -s -w"
+    "server": "node server.js",
+    "start": "node make -s -w",
+    "dev": "npm-run-all --parallel server start"
   },
   "version": "1.0.0-beta.5"
 }

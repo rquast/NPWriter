@@ -45,3 +45,7 @@ body {
 .sc-layout.sm-width-large {
     max-width: 800px;
 }
+
+.sc-preamble {
+    font-weight: 700;
+}

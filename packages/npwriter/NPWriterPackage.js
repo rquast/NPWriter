@@ -9,9 +9,8 @@ import HeadlinePackage from '../headline/HeadlinePackage'
 import SubheadlinePackage from '../subheadline/SubheadlinePackage'
 import ParagraphPackage from '../paragraph/ParagraphPackage'
 import BlockquotePackage from '../blockquote/BlockquotePackage'
-import UnsupportedPackage from '../unsupported/UnsupportedPackage'
 import SwitchTextTypePackage from '../switch-text-type/SwitchTextTypePackage'
-import PreamblePackage from '../preamble/PreamblePackage'
+// import PreamblePackage from '../preamble/PreamblePackage'
 
 
 export default {
@@ -33,8 +32,8 @@ export default {
         config.import(SubheadlinePackage)
         config.import(ParagraphPackage)
         config.import(BlockquotePackage)
-        config.import(PreamblePackage)
-        config.import(UnsupportedPackage)
+        // config.import(PreamblePackage)
+
 
 
 
