@@ -13,5 +13,6 @@ app.listen(port, function () {
     console.log({protocol: protocol, host: host, port: port}, "The Writer is running");
 });
 
+app.use('/', express.static('dist'));
 app.use('/api', routes);
 app.use(express.static(path.join(__dirname)));

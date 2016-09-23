@@ -7,11 +7,11 @@
 @import url('./font-awesome/css/font-awesome.min.css');
 
 /* writer-specific css */
-@import './packages/npwriter/_content-menu.css';
-@import './packages/headline/css/index.css';
-@import './packages/subheadline/css/index.css';
-@import './packages/paragraph/css/index.css';
-@import './packages/blockquote/css/index.css';
+@import './writer/packages/npwriter/_content-menu.css';
+@import './writer/packages/headline/css/index.css';
+@import './writer/packages/subheadline/css/index.css';
+@import './writer/packages/paragraph/css/index.css';
+@import './writer/packages/blockquote/css/index.css';
 
 body {
     font-family: Lato, Consolas, 'Liberation Mono', Menlo, Courier, monospace;

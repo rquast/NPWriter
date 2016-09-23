@@ -4,7 +4,7 @@ import {
     request
 } from 'substance'
 
-import 'styles/app.scss'
+import 'writer/styles/app.scss'
 
 import NPWriterCompontent from './packages/npwriter/NPWriterComponent'
 import NPWriterConfigurator from './packages/npwriter/NPWriterConfigurator'

@@ -1,8 +1,11 @@
-let tags = []
-
 class ResourceLoader {
+
+    constructor() {
+        this.tags = []
+    }
+
     unload(url) {
-        tags = tags.filter(tag => {
+        this.tags = this.tags.filter(tag => {
             if (tag.url === url) {
                 tag.node.parentNode.removeChild(tag.node)
                 return false
@@ -11,8 +14,22 @@ class ResourceLoader {
         })
     }
 
+    /**
+     * Appends a element to DOM
+     * @param plugin
+     * @param type
+     * @returns {*}
+     */
     load(plugin, type) {
-        var resource
+        let resource
+
+        // Check if tags with same url is already loaded,
+        // In that case just resolve promise immediately
+        if (this.tags.filter((t) => {
+                return t.url === plugin.url
+            }).length >= 1) {
+            return Promise.resolve()
+        }
 
         if (type === "js") {
             resource = document.createElement('script')
@@ -24,19 +41,10 @@ class ResourceLoader {
             resource.setAttribute("rel", "stylesheet")
             resource.setAttribute("href", plugin.css)
         } else {
-            Promise.reject("Tried to load invalid type" + type)
-            return
+            return Promise.reject("Tried to load invalid type" + type)
         }
 
-        // Check if tags with same url is already loaded,
-        // In that case just resolve promise immediately
-        if (tags.filter((t) => {
-            return t.url === plugin.url
-        }).length >= 1) {
-            return Promise.resolve()
-        }
-
-        tags = [...tags, {url: plugin.url, node: resource}]
+        this.tags = [...this.tags, {url: plugin.url, node: resource}]
 
         if (type === "css") {
             document.getElementsByTagName("head")[0].appendChild(resource)

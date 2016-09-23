@@ -38,8 +38,6 @@ class PluginManager {
         const pluginRegisterFunction = this.registerPluginList.get(pluginPackage.id);
         if (pluginRegisterFunction) {
             pluginRegisterFunction(pluginPackage);
-        } else {
-            console.info("Trying to register plugins that not exist", pluginPackage.id);
         }
     }
 
@@ -71,7 +69,6 @@ class PluginManager {
         const pluginsAppendPromise = this.appendPluginScripts(plugins)
         const allPromises = [...pluginsAppendPromise, ...pluginRegistered]
         return Promise.all(allPromises)
-
     }
 
 }

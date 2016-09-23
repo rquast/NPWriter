@@ -11,7 +11,8 @@ module.exports = {
   "extends": "eslint:recommended",
   "globals": {
     "Promise": true,
-    "Map": true
+    "Map": true,
+    "substance": true
   },
   "rules": {
     // 0 - off, 1 - warning, 2 - error

@@ -1,10 +1,11 @@
 [
-    {
-        "id": "se.infomaker.preamble",
-        "name": "preamble",
-        "url": "http://localhost:1337/preamble/Preamble.js",
-        "css": "http://localhost:1337/style.css",
-        "mandatory": false
-
+  {
+    "id": "se.infomaker.preamble",
+    "name": "preamble",
+    "url": "/plugins/se.infomaker.preamble/Preamble.js",
+    "mandatory": false,
+    "data": {
+      "foo": "bar"
     }
+  }
 ]
