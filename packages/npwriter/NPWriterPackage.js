@@ -1,5 +1,5 @@
 // Base packages
-import {BasePackage, StrongPackage, EmphasisPackage} from 'substance'
+import {BasePackage, StrongPackage, EmphasisPackage, LinkPackage} from 'substance'
 
 import NewsMLArticle from './NewsMLArticle'
 import NewsMLImporter from './NewsMLImporter'
@@ -25,6 +25,7 @@ export default {
         // core nodes
         config.import(StrongPackage, {toolTarget: 'overlay'})
         config.import(EmphasisPackage, {toolTarget: 'overlay'})
+        config.import(LinkPackage, {toolTarget: 'overlay'})
 
         // content-nodes
         config.import(BodyPackage)
@@ -33,8 +34,6 @@ export default {
         config.import(ParagraphPackage)
         config.import(BlockquotePackage)
         // config.import(PreamblePackage)
-
-
 
 
         // general purpose

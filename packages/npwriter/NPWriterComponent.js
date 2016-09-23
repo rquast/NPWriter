@@ -1,9 +1,10 @@
-import {SplitPane, ScrollPane, Layout, Overlay, ProseEditor} from 'substance'
+import {SplitPane, ScrollPane, Layout, AbstractEditor} from 'substance'
 
 import ContentMenu from './ContentMenu'
-import SidebarPanelComponent from './components/SidebarPanelComponent';
+import SidebarPanelComponent from './components/SidebarPanelComponent'
+import NPWriterOverlayTools from './NPWriterOverlayTools'
 
-class NPWriterComponent extends ProseEditor {
+class NPWriter extends AbstractEditor {
 
     _initialize(...args) {
         super._initialize(...args)
@@ -11,7 +12,7 @@ class NPWriterComponent extends ProseEditor {
     }
 
     render($$) {
-        let el = $$('div').addClass('sc-author')
+        let el = $$('div').addClass('sc-np-writer')
         el.append(
             $$(SplitPane, {splitType: 'vertical'}).append(
                 this._renderMainSection($$),
@@ -45,13 +46,11 @@ class NPWriterComponent extends ProseEditor {
     _renderContentPanel($$) {
         const doc = this.documentSession.getDocument()
         const body = doc.get('body')
-        var configurator = this.props.configurator
-
-        console.log("configurator", JSON.stringify(configurator.config.nodes,2))
+        var configurator = this.props.configurator;
 
         let contentPanel = $$(ScrollPane, {
             scrollbarType: 'native',
-            overlay: Overlay,
+            overlay: NPWriterOverlayTools
         }).ref('contentPanel')
 
         let layout = $$(Layout, {
@@ -82,9 +81,7 @@ class NPWriterComponent extends ProseEditor {
         // return this.props.configurator.createExporter('newsml')
     }
 
-    _documentSessionUpdated(...args) {
-        super._documentSessionUpdated(...args)
-
+    documentSessionUpdated(...args) {
         var contentMenu = this.refs.contentMenu
         if (contentMenu) {
             var commandStates = this.commandManager.getCommandStates()
@@ -96,4 +93,4 @@ class NPWriterComponent extends ProseEditor {
 
 }
 
-export default NPWriterComponent
+export default NPWriter

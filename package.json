@@ -1,11 +1,10 @@
 {
-  "name": "substance-starter",
-  "description": "Substance example editor",
+  "name": "np-writer",
+  "description": "NewsPilot Writer",
   "dependencies": {
     "express": "^4.14.0",
     "lodash": "^4.14.1",
-    "path": "^0.12.7",
-    "substance": "substance/substance#npwriter"
+    "substance": "substance/substance#develop"
   },
   "devDependencies": {
     "babel-plugin-transform-runtime": "^6.15.0",
