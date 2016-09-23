@@ -21,14 +21,13 @@ class App extends Component {
 
     didMount() {
 
-        const pluginManager = new PluginManager();
+        const pluginManager = new PluginManager(this.props.configurator);
 
-        pluginManager.load()
-            .then((plugins) => {
-                pluginManager.loadRegisterPlugins(plugins)
+        pluginManager.getListOfPlugins()
+            .then(plugins => {
+                return pluginManager.load(plugins)
             })
             .then(() => {
-
                 request('GET', './data/example.xml', null, (err, xmlString) => {
                     this.props.configurator.import(UnsupportedPackage)
                     var importer = this.props.configurator.createImporter('newsml')
@@ -39,6 +38,9 @@ class App extends Component {
                         isReady: true
                     })
                 })
+            })
+            .catch((error) => {
+                console.log("Message", error);
             });
     }
 

@@ -2,46 +2,76 @@ import ResourceLoader from './ResourceLoader'
 
 class PluginManager {
 
-    load() {
+    constructor(configurator) {
+        this.configurator = configurator
+        this.registerPluginList = new Map()
+        window.registerPlugin = this.registerPlugin.bind(this)
+    }
+
+    /**
+     * Fetch a list of plugins from backend and parse result to JSON
+     * @returns {Promise.<TResult>|*}
+     */
+    getListOfPlugins() {
         return fetch('http://127.0.0.1:5000/api/plugins')
             .then(response => response.json())
     }
 
-    loadRegisterPlugins(plugins) {
-
-
+    /**
+     * Appending script tag for plugins
+     * @param plugins
+     * @returns {[{Promise.<TResult>|*}]}
+     */
+    appendPluginScripts(plugins) {
         const resourceLoader = new ResourceLoader()
+        return plugins.map(plugin => {
+            return resourceLoader.load(plugin, 'js')
+        })
+    }
 
-        var pluginLoadedPromise = plugins.map(plugin => {
 
-            let loader = resourceLoader.load(plugin, 'js')
-            loader.then(() => {
-                console.log("Plugin is loaded!")
-            }).catch(() => {
-                console.log("Error loading plugin")
-            })
+    /**
+     * Called by the plugin when it's done loaded.
+     * @param pluginPackage
+     */
+    registerPlugin(pluginPackage) {
+        const pluginRegisterFunction = this.registerPluginList.get(pluginPackage.id);
+        if (pluginRegisterFunction) {
+            pluginRegisterFunction(pluginPackage);
+        } else {
+            console.info("Trying to register plugins that not exist", pluginPackage.id);
+        }
+    }
 
+    /**
+     * Adding a register function for plugins. That's called later in registerPlugin method in the window object
+     * @param plugins
+     * @returns {Promise.<*>}
+     */
+    load(plugins) {
+
+        const pluginRegistered = plugins.map(plugin => {
             return new Promise((resolve, reject) => {
-                var resolved = false;
+                let resolved = false;
 
-                window.registerPlugin = (pluginPackage) => {
-                    console.log("Registering package from plugin", pluginPackage.name)
-                    this.props.configurator.import(pluginPackage)
+                this.registerPluginList.set(plugin.id, (pluginPackage) => {
+                    this.configurator.import(pluginPackage)
                     resolved = true;
                     resolve();
-                };
+                })
 
                 setTimeout(() => {
                     if (!resolved) {
                         reject(plugin.id + " did not respond in time");
                     }
-                }, 4000);
-            });
+                }, 10000)
+            })
         })
 
+        const pluginsAppendPromise = this.appendPluginScripts(plugins)
+        const allPromises = [...pluginsAppendPromise, ...pluginRegistered]
+        return Promise.all(allPromises)
 
-        console.log("Plugins promises", pluginLoadedPromise);
-        return Promise.all(pluginLoadedPromise)
     }
 
 }

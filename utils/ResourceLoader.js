@@ -28,7 +28,7 @@ class ResourceLoader {
             return
         }
 
-        // Magic - Check if tags with same url is already loaded,
+        // Check if tags with same url is already loaded,
         // In that case just resolve promise immediately
         if (tags.filter((t) => {
             return t.url === plugin.url
