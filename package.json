@@ -10,6 +10,7 @@
     "babel-plugin-transform-runtime": "^6.15.0",
     "eslint": "^3.2.2",
     "font-awesome": "4.5.0",
+    "jxon": "^2.0.0-beta.3",
     "node-sass": "^3.10.0",
     "npm-run-all": "^3.1.0",
     "rollup": "^0.36.0",

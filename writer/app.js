@@ -10,7 +10,9 @@ import NPWriterCompontent from './packages/npwriter/NPWriterComponent'
 import NPWriterConfigurator from './packages/npwriter/NPWriterConfigurator'
 import AppPackage from './AppPackage'
 import UnsupportedPackage from './packages/unsupported/UnsupportedPackage'
-import PluginManager from './utils/PluginManager';
+import PluginManager from './utils/PluginManager'
+import API from './api/Api'
+
 class App extends Component {
 
     getInitialState() {
@@ -22,11 +24,12 @@ class App extends Component {
     didMount() {
 
         const pluginManager = new PluginManager(this.props.configurator);
+        const api = new API(pluginManager, this.props.configurator)
+
+console.log("api", api);
 
         pluginManager.getListOfPlugins()
-            .then(plugins => {
-                return pluginManager.load(plugins)
-            })
+            .then(plugins => pluginManager.load(plugins))
             .then(() => {
                 request('GET', './data/example.xml', null, (err, xmlString) => {
                     this.props.configurator.import(UnsupportedPackage)
@@ -46,16 +49,14 @@ class App extends Component {
 
     render($$) {
         var el = $$('div').addClass('sc-app')
-
         if (this.state.isReady) {
             el.append($$(NPWriterCompontent, {
                 documentSession: this.documentSession,
                 configurator: this.props.configurator
             }))
         } else {
-            el.append("Loading")
+            el.append("Loading...")
         }
-
         return el
     }
 }
