@@ -50,7 +50,8 @@ class NPWriter extends AbstractEditor {
 
         let contentPanel = $$(ScrollPane, {
             scrollbarType: 'native',
-            overlay: NPWriterOverlayTools
+            overlay: NPWriterOverlayTools,
+            gutter: this._renderContentMenu($$)
         }).ref('contentPanel')
 
         let layout = $$(Layout, {
@@ -68,7 +69,6 @@ class NPWriter extends AbstractEditor {
         )
 
         contentPanel.append(layout)
-        contentPanel.append(this._renderContentMenu($$))
         return contentPanel
     }
 
@@ -77,17 +77,18 @@ class NPWriter extends AbstractEditor {
     }
 
     _getExporter() {
-        return {};
+        return {}
         // return this.props.configurator.createExporter('newsml')
     }
 
     documentSessionUpdated(...args) {
         var contentMenu = this.refs.contentMenu
+
         if (contentMenu) {
             var commandStates = this.commandManager.getCommandStates()
             contentMenu.setProps({
                 commandStates: commandStates
-            });
+            })
         }
     }
 
