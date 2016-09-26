@@ -73,7 +73,23 @@ class Router {
  *     }.bind(this));
      */
     get(path, parameters) {
-        return this.ajax('GET', 'text', path, parameters);
+
+        let url =  this.getEndpoint() + path,
+            query = []
+
+        if (isObject(parameters)) {
+            for (name in parameters) {
+                query.push(name + '=' + encodeURI(parameters[name]));
+            }
+
+            url += '?' + query.join('&');
+        }
+
+        return fetch(url, {
+            method: 'GET'
+        })
+
+        // return this.ajax('GET', 'text', path, parameters);
     }
 
     /**

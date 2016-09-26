@@ -81,7 +81,7 @@ class NPWriter extends AbstractEditor {
         // return this.props.configurator.createExporter('newsml')
     }
 
-    documentSessionUpdated(...args) {
+    documentSessionUpdated() {
         var contentMenu = this.refs.contentMenu
 
         if (contentMenu) {

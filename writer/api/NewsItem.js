@@ -128,6 +128,39 @@ class NewsItem {
     }
 
     /**
+     * Set the NewsML source. Will effectively replace the current article with
+     * anything in the incoming NewsML and set the document in an unsaved state.
+     *
+     * @param {string} newsML The NewsML source
+     * @param {object} writerConfig Optional, explicit writer config used internally only, should be empty.
+     *
+     * @return {object | null}
+     */
+    setSource(newsML, writerConfig) {
+        var newsMLImporter = new NewsMLImporter(
+            writerConfig || this.refs.writer.props.config
+        );
+
+        var newsItem = $.parseXML(newsML),
+            idfDocument = newsMLImporter.importDocument(newsML);
+
+        if (writerConfig) {
+            return {
+                newsItem: newsItem,
+                idfDocument: idfDocument
+            };
+        }
+
+        this.newsItem = newsItem;
+        this.doc = idfDocument;
+
+        this.refs.writer.send('replacedoc', {
+            newsItem: newsItem,
+            idfDocument: idfDocument
+        });
+    }
+
+    /**
      * Get news item guid (uuid)
      *
      * @return {String}
@@ -159,19 +192,19 @@ class NewsItem {
 
 
     /*
-    <?xml version="1.0" encoding="UTF-8"?><newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" conformance="power" guid="2e6cd937-f366-4b5c-8b4a-fd2cc38245b1" standard="NewsML-G2" standardversion="2.20" version="1">
-    <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_27.xml"/>
-    <catalogRef href="http://infomaker.se/spec/catalog/catalog.infomaker.g2.1_0.xml"/>
-    <itemMeta>
-        <itemClass qcode="ninat:text"/>
-        <provider literal="testdata-1.0"/>
-        <versionCreated>2016-03-03T16:09:55+01:00</versionCreated>
-        <firstCreated>2016-03-03T16:09:55+01:00</firstCreated>
-        <pubStatus qcode="stat:usable"/>
-        <service qcode="imchn:sydsvenskan"/>
-        <service qcode="imchn:hd"/>
-        <title>Ola testar torsdag</title>
-        <itemMetaExtProperty type="imext:uri" value="im://article/2e6cd937-f366-4b5c-8b4a-fd2cc38245b1"/>
+     <?xml version="1.0" encoding="UTF-8"?><newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" conformance="power" guid="2e6cd937-f366-4b5c-8b4a-fd2cc38245b1" standard="NewsML-G2" standardversion="2.20" version="1">
+     <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_27.xml"/>
+     <catalogRef href="http://infomaker.se/spec/catalog/catalog.infomaker.g2.1_0.xml"/>
+     <itemMeta>
+     <itemClass qcode="ninat:text"/>
+     <provider literal="testdata-1.0"/>
+     <versionCreated>2016-03-03T16:09:55+01:00</versionCreated>
+     <firstCreated>2016-03-03T16:09:55+01:00</firstCreated>
+     <pubStatus qcode="stat:usable"/>
+     <service qcode="imchn:sydsvenskan"/>
+     <service qcode="imchn:hd"/>
+     <title>Ola testar torsdag</title>
+     <itemMetaExtProperty type="imext:uri" value="im://article/2e6cd937-f366-4b5c-8b4a-fd2cc38245b1"/>
      */
 
     removeDocumentURI() {
@@ -1249,8 +1282,8 @@ class NewsItem {
     _getLinksByType(type) {
         if (Array.isArray(type)) {
             var queryArr = [];
-            type.forEach(function(linkType){
-               queryArr.push('itemMeta links link[type="' + linkType + '"]')
+            type.forEach(function (linkType) {
+                queryArr.push('itemMeta links link[type="' + linkType + '"]')
             });
 
             var query = queryArr.join();
