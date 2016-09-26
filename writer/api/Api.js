@@ -1,14 +1,10 @@
 'use strict';
 
-// import { jxon } from 'jxon'
 import jxon from '../utils/jxon'
-// var jxon = require('jxon/index');
-import assignIn from 'lodash/assignIn'
 import isPlainObject from 'lodash/isPlainObject'
 import isString from 'lodash/isString'
 
 import Events from './Events'
-import Dialog from './Dialog'
 import Document from './Document'
 import NewsItem from './NewsItem'
 import Exceptions from './Exceptions'
@@ -26,17 +22,6 @@ jxon.config({
     parseValues: false
 });
 
-var ApiObjects = Object.assign(
-    {},
-    new Events(),
-    new Document(),
-    new NewsItem(),
-    new Dialog(),
-    new Drop(),
-    new Upload(),
-    Exceptions
-);
-
 /**
  Api base class
 
@@ -45,14 +30,19 @@ var ApiObjects = Object.assign(
 class Api {
 
     constructor(pluginManager, i18nInstance) {
-
         this.pluginManager = pluginManager
         this.eventListeners = []
 
+        this.document = new Document()
+        this.newsitem = new NewsItem()
+        this.events = new Events()
         this.router = new Router()
         this.article = new Article(this)
         this.browser = new Browser(this)
         this.ui = new Ui(this)
+        this.drop = new Drop()
+        this.upload = new Upload()
+        this.exceptions = Exceptions
         this.i18n = i18nInstance
 
     }

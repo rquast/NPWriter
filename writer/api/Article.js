@@ -12,7 +12,7 @@ class Article {
     /**
      * Clear the article and create a new based on the configured base template.
      */
-    clearfunction () {
+    clear() {
         if (!this.api.browser.getHash()) {
             this.api.browser.reload();
         }
