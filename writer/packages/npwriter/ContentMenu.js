@@ -6,13 +6,12 @@ class ContentMenu extends Component {
     }
 
     render($$) {
-        var contentTools = this.context.tools.get('content-menu') || new Map();
-        var commandStates = this.props.commandStates;
-        var Button = this.getComponent('button');
+        var contentTools = this._getContentTools()
+        var Button = this.getComponent('button')
 
-        var el = $$('div').addClass('sc-content-menu');
+        var el = $$('div').addClass('sc-content-menu')
 
-        if (contentTools.size > 0) {
+        if (contentTools.length > 0) {
             var toggleEl = $$('div')
                 .addClass('se-toggle')
                 .on('click', this.onToggle);
@@ -32,24 +31,48 @@ class ContentMenu extends Component {
 
                 el.addClass('sm-content-tools-open');
 
-                contentTools.forEach(function(tool, toolName) {
-                    var toolProps = Object.assign({}, commandStates[toolName])
-
-                    toolProps.name = toolName
-                    toolProps.icon = toolName
-                    // outline button style will be used
-                    toolProps.style = 'outline'
-
-                    if (!toolProps.disabled) {
-                        availableToolsEl.append(
-                            $$(tool.Class, toolProps)
-                        )
-                    }
-                });
+                contentTools.forEach(tool => {
+                    availableToolsEl.append(
+                      $$(tool.Class, tool.toolProps).ref(tool.toolProps.name)
+                    )
+                })
                 el.append(availableToolsEl);
             }
         }
         return el;
+    }
+
+    _getContentTools() {
+        let commandStates = this.props.commandStates
+        let tools = this.context.tools
+        let overlayTools = tools.get('content-menu') || new Map()
+        let activeTools = []
+
+        overlayTools.forEach((tool, toolName) => {
+            let toolProps = Object.assign({}, commandStates[toolName], {
+                name: toolName,
+                // rendering hints only interprerted by generic Tool class
+                // (= outlined button)
+                icon: toolName,
+                style: 'outline'
+            })
+
+            if (!toolProps.disabled) {
+                activeTools.push({
+                    Class: tool.Class,
+                    toolProps: toolProps
+                })
+            }
+        })
+        return activeTools
+    }
+
+    /*
+        Substance GutterContainer will ask if the gutter element
+        should be visible.
+    */
+    isVisible() {
+        return this._getContentTools().length > 0
     }
 
     willReceiveProps() {
@@ -58,29 +81,11 @@ class ContentMenu extends Component {
         });
     }
 
-
-    didRender() {
-        // TODO: positioning needs to be re-enabled with a better
-        // strategy
-
-        // var hints = this.state.hints;
-        // if (hints) {
-        //     this.$el.css('top', hints.position.y);
-        //     // HACK: better do this via HTML/CSS
-        //     this.$el.css('left', hints.position.x - 30);
-        // }
-
-        // if (this.state.open === true) {
-        //     $('.se-available-tools >.se-tool:first-child').focus();
-        // }
-    }
-
     onToggle() {
         this.extendState({
             open: !this.state.open
         })
     }
 }
-
 
 export default ContentMenu
