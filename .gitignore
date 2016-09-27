@@ -3,3 +3,5 @@ logs
 dist
 node_modules
 .lock-wscript
+clover.xml
+coverage

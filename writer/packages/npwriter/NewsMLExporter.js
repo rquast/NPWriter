@@ -1,4 +1,4 @@
-import {XMLExporter} from 'substance'
+import { XMLExporter } from 'substance'
 
 class NewsMLExporter extends XMLExporter {
 

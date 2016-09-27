@@ -2,6 +2,17 @@
 
 Based on Substance BETA 5
 
+###Breaking changes for plugin development
+New endpoints in the API
+
+**Dialog**
+The dialog methods has moved to:
+
+`api.ui.showDialog` (was api.showDialog)
+
+`api.ui.showMessageDialog` (was api.showMessageDialog)
+
+
 ###Get started
 
 * `npm install`
@@ -18,3 +29,9 @@ Configure plugins in `./server/routes/plugins.json`
 
 This file should be moved to another location, for example S3 or a database
 
+
+###Import API and Components in your plugin
+Writer API and Substance components are pre-built. 
+To import classes and such you can do the following 
+
+`const { api } = Writer`

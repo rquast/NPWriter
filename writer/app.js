@@ -1,7 +1,6 @@
 import {
     Component,
-    DocumentSession,
-    request
+    DocumentSession
 } from 'substance'
 
 import 'writer/styles/app.scss'
@@ -15,6 +14,20 @@ import API from './api/Api'
 
 class App extends Component {
 
+    constructor(...args) {
+        super(...args)
+
+        this.handleActions({
+            validate: () => {
+                console.log("Implement Validation");
+            }, //this.validate
+            save: () => {
+                console.log("Implement save action");
+            }, //this.save,
+            replacedoc: this.replaceDoc
+        });
+    }
+
     getInitialState() {
         return {
             isReady: false
@@ -25,22 +38,26 @@ class App extends Component {
 
         const pluginManager = new PluginManager(this.props.configurator);
         const api = new API(pluginManager, this.props.configurator)
-
-        window.writer = api
+        this.api = api
+        window.writer.api = api
 
         pluginManager.getListOfPlugins()
             .then(plugins => pluginManager.load(plugins))
             .then(() => {
 
-                api.router.get('/api/newsitem/' + api.browser.getHash(), {imType:'x-im/article'})
-                    .then((response) => {
-                        return response.text()
-                    })
+                api.router.get('/api/newsitem/' + api.browser.getHash(), {imType: 'x-im/article'})
+                    .then(response =>response.text())
                     .then((xmlStr) => {
 
-                        // console.log("Got document", xmlStr);
-                        // var result = api.newsitem.setSource(xmlStr, this.writerConfig);
-                        // this.replaceDoc(result);
+                        // Adds package for unsupported elements in document
+                        this.props.configurator.import(UnsupportedPackage)
+
+                        var importer = this.props.configurator.createImporter('newsml')
+                        this.idfDocument = importer.importDocument(xmlStr)
+                        this.documentSession = new DocumentSession(this.idfDocument)
+
+                        var result = api.newsitem.setSource(xmlStr, {});
+                        this.replaceDoc(result);
 
                         // Clear guid if hash is empty
                         if (!api.browser.getHash()) {
@@ -48,34 +65,35 @@ class App extends Component {
                             api.removeDocumentURI();
                         }
 
-                        this.props.configurator.import(UnsupportedPackage)
-                        var importer = this.props.configurator.createImporter('newsml')
-                        this.doc = importer.importDocument(xmlStr)
-                        this.documentSession = new DocumentSession(this.doc)
-
                         this.setState({
                             isReady: true
                         })
-
                     })
-                    .catch(function (error, xhr, text) {
-                        console.error(error, xhr, text);
-                    });
-
-
             })
             .catch((error) => {
                 console.log("Message", error);
             });
     }
 
+
+    replaceDoc({newsItem, idfDocument}) {
+        this.idfDocument = idfDocument;
+        this.newsItem = newsItem;
+        this.rerender();
+    }
+
     render($$) {
-        var el = $$('div').addClass('sc-app')
+        var el = $$('div').addClass('sc-app').ref('app')
         if (this.state.isReady) {
+
+            this.api.init(this.newsItem, this.doc, this.refs);
+
             el.append($$(NPWriterCompontent, {
                 documentSession: this.documentSession,
                 configurator: this.props.configurator
-            }))
+            }).ref('writer'))
+
+
         } else {
             el.append("Loading...")
         }

@@ -1,6 +1,6 @@
 (() => {
     const {TextBlock, Component, TextPropertyComponent} = substance
-
+    const { api, registerPlugin } = writer
 
     class PreambleNode extends TextBlock {
     }
@@ -53,8 +53,8 @@
         }
     }
 
-    if (window.registerPlugin) {
-        window.registerPlugin(PreamblePackage)
+    if (registerPlugin) {
+        registerPlugin(PreamblePackage)
     } else {
         console.log("Register method not yet available");
     }

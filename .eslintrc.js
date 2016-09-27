@@ -13,7 +13,10 @@ module.exports = {
     "Promise": true,
     "Map": true,
     "substance": true,
-    "$": true
+    'expect': true,
+    'it': true,
+    'describe': true,
+    'beforeEach': true
   },
   "rules": {
     // 0 - off, 1 - warning, 2 - error

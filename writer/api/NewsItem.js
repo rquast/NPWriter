@@ -7,7 +7,7 @@ import isObject from 'lodash/isObject'
 import isArray from 'lodash/isArray'
 
 import NewsMLExporter from '../packages/npwriter/NewsMLExporter'
-
+import NewsMLImporter from '../packages/npwriter/NewsMLImporter'
 
 // jxon.config({
 //     autoDate: false,
@@ -23,6 +23,10 @@ import NewsMLExporter from '../packages/npwriter/NewsMLExporter'
  * context.api object.
  */
 class NewsItem {
+
+    constructor(api) {
+        this.api = api
+    }
 
     /**
      * Validate if browser is supported
@@ -137,11 +141,13 @@ class NewsItem {
      * @return {object | null}
      */
     setSource(newsML, writerConfig) {
-        var newsMLImporter = new NewsMLImporter(
-            writerConfig || this.refs.writer.props.config
-        );
+        // var newsMLImporter = new NewsMLImporter(
+        //     writerConfig || this.refs.writer.props.config
+        // );
+        var newsMLImporter = this.api.configurator.createImporter('newsml')
 
-        var newsItem = $.parseXML(newsML),
+        var parser = new DOMParser();
+        var newsItem = parser.parseFromString(newsML, "application/xml"),
             idfDocument = newsMLImporter.importDocument(newsML);
 
         if (writerConfig) {

@@ -1,5 +1,3 @@
-'use strict';
-
 import jxon from '../utils/jxon'
 import isPlainObject from 'lodash/isPlainObject'
 import isString from 'lodash/isString'
@@ -29,12 +27,12 @@ jxon.config({
  */
 class Api {
 
-    constructor(pluginManager, i18nInstance) {
+    constructor(pluginManager, configurator) {
         this.pluginManager = pluginManager
         this.eventListeners = []
 
         this.document = new Document()
-        this.newsitem = new NewsItem()
+        this.newsitem = new NewsItem(this)
         this.events = new Events()
         this.router = new Router()
         this.article = new Article(this)
@@ -43,7 +41,8 @@ class Api {
         this.drop = new Drop()
         this.upload = new Upload()
         this.exceptions = Exceptions
-        this.i18n = i18nInstance
+        this.configurator = configurator
+        this.i18n = {}
 
     }
 

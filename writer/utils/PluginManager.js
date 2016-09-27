@@ -5,7 +5,8 @@ class PluginManager {
     constructor(configurator) {
         this.configurator = configurator
         this.registerPluginList = new Map()
-        window.registerPlugin = this.registerPlugin.bind(this)
+        window.writer = {}
+        window.writer.registerPlugin = this.registerPlugin.bind(this)
     }
 
     /**
@@ -35,10 +36,22 @@ class PluginManager {
      * @param pluginPackage
      */
     registerPlugin(pluginPackage) {
+        if(!this.validatePluginPackage(pluginPackage)) {
+            throw new Error('Package does not conform to package standard')
+        }
         const pluginRegisterFunction = this.registerPluginList.get(pluginPackage.id);
         if (pluginRegisterFunction) {
             pluginRegisterFunction(pluginPackage);
         }
+    }
+
+    /**
+     * Checks if requires properties and methods exists on pluginPackage
+     * @param pluginPackage
+     * @returns {boolean}
+     */
+    validatePluginPackage(pluginPackage) {
+        return !(typeof pluginPackage.configure !== 'function' || !pluginPackage.id || !pluginPackage.name || !pluginPackage.configure);
     }
 
     /**
@@ -55,6 +68,7 @@ class PluginManager {
                 this.registerPluginList.set(plugin.id, (pluginPackage) => {
                     this.configurator.import(pluginPackage)
                     resolved = true;
+                    this.registerPluginList.delete(plugin.id)
                     resolve();
                 })
 
