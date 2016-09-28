@@ -2,16 +2,32 @@
 
 Based on Substance BETA 5
 
-###Breaking changes for plugin development
-New endpoints in the API
+##Breaking changes for plugin development
+We have made some changes to the API. Mostly it's just the method that's changed and not the signatures.
 
-**Dialog**
+**New endpoints in the API**
+
+
+
+####Dialog
 The dialog methods has moved to:
 
 `api.ui.showDialog` (was api.showDialog)
 
 `api.ui.showMessageDialog` (was api.showMessageDialog)
 
+####Events
+New endpoint calling on/off for Events
+
+`api.events.on()` (was api.on)
+
+`api.events.off()` (was api.off)
+
+`api.events.triggerEvent()` (was api.triggerEvent)
+
+
+####Document 
+`api.document.insertInlineNode` (was api.insertInlineNode)
 
 ###Get started
 

@@ -1,0 +1,11 @@
+[
+  {
+    "id": "se.infomaker.dummy",
+    "name": "dummy",
+    "url": "/plugins/se.infomaker.dummy/Dummy.js",
+    "mandatory": false,
+    "data": {
+      "foo": "bar"
+    }
+  }
+]

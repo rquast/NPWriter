@@ -1,6 +1,0 @@
-{
-  "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
-  "moduleFileExtensions": [
-    "js", "json", "jsx", "node", "es6"
-  ]
-}

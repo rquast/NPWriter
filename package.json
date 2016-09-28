@@ -10,32 +10,59 @@
     "lodash": "^4.14.1",
     "moment": "^2.15.1",
     "node-fetch": "^1.6.3",
-    "request": "^2.75.0",
-    "substance": "substance/substance#develop"
+    "request": "^2.75.0"
   },
   "devDependencies": {
+    "autoprefixer": "^6.5.0",
     "babel-cli": "^6.14.0",
+    "babel-core": "^6.14.0",
     "babel-jest": "^15.0.0",
+    "babel-loader": "^6.2.5",
+    "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.14.0",
+    "babel-plugin-transform-es2015-modules-umd": "^6.12.0",
     "babel-plugin-transform-runtime": "^6.15.0",
     "babel-polyfill": "^6.13.0",
     "babel-preset-es2015": "^6.14.0",
+    "babel-preset-stage-0": "^6.5.0",
     "babel-preset-stage-3": "^6.11.0",
     "eslint": "^3.2.2",
+    "exports-loader": "^0.6.3",
+    "extract-text-webpack-plugin": "^1.0.1",
     "font-awesome": "4.5.0",
+    "html-webpack-plugin": "^2.22.0",
+    "imports-loader": "^0.6.5",
     "jest": "^15.1.1",
     "jxon": "^2.0.0-beta.3",
     "node-fetch": "^1.6.3",
     "node-sass": "^3.10.0",
     "npm-run-all": "^3.1.0",
-    "substance-bundler": "*"
+    "sinon": "2.0.0-pre.3",
+    "substance": "https://github.com/andene/substance.git#develop",
+    "substance-bundler": "*",
+    "whatwg-fetch": "^1.0.0"
   },
   "scripts": {
     "bundle": "node make",
     "server": "node server.js",
     "start": "node make -s -w",
-    "test": "jest --config jest.json",
+    "test": "jest",
+    "test-coverage": "jest --coverage",
     "dev": "npm-run-all --parallel server start"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "jsx",
+      "node",
+      "es6"
+    ],
+    "collectCoverageFrom": [
+      "writer/**/*.js"
+    ]
   },
   "version": "1.0.0-beta.5"
 }

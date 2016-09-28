@@ -174,7 +174,7 @@ class NewsItem {
     getGuid() {
         for (var n in this.newsItem.childNodes) {
             if (this.newsItem.childNodes[n].nodeName === 'newsItem') {
-                return Boolean(!this.newsItem.childNodes[n].getAttribute('guid'));
+                return !(!this.newsItem.childNodes[n].getAttribute('guid'));
             }
         }
     }

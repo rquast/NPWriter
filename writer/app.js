@@ -3,7 +3,7 @@ import {
     DocumentSession
 } from 'substance'
 
-import 'writer/styles/app.scss'
+// import 'writer/styles/app.scss'
 
 import NPWriterCompontent from './packages/npwriter/NPWriterComponent'
 import NPWriterConfigurator from './packages/npwriter/NPWriterConfigurator'
@@ -41,7 +41,7 @@ class App extends Component {
         this.api = api
         window.writer.api = api
 
-        pluginManager.getListOfPlugins()
+        pluginManager.getListOfPlugins('http://127.0.0.1:5000/api/plugins')
             .then(plugins => pluginManager.load(plugins))
             .then(() => {
 
@@ -77,6 +77,7 @@ class App extends Component {
 
 
     replaceDoc({newsItem, idfDocument}) {
+        console.log("Replace doc");
         this.idfDocument = idfDocument;
         this.newsItem = newsItem;
         this.rerender();

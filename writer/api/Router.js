@@ -1,5 +1,4 @@
-'use strict';
-
+import 'whatwg-fetch'
 import isObject from 'lodash/isObject'
 /**
  * @class Api.Router

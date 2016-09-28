@@ -11,6 +11,9 @@
 
     class PreambleComponent extends Component {
         render($$) {
+
+            console.log("Config value", api.getConfigValue('se.infomaker.preamble', 'foo'))
+
             return $$('div')
                 .addClass('sc-preamble')
                 .attr('data-id', this.props.node.id)
