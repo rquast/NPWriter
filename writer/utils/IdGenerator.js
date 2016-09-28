@@ -17,6 +17,6 @@ export default () => {
         return id;
     }
     catch(e) {
-        console.error("Could not generate ID");
+        console.error("Could not generate ID", e);
     }
 }

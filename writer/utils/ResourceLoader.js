@@ -39,13 +39,12 @@ class ResourceLoader {
             resource = document.createElement('link')
             resource.setAttribute("type", "text/css")
             resource.setAttribute("rel", "stylesheet")
-            resource.setAttribute("href", plugin.css)
+            resource.setAttribute("href", plugin.url)
         } else {
             return Promise.reject("Tried to load invalid type" + type)
         }
 
         this.tags = [...this.tags, {url: plugin.url, node: resource}]
-
         if (type === "css") {
             document.getElementsByTagName("head")[0].appendChild(resource)
         } else {
@@ -56,7 +55,7 @@ class ResourceLoader {
             resource.onload = () => {
                 resolve()
             }
-            resource.onerror = () => {
+            resource.onerror = (e) => {
                 if (plugin.mandatory) {
                     reject("Failed adding plugin " + plugin.id)
                 } else {
