@@ -7,6 +7,9 @@ import remove from 'lodash/remove'
  */
 class Events {
 
+    constructor() {
+        this.eventListeners = []
+    }
     /**
      * Writer controller fires keypressed:esc
      * name: keypressed:esc

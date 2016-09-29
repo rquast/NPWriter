@@ -35,6 +35,8 @@ New endpoint calling on/off for Events
 * Start by running: `npm run dev`
 * Server should be running at `127.0.0.1:5000` 
 
+###Running test
+Run Jest test with `npm test`
 
 ###Plugins
 Plugins is loaded externally, meaning the plugins can reside on a completely different URL.

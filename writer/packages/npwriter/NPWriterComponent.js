@@ -1,7 +1,7 @@
 import {SplitPane, ScrollPane, Layout, AbstractEditor} from 'substance'
 
 import ContentMenu from './ContentMenu'
-import SidebarPanelComponent from './components/SidebarPanelComponent'
+import SidebarComponent from './components/SidebarComponent'
 import NPWriterOverlayTools from './NPWriterOverlayTools'
 
 class NPWriter extends AbstractEditor {
@@ -16,14 +16,14 @@ class NPWriter extends AbstractEditor {
         el.append(
             $$(SplitPane, {splitType: 'vertical'}).append(
                 this._renderMainSection($$),
-                this._renderContextSection($$)
+                this._renderSidebarPanel($$)
             )
         )
         return el
     }
 
-    _renderContextSection($$) {
-        return $$(SidebarPanelComponent)
+    _renderSidebarPanel($$) {
+        return $$(SidebarComponent)
     }
 
     _renderMainSection($$) {

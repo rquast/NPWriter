@@ -9,190 +9,190 @@ const getConfigurator = () => {
     }
 }
 
-    describe('validate and register plugin packages with pluginmanager', () => {
-        let pluginManager
+describe('validate and register plugin packages with pluginmanager', () => {
+    let pluginManager
 
-        beforeEach(() => {
-            pluginManager = new PluginManager(getConfigurator());
-        })
+    beforeEach(() => {
+        pluginManager = new PluginManager(getConfigurator());
+    })
 
-        it('Register Plugin with faulty package results in error', () => {
-            var register = () => {
-                pluginManager.registerPlugin({})
+    it('Register Plugin with faulty package results in error', () => {
+        var register = () => {
+            pluginManager.registerPlugin({})
+        }
+        expect(register).toThrowError(/Package/);
+    })
+
+
+    it('Failes when registering package without id', () => {
+        const pluginPackage = {
+            'name': 'dummy',
+            'configure': () => {
             }
-            expect(register).toThrowError(/Package/);
-        })
+        }
+        expect(pluginManager.validatePluginPackage(pluginPackage)).toBe(false)
+    })
 
 
-        it('Failes when registering package without id', () => {
-            const pluginPackage = {
-                'name': 'dummy',
-                'configure': () => {
+    it('Failes when registering package without name', () => {
+        const pluginPackage = {
+            'id': 'se.infomaker.dummy',
+            'configure': () => {
+            }
+        }
+        expect(pluginManager.validatePluginPackage(pluginPackage)).toBe(false)
+    })
+
+
+    it('Failes when registering package without configure method', () => {
+        const pluginPackage = {
+            'name': 'dummy',
+            'id': 'se.infomaker.dummy'
+        }
+        expect(pluginManager.validatePluginPackage(pluginPackage)).toBe(false)
+    })
+
+
+    it('Failes when registering package configure method as string', () => {
+        const pluginPackage = {
+            'name': 'dummy',
+            'id': 'se.infomaker.dummy',
+            'configure': 'not_a_function'
+        }
+        expect(pluginManager.validatePluginPackage(pluginPackage)).toBe(false)
+    })
+
+
+    it('Registers package with id, name, and configure function', () => {
+        const pluginPackage = {
+            'name': 'dummy',
+            'id': 'se.infomaker.dummy',
+            'configure': () => {
+            }
+        }
+        expect(pluginManager.validatePluginPackage(pluginPackage)).toBe(true)
+    })
+
+
+    it('Adds plugin register function to registerPluginList Map', () => {
+        const plugins = [
+            {
+                id: 'se.infomaker.dummy',
+                name: 'dummy',
+                configure: () => {
                 }
             }
-            expect(pluginManager.validatePluginPackage(pluginPackage)).toBe(false)
-        })
+        ]
+        pluginManager.load(plugins)
 
+        // Expect to have have register function
+        expect(pluginManager.registerPluginList.size).toBe(1)
 
-        it('Failes when registering package without name', () => {
-            const pluginPackage = {
-                'id': 'se.infomaker.dummy',
-                'configure': () => {
-                }
-            }
-            expect(pluginManager.validatePluginPackage(pluginPackage)).toBe(false)
-        })
+        // Expect to have a key in Map that's the same as plugin id
+        expect(pluginManager.registerPluginList.has(plugins[0].id)).toBe(true)
 
-
-        it('Failes when registering package without configure method', () => {
-            const pluginPackage = {
-                'name': 'dummy',
-                'id': 'se.infomaker.dummy'
-            }
-            expect(pluginManager.validatePluginPackage(pluginPackage)).toBe(false)
-        })
-
-
-        it('Failes when registering package configure method as string', () => {
-            const pluginPackage = {
-                'name': 'dummy',
-                'id': 'se.infomaker.dummy',
-                'configure': 'not_a_function'
-            }
-            expect(pluginManager.validatePluginPackage(pluginPackage)).toBe(false)
-        })
-
-
-        it('Registers package with id, name, and configure function', () => {
-            const pluginPackage = {
-                'name': 'dummy',
-                'id': 'se.infomaker.dummy',
-                'configure': () => {
-                }
-            }
-            expect(pluginManager.validatePluginPackage(pluginPackage)).toBe(true)
-        })
-
-
-        it('Adds plugin register function to registerPluginList Map', () => {
-            const plugins = [
-                {
-                    id: 'se.infomaker.dummy',
-                    name: 'dummy',
-                    configure: () => {
-                    }
-                }
-            ]
-            pluginManager.load(plugins)
-
-            // Expect to have have register function
-            expect(pluginManager.registerPluginList.size).toBe(1)
-
-            // Expect to have a key in Map that's the same as plugin id
-            expect(pluginManager.registerPluginList.has(plugins[0].id)).toBe(true)
-
-            // Expect to be of type function
-            var func = pluginManager.registerPluginList.get(plugins[0].id)
-            expect(typeof func).toBe('function')
-
-        })
-
-
-        it('Calls register function and removes it from registerPluginList', () => {
-            const plugins = [
-                {
-                    id: 'se.infomaker.dummy',
-                    name: 'dummy',
-                    configure: () => {
-                    }
-                }
-            ]
-            // Add a timeout before resolving the promise
-            setTimeout(() => {
-                pluginManager.registerPlugin(plugins[0])
-            }, 300)
-
-            return pluginManager.load(plugins)
-                .then(data => expect(pluginManager.registerPluginList.size).toBe(0))
-        })
-
-
-        it('Adds plugin to list of registerd plugins', () => {
-            const plugins = [
-                {
-                    id: 'se.infomaker.dummy',
-                    name: 'dummy',
-                    configure: () => {
-                    }
-                }
-            ]
-            // Add a timeout before resolving the promise
-            setTimeout(() => {
-                pluginManager.registerPlugin(plugins[0])
-            }, 300)
-
-            expect(pluginManager.plugins.size).toBe(0)
-
-            return pluginManager.load(plugins)
-                .then((data) => {
-                    expect(pluginManager.plugins.has(plugins[0].id)).toBe(true)
-                    expect(pluginManager.plugins.size).toBe(1)
-                } )
-        })
+        // Expect to be of type function
+        var func = pluginManager.registerPluginList.get(plugins[0].id)
+        expect(typeof func).toBe('function')
 
     })
 
 
-    describe('Load list of plugins', () => {
+    it('Calls register function and removes it from registerPluginList', () => {
+        const plugins = [
+            {
+                id: 'se.infomaker.dummy',
+                name: 'dummy',
+                configure: () => {
+                }
+            }
+        ]
+        // Add a timeout before resolving the promise
+        setTimeout(() => {
+            pluginManager.registerPlugin(plugins[0])
+        }, 300)
 
-        let pluginManager
+        return pluginManager.load(plugins)
+            .then(data => expect(pluginManager.registerPluginList.size).toBe(0))
+    })
 
-        afterEach(() => {
-            window.fetch.restore();
+
+    it('Adds plugin to list of registerd plugins', () => {
+        const plugins = [
+            {
+                id: 'se.infomaker.dummy',
+                name: 'dummy',
+                configure: () => {
+                }
+            }
+        ]
+        // Add a timeout before resolving the promise
+        setTimeout(() => {
+            pluginManager.registerPlugin(plugins[0])
+        }, 300)
+
+        expect(pluginManager.plugins.size).toBe(0)
+
+        return pluginManager.load(plugins)
+            .then((data) => {
+                expect(pluginManager.plugins.has(plugins[0].id)).toBe(true)
+                expect(pluginManager.plugins.size).toBe(1)
+            })
+    })
+
+})
+
+
+describe('Load list of plugins', () => {
+
+    let pluginManager
+
+    afterEach(() => {
+        window.fetch.restore();
+    });
+
+    beforeEach(() => {
+        const plugins = fs.readFileSync('data/plugins.json', {encoding: 'UTF-8'})
+        sinon.stub(window, 'fetch');
+
+        var res = new window.Response(plugins, {
+            status: 200,
+            headers: {
+                'Content-type': 'application/json'
+            }
         });
 
-        beforeEach(() => {
-            const plugins = fs.readFileSync('data/plugins.json', {encoding: 'UTF-8'})
-            sinon.stub(window, 'fetch');
+        window.fetch.returns(Promise.resolve(res));
+        pluginManager = new PluginManager(getConfigurator());
+    })
 
-            var res = new window.Response(plugins, {
-                status: 200,
-                headers: {
-                    'Content-type': 'application/json'
-                }
-            });
-
-            window.fetch.returns(Promise.resolve(res));
-            pluginManager = new PluginManager(getConfigurator());
+    it('Loads a list of plugins from external source and returns JSON format', () => {
+        return pluginManager.getListOfPlugins("sinon_is_intercepting").then((json) => {
+            expect(json.length).toBe(1)
         })
-
-        it('Loads a list of plugins from external source and returns JSON format', () => {
-            return pluginManager.getListOfPlugins("sinon_is_intercepting").then((json) => {
-                expect(json.length).toBe(1)
-            })
-        });
+    });
 
 
-        it('Gets correct values for data attribute in plugins', () => {
+    it('Gets correct values for data attribute in plugins', () => {
 
-            const plugins = [
-                {
-                    id: 'se.infomaker.dummy',
-                    name: 'dummy',
-                    configure: () => {
-                    }
+        const plugins = [
+            {
+                id: 'se.infomaker.dummy',
+                name: 'dummy',
+                configure: () => {
                 }
-            ]
-            // Add a timeout before resolving the promise
-            setTimeout(() => {
-                pluginManager.registerPlugin(plugins[0])
-            }, 100)
+            }
+        ]
+        // Add a timeout before resolving the promise
+        setTimeout(() => {
+            pluginManager.registerPlugin(plugins[0])
+        }, 100)
 
-            const pluginList = fs.readFileSync('data/plugins.json', {encoding: 'UTF-8'})
-            return pluginManager.load(JSON.parse(pluginList)).then((_) => {
-                expect(pluginManager.getConfigValue('se.infomaker.dummy', 'foo')).toBe('bar')
-            })
-
+        const pluginList = fs.readFileSync('data/plugins.json', {encoding: 'UTF-8'})
+        return pluginManager.load(JSON.parse(pluginList)).then((_) => {
+            expect(pluginManager.getConfigValue('se.infomaker.dummy', 'foo')).toBe('bar')
         })
 
     })
+
+})

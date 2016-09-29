@@ -12,7 +12,6 @@ describe('Loads newsItem', () => {
             configure: () => {}
         }
 
-
         const configurator = new ProseEditorConfigurator().import(configuratorPackage);
         api = new Api({}, configurator)
 

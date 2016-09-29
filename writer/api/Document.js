@@ -1,5 +1,3 @@
-'use strict';
-
 import { createAnnotation, insertText, NodeSelection } from 'substance'
 import idGenerator from '../utils/IdGenerator'
 

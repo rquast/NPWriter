@@ -11,6 +11,12 @@ import AppPackage from './AppPackage'
 import UnsupportedPackage from './packages/unsupported/UnsupportedPackage'
 import PluginManager from './utils/PluginManager'
 import API from './api/Api'
+import Start from './packages/load-screens/Start'
+import Error from './packages/load-screens/Error'
+
+const STATUS_ISREADY = 'isReady',
+    STATUS_LOADING = 'loading',
+    STATUS_HAS_ERROR = 'hasErrors'
 
 class App extends Component {
 
@@ -19,10 +25,10 @@ class App extends Component {
 
         this.handleActions({
             validate: () => {
-                console.log("Implement Validation");
+                console.log("Implement Validation")
             }, //this.validate
             save: () => {
-                console.log("Implement save action");
+                console.log("Implement save action")
             }, //this.save,
             replacedoc: this.replaceDoc
         });
@@ -30,8 +36,19 @@ class App extends Component {
 
     getInitialState() {
         return {
-            isReady: false
+            status: STATUS_LOADING
         }
+    }
+
+    /**
+     * A Dependency injection mechanism
+     * Added objects is reachable from this.context
+     * @returns {*}
+     */
+    getChildContext() {
+        return Object.assign({}, {
+            configurator: this.props.configurator
+        });
     }
 
     didMount() {
@@ -52,6 +69,10 @@ class App extends Component {
                         // Adds package for unsupported elements in document
                         this.props.configurator.import(UnsupportedPackage)
 
+                        this.props.configurator.addSidebarTab({id: 'main-panel', name: 'Meta'})
+                        this.props.configurator.addSidebarTab({id: 'related', name: 'Relatera'})
+                        this.props.configurator.addSidebarTab({id: 'information', name: 'Information'})
+
                         var importer = this.props.configurator.createImporter('newsml')
                         this.idfDocument = importer.importDocument(xmlStr)
                         this.documentSession = new DocumentSession(this.idfDocument)
@@ -66,18 +87,26 @@ class App extends Component {
                         }
 
                         this.setState({
-                            isReady: true
+                            status: STATUS_ISREADY
                         })
                     })
+                    // .catch((error) => {
+                    //     this.setState({
+                    //         status: STATUS_HAS_ERROR,
+                    //         statusMessage: error
+                    //     })
+                    // });
             })
-            .catch((error) => {
-                console.log("Message", error);
-            });
+            // .catch((error) => {
+                // this.setState({
+                //     status: STATUS_HAS_ERROR,
+                //     statusMessage: error
+                // })
+            // });
     }
 
 
     replaceDoc({newsItem, idfDocument}) {
-        console.log("Replace doc");
         this.idfDocument = idfDocument;
         this.newsItem = newsItem;
         this.rerender();
@@ -85,18 +114,23 @@ class App extends Component {
 
     render($$) {
         var el = $$('div').addClass('sc-app').ref('app')
-        if (this.state.isReady) {
 
-            this.api.init(this.newsItem, this.doc, this.refs);
+        switch (this.state.status) {
+            case STATUS_HAS_ERROR:
+                el.append($$(Error, {error: this.state.statusMessage}))
+                break
 
-            el.append($$(NPWriterCompontent, {
-                documentSession: this.documentSession,
-                configurator: this.props.configurator
-            }).ref('writer'))
+            case STATUS_ISREADY:
+                this.api.init(this.newsItem, this.doc, this.refs)
+                el.append($$(NPWriterCompontent, {
+                    documentSession: this.documentSession,
+                    configurator: this.props.configurator
+                }).ref('writer'))
+                break
 
-
-        } else {
-            el.append("Loading...")
+            case STATUS_LOADING:
+            default:
+                el.append($$(Start, {}))
         }
         return el
     }
@@ -104,6 +138,6 @@ class App extends Component {
 
 
 window.onload = () => {
-    var configurator = new NPWriterConfigurator().import(AppPackage);
+    var configurator = new NPWriterConfigurator().import(AppPackage)
     App.mount({configurator: configurator}, document.body)
 }

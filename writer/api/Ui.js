@@ -11,6 +11,10 @@ class Ui {
         });
     }
 
+    // addSidebarTab(name) {
+    //     console.log("This", this.api.configurator.addSidebarTab({id: 'tester', name: 'hello'}));
+    // }
+
     /**
      * Display a dialog with the specified content.
      *
