@@ -97,7 +97,7 @@ class Events {
             info: info,
             doc: doc
         };
-        this._triggerEvent(null, 'document:changed', data);
+        this.triggerEvent(null, 'document:changed', data);
     }
 
     /**

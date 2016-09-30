@@ -9,6 +9,17 @@ class NPWriter extends AbstractEditor {
     _initialize(...args) {
         super._initialize(...args)
         this.exporter = this._getExporter();
+
+    }
+
+    didMount() {
+        console.log("Did mount");
+
+        this.props.documentSession.getDocument().on('document:changed', this.documentChanged, this)
+    }
+
+    documentChanged(change, info, doc) {
+        this.context.api.events.onDocumentChanged(change, info, doc)
     }
 
     render($$) {

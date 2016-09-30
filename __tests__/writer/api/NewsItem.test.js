@@ -1,6 +1,7 @@
 var fetch = require('node-fetch')
 import Api from '../../../writer/api/Api'
 import { ProseEditorConfigurator } from 'substance'
+import Helper from '../../helpers'
 var fs = require('fs');
 
 
@@ -15,9 +16,7 @@ describe('Loads newsItem', () => {
         const configurator = new ProseEditorConfigurator().import(configuratorPackage);
         api = new Api({}, configurator)
 
-        let contents = fs.readFileSync('data/example.xml', {encoding: 'UTF-8'})
-        var parser = new DOMParser();
-        api.newsitem.newsItem = parser.parseFromString(contents, "application/xml")
+        api.newsitem.newsItem = Helper.getParsedExampleDocument()
 
     })
 
@@ -28,5 +27,7 @@ describe('Loads newsItem', () => {
     it('Can reads GUID from NewsItem', () => {
         expect(api.newsitem.getGuid()).toBe(true)
     })
+
+
 
 })

@@ -23,6 +23,9 @@ class App extends Component {
     constructor(...args) {
         super(...args)
 
+        this.pluginManager = null
+        this.api = null
+
         this.handleActions({
             validate: () => {
                 console.log("Implement Validation")
@@ -47,19 +50,22 @@ class App extends Component {
      */
     getChildContext() {
         return Object.assign({}, {
-            configurator: this.props.configurator
+            configurator: this.props.configurator,
+            pluginManager: this.pluginManager,
+            api: this.api
         });
     }
 
     didMount() {
 
-        const pluginManager = new PluginManager(this.props.configurator);
-        const api = new API(pluginManager, this.props.configurator)
-        this.api = api
-        window.writer.api = api
+        this.pluginManager = new PluginManager(this.props.configurator);
+        this.api = new API(this.pluginManager, this.props.configurator)
+        const api = this.api
 
-        pluginManager.getListOfPlugins('http://127.0.0.1:5000/api/plugins')
-            .then(plugins => pluginManager.load(plugins))
+        window.writer.api = this.api
+
+        this.pluginManager.getListOfPlugins('http://127.0.0.1:5000/api/plugins')
+            .then(plugins => this.pluginManager.load(plugins))
             .then(() => {
 
                 api.router.get('/api/newsitem/' + api.browser.getHash(), {imType: 'x-im/article'})
@@ -121,7 +127,7 @@ class App extends Component {
                 break
 
             case STATUS_ISREADY:
-                this.api.init(this.newsItem, this.doc, this.refs)
+                this.api.init(this.newsItem, this.idfDocument, this.refs)
                 el.append($$(NPWriterCompontent, {
                     documentSession: this.documentSession,
                     configurator: this.props.configurator

@@ -9,6 +9,10 @@ import idGenerator from '../utils/IdGenerator'
  */
 class Document {
 
+    constructor(api) {
+        this.api = api
+    }
+
     /**
      * Insert an inline node at current selection
      * @param {string} name The plugin which inserts inline node
@@ -117,12 +121,12 @@ class Document {
      * @returns {Array}
      */
     getDocumentNodes() {
-        var docNodes = this.doc.getNodes()['body'].nodes;
-        var nodes = [];
-        docNodes.forEach(function (nodeId) {
-            nodes.push(this.doc.get(nodeId));
-        }.bind(this));
-        return nodes;
+        const doc = this.api.doc
+
+        const docNodes = doc.getNodes()['body'].nodes;
+        return docNodes.map((nodeId) => {
+            return doc.get(nodeId)
+        })
     }
 
 

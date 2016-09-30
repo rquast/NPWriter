@@ -31,7 +31,7 @@ class Api {
         this.pluginManager = pluginManager
         this.eventListeners = []
 
-        this.document = new Document()
+        this.document = new Document(this)
         this.newsitem = new NewsItem(this)
         this.events = new Events()
         this.router = new Router()
