@@ -1,6 +1,6 @@
 var fetch = require('node-fetch')
 import Api from '../../../writer/api/Api'
-import { ProseEditorConfigurator } from 'substance'
+import { ProseEditorConfigurator, DocumentSession } from 'substance'
 import AppPackage from '../../../writer/AppPackage'
 import UnsupportedPackage from '../../../writer/packages/unsupported/UnsupportedPackage'
 import Helper from '../../helpers'
@@ -26,8 +26,9 @@ describe('Loads newsItem', () => {
 
         var importer = configurator.createImporter('newsml')
         let idfDocument = importer.importDocument(Helper.getContentFromExampleDocument())
+        let documentSession = new DocumentSession(idfDocument)
 
-        api.init(newsItem, idfDocument, refs)
+        api.init(newsItem, documentSession, refs)
 
     })
 

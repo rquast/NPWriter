@@ -54,9 +54,10 @@ class Api {
      * @param {object} refs A reference to Writer Controller
      */
 
-    init(newsItem, doc, refs) {
+    init(newsItem, documentSession, refs) {
         this.newsItem = newsItem
-        this.doc = doc
+        this.documentSession = documentSession
+        this.doc = documentSession.getDocument()
         this.refs = refs
     }
 

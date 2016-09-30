@@ -1,4 +1,4 @@
-import { createAnnotation, insertText, NodeSelection } from 'substance'
+import { createAnnotation, insertText, NodeSelection, deleteNode } from 'substance'
 import idGenerator from '../utils/IdGenerator'
 
 /**
@@ -97,7 +97,7 @@ class Document {
      * @fires data:changed
      */
     deleteNode(name, node) {
-        var deleteNode = require('substance/model/transform/deleteNode');
+
         var docSession = this.refs.writer.getDocumentSession();
         var surface = this.refs.writer.getFocusedSurface();
 
@@ -121,7 +121,7 @@ class Document {
      * @returns {Array}
      */
     getDocumentNodes() {
-        const doc = this.api.doc
+        const doc = this.api.documentSession.getDocument()
 
         const docNodes = doc.getNodes()['body'].nodes;
         return docNodes.map((nodeId) => {

@@ -80,8 +80,8 @@ class App extends Component {
                         this.props.configurator.addSidebarTab({id: 'information', name: 'Information'})
 
                         var importer = this.props.configurator.createImporter('newsml')
-                        this.idfDocument = importer.importDocument(xmlStr)
-                        this.documentSession = new DocumentSession(this.idfDocument)
+                        const idfDocument = importer.importDocument(xmlStr)
+                        this.documentSession = new DocumentSession(idfDocument)
 
                         var result = api.newsitem.setSource(xmlStr, {});
                         this.replaceDoc(result);
@@ -113,7 +113,6 @@ class App extends Component {
 
 
     replaceDoc({newsItem, idfDocument}) {
-        this.idfDocument = idfDocument;
         this.newsItem = newsItem;
         this.rerender();
     }
@@ -127,7 +126,8 @@ class App extends Component {
                 break
 
             case STATUS_ISREADY:
-                this.api.init(this.newsItem, this.idfDocument, this.refs)
+                this.api.init(this.newsItem, this.documentSession, this.refs)
+
                 el.append($$(NPWriterCompontent, {
                     documentSession: this.documentSession,
                     configurator: this.props.configurator
