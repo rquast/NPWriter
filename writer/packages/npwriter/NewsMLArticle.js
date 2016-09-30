@@ -1,4 +1,4 @@
-import { Document } from 'substance'
+import {Document} from 'substance'
 
 /**
   NewsMLDocument (document) implementation

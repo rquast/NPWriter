@@ -1,4 +1,4 @@
-import { BlockNode } from 'substance'
+import {BlockNode} from 'substance'
 
 class UnsupportedNode extends BlockNode {}
 

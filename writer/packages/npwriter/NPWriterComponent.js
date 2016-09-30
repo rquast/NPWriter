@@ -1,4 +1,5 @@
-import {SplitPane, ScrollPane, Layout, AbstractEditor} from 'substance'
+import {SplitPane, ScrollPane, Layout} from 'substance'
+import {AbstractEditor} from 'substance'
 
 import ContentMenu from './ContentMenu'
 import SidebarComponent from './components/SidebarComponent'
@@ -7,13 +8,12 @@ import NPWriterOverlayTools from './NPWriterOverlayTools'
 class NPWriter extends AbstractEditor {
 
     _initialize(...args) {
+
         super._initialize(...args)
         this.exporter = this._getExporter();
-
     }
 
     didMount() {
-        console.log("Did mount");
 
         this.props.documentSession.getDocument().on('document:changed', this.documentChanged, this)
     }

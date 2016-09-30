@@ -1,11 +1,11 @@
 import NPWriterConfigurator from '../../../../writer/packages/npwriter/NPWriterConfigurator'
+import AppPackage from '../../../../writer/AppPackage'
 
 describe('Add validators to configuration', () => {
 
     let configurator
     beforeEach(() => {
-
-       // let configurator = new NPWriterConfigurator().import(configuratorPackage)
+       let configurator = new NPWriterConfigurator().import(AppPackage)
     })
 
     it('Adds a validator to configuration', () => {
@@ -14,10 +14,9 @@ describe('Add validators to configuration', () => {
         //     configure: () => {}
         // }
 
-        // let config = new NPWriterConfigurator()
+        let configurator = new NPWriterConfigurator()
 
-
-        // expect(configurator.config.validators.length).toBe(0)
+        expect(configurator.config.validators.length).toBe(0)
 
     })
 

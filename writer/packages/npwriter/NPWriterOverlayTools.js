@@ -1,4 +1,4 @@
-import { ProseEditorOverlayTools } from 'substance'
+import {ProseEditorOverlayTools} from 'substance'
 
 class NPWriterOverlayTools extends ProseEditorOverlayTools {
 

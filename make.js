@@ -13,7 +13,7 @@ b.task('assets', function () {
 
 // this optional task makes it easier to work on Substance core
 b.task('substance', function () {
-    b.make('substance', 'clean', 'css', 'browser:umd')
+    b.make('substance', 'clean', 'css', 'browser')
     b.copy('node_modules/substance/dist', './dist/substance')
 })
 
@@ -29,8 +29,9 @@ b.task('build', ['clean', 'substance', 'assets'], function () {
     })
 })
 
+b.task('default', ['build', 'assets'])
 // build all
-b.task('default', ['build'])
+// b.task('default', ['build'])
 
 // starts a server when CLI argument '-s' is set
 // b.setServerPort(5555)

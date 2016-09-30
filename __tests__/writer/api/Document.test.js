@@ -5,6 +5,7 @@ import AppPackage from '../../../writer/AppPackage'
 import UnsupportedPackage from '../../../writer/packages/unsupported/UnsupportedPackage'
 import Helper from '../../helpers'
 
+
 var fs = require('fs');
 
 
@@ -34,9 +35,9 @@ describe('Loads newsItem', () => {
 
 
     it('Gets a list of document nodes from document', () => {
-
-        // console.log("API", api.doc);
-        expect(api.document.getDocumentNodes().length).toBe(17)
+        // console.log("API", api.documentSession.getDocument());
+        let nodes = api.documentSession.getDocument().getNodes()['body'].nodes;
+        expect(nodes.length).toBe(17)
     })
 
 

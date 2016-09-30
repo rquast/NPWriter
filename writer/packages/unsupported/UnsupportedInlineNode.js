@@ -1,4 +1,4 @@
-import { InlineNode } from 'substance'
+import {InlineNode} from 'substance'
 
 class UnsupportedInlineNode extends InlineNode {}
 

@@ -1,6 +1,6 @@
-import {ProseEditorConfigurator, Component} from 'substance'
+import { Configurator, Component } from 'substance'
 
-class NPWriterConfigurator extends ProseEditorConfigurator {
+class NPWriterConfigurator extends Configurator {
 
     constructor(...args) {
         super(...args)

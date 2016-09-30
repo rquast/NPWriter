@@ -1,4 +1,4 @@
-import { TextBlock } from 'substance'
+import {TextBlock} from 'substance'
 
 class Paragraph extends TextBlock {}
 

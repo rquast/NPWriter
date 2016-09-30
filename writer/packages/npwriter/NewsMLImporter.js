@@ -1,4 +1,4 @@
-import {XMLImporter} from 'substance'
+import { XMLImporter } from 'substance'
 import isArray from 'lodash/isArray'
 import find from 'lodash/find'
 
