@@ -8,6 +8,7 @@ export default {
 
   import: function(el, node) {
     node.xml = el.outerHTML
+    node.dataType = el.attr('type')
   },
 
   export: function(node, el) {

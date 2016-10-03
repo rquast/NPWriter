@@ -5,7 +5,8 @@ class UnsupportedNode extends BlockNode {}
 UnsupportedNode.type = 'unsupported';
 
 UnsupportedNode.define({
-  xml: {type: 'string', default: ''}
+  xml: {type: 'string', default: ''},
+  dataType: {type: 'string', default: ''}
 })
 
 export default UnsupportedNode
