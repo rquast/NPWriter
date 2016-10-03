@@ -15,12 +15,9 @@ class NPWriter extends AbstractEditor {
 
     didMount() {
 
-        this.props.documentSession.getDocument().on('document:changed', this.documentChanged, this)
+        this.documentSession.on('didUpdate', this.documentSessionUpdated, this)
     }
 
-    documentChanged(change, info, doc) {
-        this.context.api.events.onDocumentChanged(change, info, doc)
-    }
 
     render($$) {
         let el = $$('div').addClass('sc-np-writer')
@@ -48,7 +45,6 @@ class NPWriter extends AbstractEditor {
 
     _renderContentMenu($$) {
         var commandStates = this.commandManager.getCommandStates()
-
         return $$(ContentMenu, {
             commandStates: commandStates
         }).ref('contentMenu')
@@ -92,9 +88,12 @@ class NPWriter extends AbstractEditor {
         // return this.props.configurator.createExporter('newsml')
     }
 
-    documentSessionUpdated() {
-        var contentMenu = this.refs.contentMenu
+    documentSessionUpdated(...args) {
 
+        // Trigger onDocumentChanged event
+        this.context.api.events.onDocumentChanged(...args)
+
+        var contentMenu = this.refs.contentMenu
         if (contentMenu) {
             var commandStates = this.commandManager.getCommandStates()
             contentMenu.setProps({

@@ -47,7 +47,6 @@ class ContentMenu extends Component {
         let tools = this.context.tools
         let overlayTools = tools.get('content-menu') || new Map()
         let activeTools = []
-
         overlayTools.forEach((tool, toolName) => {
             let toolProps = Object.assign({}, commandStates[toolName], {
                 name: toolName,
@@ -56,7 +55,6 @@ class ContentMenu extends Component {
                 icon: toolName,
                 style: 'outline'
             })
-
             if (!toolProps.disabled) {
                 activeTools.push({
                     Class: tool.Class,
