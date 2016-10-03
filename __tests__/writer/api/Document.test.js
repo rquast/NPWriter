@@ -35,7 +35,6 @@ describe('Loads newsItem', () => {
 
 
     it('Gets a list of document nodes from document', () => {
-        // console.log("API", api.documentSession.getDocument());
         let nodes = api.documentSession.getDocument().getNodes()['body'].nodes;
         expect(nodes.length).toBe(17)
     })

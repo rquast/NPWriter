@@ -39,6 +39,8 @@ class App extends Component {
             configurator: this.props.configurator
         }).ref('writer')
 
+
+
         return $$('div').attr('id', 'main').append('hello')
                 .append(writer)
     }
@@ -53,6 +55,8 @@ describe('Start a Writer', () => {
 
         expect(document.getElementById('main').nodeName).toBe('DIV')
         expect(document.getElementById('main').getAttribute('id')).toBe('main')
+        expect(document.getElementsByClassName('sc-np-writer').length).toBe(1)
+
 
     })
 
