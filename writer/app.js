@@ -65,7 +65,6 @@ class App extends Component {
         window.writer.api = this.api
 
         this.pluginManager.getListOfPlugins('/api/config')
-            .then(config => config.plugins)
             .then(plugins => this.pluginManager.load(plugins))
             .then(() => {
 
@@ -97,12 +96,12 @@ class App extends Component {
                             status: STATUS_ISREADY
                         })
                     })
-                    .catch((error) => {
-                        this.setState({
-                            status: STATUS_HAS_ERROR,
-                            statusMessage: error
-                        })
-                    });
+                    // .catch((error) => {
+                    //     this.setState({
+                    //         status: STATUS_HAS_ERROR,
+                    //         statusMessage: error
+                    //     })
+                    // });
             })
             .catch((error) => {
                 this.setState({

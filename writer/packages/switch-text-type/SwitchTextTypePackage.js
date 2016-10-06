@@ -1,4 +1,4 @@
-import { SwitchTextTypeCommand } from 'substance'
+import {SwitchTextTypeCommand} from 'substance'
 import NPSwitchTextTypeTool from './NPSwitchTextTypeTool'
 
 export default {

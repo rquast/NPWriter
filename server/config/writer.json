@@ -4,7 +4,7 @@
     {
       "id": "se.infomaker.preamble",
       "name": "preamble",
-      "url": "/plugins/se.infomaker.preamble/Preamble.js",
+      "url": "http://localhost:3000/plugins/dist/plugins.js",
       "mandatory": false,
       "data": {
         "foo": "bar"
@@ -13,7 +13,7 @@
     {
       "id": "se.infomaker.textanalyzer",
       "name": "textanalyzer",
-      "url": "/plugins/se.infomaker.textanalyzer/index.js",
+      "url": "http://localhost:3000/plugins/dist/plugins.js",
       "mandatory": false,
       "data": {
         "foo": "bar"

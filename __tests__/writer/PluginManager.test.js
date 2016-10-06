@@ -152,7 +152,7 @@ describe('Load list of plugins', () => {
     });
 
     beforeEach(() => {
-        const plugins = fs.readFileSync('data/plugins.json', {encoding: 'UTF-8'})
+        const plugins = fs.readFileSync('data/writer.json', {encoding: 'UTF-8'})
         sinon.stub(window, 'fetch');
 
         var res = new window.Response(plugins, {
@@ -188,8 +188,8 @@ describe('Load list of plugins', () => {
             pluginManager.registerPlugin(plugins[0])
         }, 100)
 
-        const pluginList = fs.readFileSync('data/plugins.json', {encoding: 'UTF-8'})
-        return pluginManager.load(JSON.parse(pluginList)).then((_) => {
+        const pluginList = fs.readFileSync('data/writer.json', {encoding: 'UTF-8'})
+        return pluginManager.load(JSON.parse(pluginList).plugins).then((_) => {
             expect(pluginManager.getConfigValue('se.infomaker.dummy', 'foo')).toBe('bar')
         })
 

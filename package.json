@@ -44,6 +44,8 @@
     "substance-bundler": "^0.4.20",
     "substance-docgen": "^0.1.0",
     "substance-test": "^0.2.3",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.16.2",
     "whatwg-fetch": "^1.0.0"
   },
   "scripts": {
@@ -52,7 +54,8 @@
     "start": "node make -s -w",
     "test": "jest",
     "test-coverage": "jest --coverage",
-    "dev": "npm-run-all --parallel server start"
+    "dev": "npm-run-all --parallel server start",
+    "plugin-dev": "webpack-dev-server --config webpack.config.js --hot --progress --colors --watch"
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",

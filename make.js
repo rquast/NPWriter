@@ -27,6 +27,7 @@ b.task('build', ['clean', 'substance', 'assets'], function () {
         format: 'umd',
         moduleName: 'app'
     })
+
 })
 
 b.task('default', ['build', 'assets'])

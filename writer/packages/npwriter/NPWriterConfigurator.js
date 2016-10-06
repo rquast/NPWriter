@@ -6,6 +6,7 @@ class NPWriterConfigurator extends Configurator {
         super(...args)
 
         this.config.validators = []
+        this.config.sidebarTopBar = []
         this.config.sidebarTabs = []
         this.config.sidebarPanels = []
         this.config.uis = new Map()
@@ -21,12 +22,35 @@ class NPWriterConfigurator extends Configurator {
         })
     }
 
-    addToSidebar(id, tabId, component) {
-        this.addComponent(tabId+"-tab", component)
+    /**
+     * Adds a Substance Component to a a panel by specifying the tabId
+     * @param id
+     * @param tabId
+     * @param component
+     */
+    addComponentToSidebarWithTabId(id, tabId, component) {
+        if (!component instanceof Component) {
+            throw new Error('Ui must be an instance of Component')
+        }
 
+        this.addComponent(tabId+"-tab", component)
         this.config.sidebarPanels.push({
             type: id,
             tabId: tabId,
+            component: component
+        })
+    }
+
+
+    getSidebarPanels() {
+        return this.config.sidebarPanels
+    }
+
+    addComponentToSidebarTop(pluginId, component) {
+        this.addComponent(pluginId+"-topbar", component)
+
+        this.config.sidebarTopBar.push({
+            type: pluginId,
             component: component
         })
     }

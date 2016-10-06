@@ -5,15 +5,21 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 var autoprefixer = require('autoprefixer');
 
 module.exports = {
-    entry: "./writer/app.js",
+    entry: [
+        'webpack/hot/dev-server',
+        'webpack-dev-server/client?http://localhost:3000',
+        './plugins/index.js'
+    ],
     output: {
-        filename: "app.js",
-        path: "dist"
+        filename: "plugins.js",
+        path: "./plugins/dist"
     },
     devServer: {
         historyApiFallback: true,
         inline: true, // reload on the fly (auto refresh)
         compress: false,
+        hot: true,
+        publicPath: "/plugins/dist/",
         port: 3000 // which port to run the server on
     },
     postcss: [
@@ -35,7 +41,7 @@ module.exports = {
                 test: /\.(js|jsx|es6)$/,
                 exclude: /(node_modules)/,
                 loaders: [
-                    'babel?presets[]=es2015-node6'
+                    'babel?presets[]=es2015-node6,presets[]=stage-3'
                 ]
             }
         ]

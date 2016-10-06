@@ -42,8 +42,8 @@ describe('Get config values for plugins', () => {
             pluginManager.registerPlugin(plugin)
         }, 100)
 
-        const pluginList = fs.readFileSync('data/plugins.json', {encoding: 'UTF-8'})
-        return pluginManager.load(JSON.parse(pluginList)).then((_) => {
+        const pluginList = fs.readFileSync('data/writer.json', {encoding: 'UTF-8'})
+        return pluginManager.load(JSON.parse(pluginList).plugins).then((_) => {
             expect(api.getConfigValue('se.infomaker.dummy', 'foo')).toBe('bar')
         })
 

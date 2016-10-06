@@ -1,4 +1,4 @@
-(() => {
+export default () => {
     const {TextBlock, Component, TextPropertyComponent} = substance
     const { api, registerPlugin } = writer
 
@@ -62,6 +62,6 @@
         console.log("Register method not yet available");
     }
 
-})()
+}
 
 

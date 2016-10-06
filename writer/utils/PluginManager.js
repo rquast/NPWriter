@@ -16,11 +16,13 @@ class PluginManager {
 
     /**
      * Fetch a list of plugins from backend and parse result to JSON
+     * @param configURL {string} A URL to the config file containt plugins
      * @returns {Promise.<TResult>|*}
      */
-    getListOfPlugins(pluginUrl) {
-        return fetch(pluginUrl)
+    getListOfPlugins(configURL) {
+        return fetch(configURL)
             .then(response => response.json())
+            .then(configJson => configJson.plugins)
     }
 
     /**

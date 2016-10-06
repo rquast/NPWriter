@@ -43,7 +43,7 @@ Plugins is loaded externally, meaning the plugins can reside on a completely dif
 Infomaker plugins is currently located in `./plugins/` and is served by the Node Server
 
 ####Configure which plugins to load
-Configure plugins in `./server/routes/plugins.json`
+Configure plugins in `./server/config/writer.json`
 
 This file should be moved to another location, for example S3 or a database
 
