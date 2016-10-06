@@ -65,7 +65,6 @@ class PluginManager {
      * @returns {Promise.<*>}
      */
     load(plugins) {
-
         const pluginRegistered = plugins.map(plugin => {
             return new Promise((resolve, reject) => {
 

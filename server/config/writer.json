@@ -1,20 +1,23 @@
 {
-  "server": {
-    "port": 5000
-  },
-  "external": {
-    "contentrepository": {
-      "protocol": "http:",
-      "host": "52.50.102.61",
-      "port": "8181",
-      "endpoint": "cxf/writer/commands",
-      "upload": "cxf/writer/images/upload"
+
+  "plugins": [
+    {
+      "id": "se.infomaker.preamble",
+      "name": "preamble",
+      "url": "/plugins/se.infomaker.preamble/Preamble.js",
+      "mandatory": false,
+      "data": {
+        "foo": "bar"
+      }
     },
-    "conceptbackend": {
-      "protocol": "http:",
-      "host": "52.18.45.126",
-      "port": "3000",
-      "endpoint": "commands"
+    {
+      "id": "se.infomaker.textanalyzer",
+      "name": "textanalyzer",
+      "url": "/plugins/se.infomaker.textanalyzer/index.js",
+      "mandatory": false,
+      "data": {
+        "foo": "bar"
+      }
     }
-  }
+  ]
 }

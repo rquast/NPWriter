@@ -64,7 +64,8 @@ class App extends Component {
 
         window.writer.api = this.api
 
-        this.pluginManager.getListOfPlugins('http://127.0.0.1:5000/api/plugins')
+        this.pluginManager.getListOfPlugins('/api/config')
+            .then(config => config.plugins)
             .then(plugins => this.pluginManager.load(plugins))
             .then(() => {
 
@@ -75,9 +76,9 @@ class App extends Component {
                         // Adds package for unsupported elements in document
                         this.props.configurator.import(UnsupportedPackage)
 
-                        this.props.configurator.addSidebarTab({id: 'main-panel', name: 'Meta'})
                         this.props.configurator.addSidebarTab({id: 'related', name: 'Relatera'})
                         this.props.configurator.addSidebarTab({id: 'information', name: 'Information'})
+                        this.props.configurator.addSidebarTab({id: 'main-panel', name: 'Meta'})
 
                         var importer = this.props.configurator.createImporter('newsml')
                         const idfDocument = importer.importDocument(xmlStr)
@@ -96,19 +97,19 @@ class App extends Component {
                             status: STATUS_ISREADY
                         })
                     })
-                    // .catch((error) => {
-                    //     this.setState({
-                    //         status: STATUS_HAS_ERROR,
-                    //         statusMessage: error
-                    //     })
-                    // });
+                    .catch((error) => {
+                        this.setState({
+                            status: STATUS_HAS_ERROR,
+                            statusMessage: error
+                        })
+                    });
             })
-            // .catch((error) => {
-                // this.setState({
-                //     status: STATUS_HAS_ERROR,
-                //     statusMessage: error
-                // })
-            // });
+            .catch((error) => {
+                this.setState({
+                    status: STATUS_HAS_ERROR,
+                    statusMessage: error
+                })
+            });
     }
 
 

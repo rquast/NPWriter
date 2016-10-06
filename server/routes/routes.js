@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 
-var PluginRoutes = require('./plugins')
+var ConfigRoutes = require('./config')
 const NewsItemRoutes = require('./newsitem')
 
 // ==================================
@@ -12,7 +12,7 @@ router.use(function timeLog(req, res, next) {
     next();
 });
 
-router.route('/plugins').get(PluginRoutes.getPlugins);
+router.route('/config').get(ConfigRoutes.getConfig);
 // router.route('/newsitem/:uuid').get(PluginRoutes.getPlugins);
 router.use(NewsItemRoutes)
 

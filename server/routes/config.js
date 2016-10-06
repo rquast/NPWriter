@@ -9,11 +9,11 @@ module.exports = {
      * @param req
      * @param res
      */
-    getPlugins: function (req, res) {
-        const filename = path.join(__dirname, 'plugins.json')
+    getConfig: function (req, res) {
+        const filename = path.join(__dirname, '/..', 'config', 'writer.json')
         fs.readFile(filename, 'utf8', function (err,data) {
             if (err) {
-                console.error("Error loading plugins.json", err)
+                console.error("Error loading writer.json", err)
             }
             let plugins = JSON.parse(data);
             res.contentType('application/json').status(200).send(plugins);
