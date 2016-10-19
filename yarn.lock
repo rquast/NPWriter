@@ -394,10 +394,6 @@ babel-messages@^6.8.0:
   dependencies:
     babel-runtime "^6.0.0"
 
-babel-plugin-add-module-exports@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-add-module-exports/-/babel-plugin-add-module-exports-0.2.1.tgz#9ae9a1f4a8dc67f0cdec4f4aeda1e43a5ff65e25"
-
 babel-plugin-istanbul@^2.0.0:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/babel-plugin-istanbul/-/babel-plugin-istanbul-2.0.3.tgz#266b304b9109607d60748474394676982f660df4"
@@ -439,7 +435,7 @@ babel-plugin-transform-async-generator-functions@^6.17.0:
     babel-plugin-syntax-async-generators "^6.5.0"
     babel-runtime "^6.0.0"
 
-babel-plugin-transform-async-to-generator@^6.16.0, babel-plugin-transform-async-to-generator@^6.8.0:
+babel-plugin-transform-async-to-generator@^6.16.0:
   version "6.16.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-async-to-generator/-/babel-plugin-transform-async-to-generator-6.16.0.tgz#19ec36cb1486b59f9f468adfa42ce13908ca2999"
   dependencies:
@@ -461,15 +457,7 @@ babel-plugin-transform-es2015-function-name@^6.5.0:
     babel-runtime "^6.9.0"
     babel-types "^6.9.0"
 
-babel-plugin-transform-es2015-modules-amd@^6.8.0:
-  version "6.8.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-es2015-modules-amd/-/babel-plugin-transform-es2015-modules-amd-6.8.0.tgz#25d954aa0bf04031fc46d2a8e6230bb1abbde4a3"
-  dependencies:
-    babel-plugin-transform-es2015-modules-commonjs "^6.8.0"
-    babel-runtime "^6.0.0"
-    babel-template "^6.8.0"
-
-babel-plugin-transform-es2015-modules-commonjs@^6.14.0, babel-plugin-transform-es2015-modules-commonjs@^6.7.4, babel-plugin-transform-es2015-modules-commonjs@^6.8.0:
+babel-plugin-transform-es2015-modules-commonjs@^6.7.4:
   version "6.16.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-es2015-modules-commonjs/-/babel-plugin-transform-es2015-modules-commonjs-6.16.0.tgz#0a34b447bc88ad1a70988b6d199cca6d0b96c892"
   dependencies:
@@ -477,14 +465,6 @@ babel-plugin-transform-es2015-modules-commonjs@^6.14.0, babel-plugin-transform-e
     babel-runtime "^6.0.0"
     babel-template "^6.16.0"
     babel-types "^6.16.0"
-
-babel-plugin-transform-es2015-modules-umd@^6.12.0:
-  version "6.12.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-es2015-modules-umd/-/babel-plugin-transform-es2015-modules-umd-6.12.0.tgz#5d73559eb49266775ed281c40be88a421bd371a3"
-  dependencies:
-    babel-plugin-transform-es2015-modules-amd "^6.8.0"
-    babel-runtime "^6.0.0"
-    babel-template "^6.8.0"
 
 babel-plugin-transform-es2015-parameters@^6.8.0:
   version "6.17.0"
@@ -511,12 +491,6 @@ babel-plugin-transform-object-rest-spread@^6.16.0:
   dependencies:
     babel-plugin-syntax-object-rest-spread "^6.8.0"
     babel-runtime "^6.0.0"
-
-babel-plugin-transform-runtime@^6.15.0:
-  version "6.15.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-runtime/-/babel-plugin-transform-runtime-6.15.0.tgz#3d75b4d949ad81af157570273846fb59aeb0d57c"
-  dependencies:
-    babel-runtime "^6.9.0"
 
 babel-plugin-transform-strict-mode@^6.8.0:
   version "6.11.3"
@@ -1544,13 +1518,6 @@ expand-range@^1.8.1:
   dependencies:
     fill-range "^2.1.0"
 
-exports-loader@^0.6.3:
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/exports-loader/-/exports-loader-0.6.3.tgz#57dc78917f709b96f247fa91e69b554c855013c8"
-  dependencies:
-    loader-utils "0.2.x"
-    source-map "0.1.x"
-
 express@^4.13.3, express@^4.14.0:
   version "4.14.0"
   resolved "https://registry.yarnpkg.com/express/-/express-4.14.0.tgz#c1ee3f42cdc891fb3dc650a8922d51ec847d0d66"
@@ -2082,13 +2049,6 @@ ieee754@^1.1.4:
 ignore@^3.1.5:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.2.0.tgz#8d88f03c3002a0ac52114db25d2c673b0bf1e435"
-
-imports-loader@^0.6.5:
-  version "0.6.5"
-  resolved "https://registry.yarnpkg.com/imports-loader/-/imports-loader-0.6.5.tgz#ae74653031d59e37b3c2fb2544ac61aeae3530a6"
-  dependencies:
-    loader-utils "0.2.x"
-    source-map "0.1.x"
 
 imurmurhash@^0.1.4:
   version "0.1.4"
@@ -2741,7 +2701,7 @@ load-json-file@^1.0.0:
     pinkie-promise "^2.0.0"
     strip-bom "^2.0.0"
 
-loader-utils@^0.2.11, loader-utils@^0.2.15, loader-utils@^0.2.3, loader-utils@0.2.x:
+loader-utils@^0.2.11, loader-utils@^0.2.15, loader-utils@^0.2.3:
   version "0.2.16"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-0.2.16.tgz#f08632066ed8282835dff88dfb52704765adee6d"
   dependencies:
@@ -4032,12 +3992,6 @@ source-map@^0.5.0, source-map@^0.5.3, source-map@^0.5.6, source-map@~0.5.1, sour
 source-map@~0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.2.0.tgz#dab73fbcfc2ba819b4de03bd6f6eaa48164b3f9d"
-  dependencies:
-    amdefine ">=0.0.4"
-
-source-map@0.1.x:
-  version "0.1.43"
-  resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.1.43.tgz#c24bc146ca517c1471f5dacbe2571b2b7f9e3346"
   dependencies:
     amdefine ">=0.0.4"
 
