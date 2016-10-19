@@ -67,7 +67,6 @@ class App extends Component {
         this.pluginManager.getListOfPlugins('/api/config')
             .then(plugins => this.pluginManager.load(plugins))
             .then(() => {
-
                 api.router.get('/api/newsitem/' + api.browser.getHash(), {imType: 'x-im/article'})
                     .then(response =>response.text())
                     .then((xmlStr) => {
@@ -96,12 +95,12 @@ class App extends Component {
                             status: STATUS_ISREADY
                         })
                     })
-                    // .catch((error) => {
-                    //     this.setState({
-                    //         status: STATUS_HAS_ERROR,
-                    //         statusMessage: error
-                    //     })
-                    // });
+                    .catch((error) => {
+                        this.setState({
+                            status: STATUS_HAS_ERROR,
+                            statusMessage: error
+                        })
+                    });
             })
             .catch((error) => {
                 this.setState({
@@ -121,6 +120,7 @@ class App extends Component {
         var el = $$('div').addClass('sc-app').ref('app')
 
         switch (this.state.status) {
+
             case STATUS_HAS_ERROR:
                 el.append($$(Error, {error: this.state.statusMessage}))
                 break

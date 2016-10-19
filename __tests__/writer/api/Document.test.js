@@ -1,4 +1,4 @@
-var fetch = require('node-fetch')
+import 'whatwg-fetch'
 import Api from '../../../writer/api/Api'
 import { ProseEditorConfigurator, DocumentSession } from 'substance'
 import AppPackage from '../../../writer/AppPackage'

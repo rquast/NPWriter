@@ -1,5 +1,6 @@
-var fetch = require('node-fetch')
 var fs = require('fs')
+
+import 'whatwg-fetch'
 import Api from '../../../writer/api/Api'
 import {ProseEditorConfigurator} from 'substance'
 import PluginManager from '../../../writer/utils/PluginManager'

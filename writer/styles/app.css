@@ -5,7 +5,6 @@
 @import '../substance/substance-pagestyle.css';
 /* Using url here, so font-awesome does not get bundled. */
 @import url('../font-awesome/css/font-awesome.min.css');
-
 /* writer-specific css */
 @import './writer/packages/npwriter/_content-menu.css';
 @import './writer/packages/headline/css/index.css';
@@ -18,7 +17,13 @@ body {
     overflow: hidden;
 }
 
-.sc-app { position: absolute; left: 0px; right: 0px; bottom: 0px; top: 0px; }
+.sc-app {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+}
 
 .se-main-section {
     width: 60%;
@@ -26,6 +31,9 @@ body {
 
 .se-context-section {
     border-left: 1px solid #ddd;
+}
+.sc-tabbed-pane {
+    margin-top:40px;
 }
 
 .se-main-section .se-scrollable .se-content {
