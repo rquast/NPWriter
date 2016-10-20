@@ -16,8 +16,8 @@ import Start from './packages/load-screens/Start'
 import Error from './packages/load-screens/Error'
 
 const STATUS_ISREADY = 'isReady',
-    STATUS_LOADING = 'loading',
-    STATUS_HAS_ERROR = 'hasErrors'
+      STATUS_LOADING = 'loading',
+      STATUS_HAS_ERROR = 'hasErrors'
 
 class App extends Component {
 
@@ -69,7 +69,8 @@ class App extends Component {
             .then(plugins => this.pluginManager.load(plugins))
             .then(() => {
                 api.router.get('/api/newsitem/' + api.browser.getHash(), {imType: 'x-im/article'})
-                    .then(response =>response.text())
+                    .then(response => api.router.checkForOKStatus(response) )
+                    .then(response => response.text())
                     .then((xmlStr) => {
 
                         // Adds package for unsupported elements in document
@@ -77,7 +78,7 @@ class App extends Component {
 
                         this.props.configurator.addSidebarTab({id: 'related', name: 'Relatera'})
                         this.props.configurator.addSidebarTab({id: 'information', name: 'Information'})
-                        this.props.configurator.addSidebarTab({id: 'main-panel', name: 'Meta'})
+                        this.props.configurator.addSidebarTab({id: 'main', name: 'Meta'})
 
                         var importer = this.props.configurator.createImporter('newsml')
                         const idfDocument = importer.importDocument(xmlStr)
@@ -97,9 +98,10 @@ class App extends Component {
                         })
                     })
                     .catch((error) => {
+                        console.log("Error", error.response.statusText);
                         this.setState({
                             status: STATUS_HAS_ERROR,
-                            statusMessage: error
+                            statusMessage: error.response.statusText
                         })
                     });
             })

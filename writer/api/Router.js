@@ -178,5 +178,34 @@ class Router {
             data: JSON.stringify(op)
         });
     }
+
+
+    /**
+     * Method checks for a status code between 200 and 299
+     * Throws error if otherwise.
+     *
+     * Use for example when you want to reject a fetch promise
+     *
+     * * @example
+     * fetch(...)
+     *  .then(response => checkForOKStatus(response)
+     *  .then(response => response.json())
+     *  .catch((error) => {
+     *
+     *  }
+     *
+     *
+     * @param response
+     * @returns {*}
+     */
+    checkForOKStatus(response) {
+        if (response.status >= 200 && response.status < 300) {
+            return response
+        } else {
+            var error = new Error(response.statusText)
+            error.response = response
+            throw error
+        }
+    }
 }
 export default Router
