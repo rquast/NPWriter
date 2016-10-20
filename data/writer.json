@@ -5,6 +5,7 @@
       "name": "dummy",
       "url": "/plugins/se.infomaker.dummy/Dummy.js",
       "mandatory": false,
+      "enabled": true,
       "data": {
         "foo": "bar"
       }

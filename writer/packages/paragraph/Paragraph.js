@@ -1,3 +1,5 @@
+import './scss/index.scss'
+
 import {TextBlock} from 'substance'
 
 class Paragraph extends TextBlock {}

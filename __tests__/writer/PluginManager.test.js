@@ -79,6 +79,7 @@ describe('validate and register plugin packages with pluginmanager', () => {
             {
                 id: 'se.infomaker.dummy',
                 name: 'dummy',
+                enabled: true,
                 configure: () => {
                 }
             }
@@ -122,6 +123,7 @@ describe('validate and register plugin packages with pluginmanager', () => {
             {
                 id: 'se.infomaker.dummy',
                 name: 'dummy',
+                enabled: true,
                 configure: () => {
                 }
             }
@@ -179,6 +181,7 @@ describe('Load list of plugins', () => {
             {
                 id: 'se.infomaker.dummy',
                 name: 'dummy',
+                enabled: true,
                 configure: () => {
                 }
             }

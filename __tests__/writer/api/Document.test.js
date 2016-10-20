@@ -1,6 +1,6 @@
 import 'whatwg-fetch'
 import Api from '../../../writer/api/Api'
-import { ProseEditorConfigurator, DocumentSession } from 'substance'
+import {ProseEditorConfigurator, DocumentSession} from 'substance'
 import AppPackage from '../../../writer/AppPackage'
 import UnsupportedPackage from '../../../writer/packages/unsupported/UnsupportedPackage'
 import Helper from '../../helpers'

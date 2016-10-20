@@ -3,7 +3,8 @@ import {
     DocumentSession
 } from 'substance'
 
-// import 'writer/styles/app.scss'
+require('./styles/app.scss');
+
 
 import NPWriterCompontent from './packages/npwriter/NPWriterComponent'
 import NPWriterConfigurator from './packages/npwriter/NPWriterConfigurator'
@@ -111,8 +112,10 @@ class App extends Component {
     }
 
 
+
     replaceDoc({newsItem, idfDocument}) {
         this.newsItem = newsItem;
+        this.documentSession = new DocumentSession(idfDocument)
         this.rerender();
     }
 

@@ -1,3 +1,5 @@
+import './scss/_content-menu.scss'
+
 // Base packages
 import {BasePackage, StrongPackage, EmphasisPackage, LinkPackage} from 'substance'
 

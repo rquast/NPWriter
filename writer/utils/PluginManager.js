@@ -67,9 +67,12 @@ class PluginManager {
      * @returns {Promise.<*>}
      */
     load(plugins) {
-        const pluginRegistered = plugins.map(plugin => {
-            return new Promise((resolve, reject) => {
+        const enabledPlugins = plugins.filter((plugin) => {
+            return plugin.enabled
+        })
 
+        const pluginRegistered = enabledPlugins.map(plugin => {
+            return new Promise((resolve, reject) => {
                 let resolved = false;
 
                 this.registerPluginList.set(plugin.id, (pluginPackage) => {
@@ -88,7 +91,7 @@ class PluginManager {
             })
         })
 
-        const pluginsAppendPromise = this.appendPluginScripts(plugins)
+        const pluginsAppendPromise = this.appendPluginScripts(enabledPlugins)
         const allPromises = [...pluginsAppendPromise, ...pluginRegistered]
         return Promise.all(allPromises)
     }

@@ -38,6 +38,8 @@ New endpoint calling on/off for Events
 ###Running test
 Run Jest test with `npm test`
 
+Generate Test coverage with `npm run test-coverage` 
+
 ###Plugins
 Plugins is loaded externally, meaning the plugins can reside on a completely different URL.
 Infomaker plugins is currently located in `./plugins/` and is served by the Node Server

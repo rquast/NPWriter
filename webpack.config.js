@@ -3,30 +3,26 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 var autoprefixer = require('autoprefixer');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
+var distPath = path.resolve(__dirname, 'dist');
+
 
 module.exports = {
     entry: [
-        'webpack/hot/dev-server',
-        'webpack-dev-server/client?http://localhost:3000',
-        './plugins/index.js'
+        './writer/app.js'
     ],
     output: {
-        filename: "plugins.js",
-        path: "./plugins/dist"
+        filename: "app.js",
+        path: distPath,
+        publicPath: '/'
     },
-    devServer: {
-        historyApiFallback: true,
-        inline: true, // reload on the fly (auto refresh)
-        compress: false,
-        hot: true,
-        publicPath: "/plugins/dist/",
-        port: 3000 // which port to run the server on
-    },
+    externals: ['substance'],
     postcss: [
         autoprefixer({
             browsers: ['last 2 versions']
         })
     ],
+    devtool: 'source-map',
     module: {
         loaders: [
             {
@@ -35,7 +31,7 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                loader: ExtractTextPlugin.extract('style', 'css!postcss!sass')
+                loader: ExtractTextPlugin.extract('style', 'css!sass' )
             },
             {
                 test: /\.(js|jsx|es6)$/,
@@ -54,9 +50,27 @@ module.exports = {
         sourceMap: true
     },
     plugins: [
-        new ExtractTextPlugin("style.css"),
+        new ExtractTextPlugin("styles/app.css"),
         new webpack.ProvidePlugin({
             'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
-        })
+        }),
+        new CopyWebpackPlugin([
+            {
+                from: 'node_modules/substance/dist',
+                to: './substance'
+            },
+            {
+                from: 'node_modules/font-awesome',
+                to: './font-awesome'
+            },
+            {
+                from: "writer/index.html",
+                to: "index.html"
+            },
+            {
+                from: "writer/styles/app.css",
+                to: "styles/app.css"
+            }
+        ])
     ]
 };

@@ -7,10 +7,11 @@
     "bunyan": "^1.8.1",
     "detect-browser": "^1.5.0",
     "express": "^4.14.0",
+    "http-proxy": "^1.15.1",
     "lodash": "^4.14.1",
     "moment": "^2.15.1",
-    "whatwg-fetch": "1.0.0",
-    "request": "^2.75.0"
+    "request": "^2.75.0",
+    "whatwg-fetch": "1.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.5.0",
@@ -21,15 +22,21 @@
     "babel-polyfill": "^6.13.0",
     "babel-preset-es2015-node6": "^0.3.0",
     "babel-preset-stage-3": "^6.11.0",
+    "copy-webpack-plugin": "^3.0.1",
+    "css-loader": "^0.25.0",
     "eslint": "^3.2.2",
+    "exports-loader": "^0.6.3",
     "extract-text-webpack-plugin": "^1.0.1",
     "font-awesome": "4.6.3",
     "html-webpack-plugin": "^2.22.0",
+    "imports-loader": "^0.6.5",
     "jest": "^15.1.1",
     "jxon": "^2.0.0-beta.3",
     "node-sass": "^3.10.0",
     "npm-run-all": "^3.1.0",
+    "sass-loader": "^4.0.2",
     "sinon": "2.0.0-pre.3",
+    "style-loader": "^0.13.1",
     "substance": "1.0.0-beta.5.8",
     "substance-bundler": "^0.5.1",
     "substance-docgen": "^0.4.7",
@@ -38,17 +45,19 @@
     "webpack-dev-server": "^1.16.2"
   },
   "scripts": {
-    "bundle": "node make",
-    "server": "node server.js",
-    "start": "node make -s -w",
+    "start": "node server.js",
     "test": "jest",
     "test-coverage": "jest --coverage",
-    "dev": "npm-run-all --parallel server start plugin-dev",
-    "plugin-dev": "webpack-dev-server --config webpack.config.js --hot --progress --colors --watch",
+    "webpack": "webpack --watch",
+    "dev": "npm-run-all --parallel start webpack",
     "reset": "rm -rf node_modules/; yarn cache clean; yarn install"
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "moduleNameMapper": {
+      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/styleMock.js",
+      "^.+\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js"
+    },
     "moduleFileExtensions": [
       "js",
       "json",
