@@ -71,6 +71,7 @@ describe('validate and register plugin packages with pluginmanager', () => {
             }
         }
         expect(pluginManager.validatePluginPackage(pluginPackage)).toBe(true)
+
     })
 
 
