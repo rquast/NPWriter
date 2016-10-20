@@ -3,7 +3,7 @@ import {
     DocumentSession
 } from 'substance'
 
-require('./styles/app.scss');
+import './styles/app.scss';
 
 
 import NPWriterCompontent from './packages/npwriter/NPWriterComponent'
@@ -112,7 +112,11 @@ class App extends Component {
     }
 
 
-
+    /**
+     * Replace changes the current newsItem and creates and replaces the document session and then rerenders the writer
+     * @param newsItem
+     * @param idfDocument
+     */
     replaceDoc({newsItem, idfDocument}) {
         this.newsItem = newsItem;
         this.documentSession = new DocumentSession(idfDocument)
@@ -132,6 +136,7 @@ class App extends Component {
                 this.api.init(this.newsItem, this.documentSession, this.refs)
 
                 el.append($$(NPWriterCompontent, {
+                    pluginManager: this.pluginManager,
                     documentSession: this.documentSession,
                     configurator: this.props.configurator
                 }).ref('writer'))

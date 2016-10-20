@@ -20,7 +20,7 @@ class NPWriter extends AbstractEditor {
 
 
     render($$) {
-        let el = $$('div').addClass('sc-np-writer')
+        const el = $$('div').addClass('sc-np-writer')
         el.append(
             $$(SplitPane, {splitType: 'vertical'}).append(
                 this._renderMainSection($$),
