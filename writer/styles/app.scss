@@ -29,22 +29,41 @@ body {
     right: 0;
     bottom: 0;
     top: 0;
-}
 
-.se-main-section {
-    width: 60%;
-}
+    .se-context-section {
+        border-left: 1px solid #ddd;
 
-.se-context-section {
-    border-left: 1px solid #ddd;
-}
-.sc-tabbed-pane {
-    margin-top:40px;
-}
+        .sc-tabbed-pane {
+            margin-top:40px;
+        }
+    }
 
+    .se-main-section {
+        width: 60%;
 
-.sc-layout.sm-width-large {
-    max-width: 800px;
+        .se-content {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+
+            .sc-layout {
+                height: 100%;
+                padding: 40px 70px;
+
+                &.sm-width-large {
+                    max-width: 800px;
+                }
+
+                .sc-body {
+                    height: 100%;
+
+                    &>div {
+                        height: 100%;
+                    }
+                }
+            }
+        }
+    }
 }
 
 .sc-preamble {
