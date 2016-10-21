@@ -58,7 +58,6 @@ class SidebarComponent extends Component {
         return this.context.configurator.getSidebarPanels().filter((panel) => {
             return panel.tabId === tabId
         }).map((panel) => {
-            console.log("panel.component", $$(panel.component));
             return $$('div')
                 .addClass('plugin plugin-'+panel.type)
                 .append($$(panel.component, {panel: panel}))

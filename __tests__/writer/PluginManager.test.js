@@ -146,6 +146,9 @@ describe('validate and register plugin packages with pluginmanager', () => {
 })
 
 
+// Using SinonJS to mock the fetch call
+// https://rjzaworski.com/2015/06/testing-api-requests-from-window-fetch
+
 describe('Load list of plugins', () => {
 
     let pluginManager

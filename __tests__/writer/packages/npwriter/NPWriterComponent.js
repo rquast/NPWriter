@@ -21,12 +21,7 @@ class App extends Component {
         // MOCK
         window.document.createRange = () => {}
 
-        this.props.configurator.addSidebarTab({id: 'main-panel', name: 'Meta'})
-        this.props.configurator.addSidebarTab({id: 'related', name: 'Relatera'})
-        this.props.configurator.addSidebarTab({id: 'information', name: 'Information'})
-
         let api = new Api({}, this.props.configurator)
-
         api.newsitem.newsItem = Helper.getParsedExampleDocument()
 
         this.props.configurator.import(UnsupportedPackage)
@@ -38,8 +33,6 @@ class App extends Component {
             documentSession: documentSession,
             configurator: this.props.configurator
         }).ref('writer')
-
-
 
         return $$('div').attr('id', 'main').append('hello')
                 .append(writer)

@@ -1,6 +1,7 @@
 import 'whatwg-fetch'
 import Api from '../../../writer/api/Api'
-import {ProseEditorConfigurator, DocumentSession} from 'substance'
+import {DocumentSession} from 'substance'
+import NPWriterConfigurator from '../../../writer/packages/npwriter/NPWriterConfigurator'
 import AppPackage from '../../../writer/AppPackage'
 import UnsupportedPackage from '../../../writer/packages/unsupported/UnsupportedPackage'
 import Helper from '../../helpers'
@@ -18,7 +19,7 @@ describe('Loads newsItem', () => {
             }
         }
     beforeEach(() => {
-        const configurator = new ProseEditorConfigurator().import(AppPackage);
+        const configurator = new NPWriterConfigurator().import(AppPackage);
         api = new Api({}, configurator)
 
         let newsItem = Helper.getParsedExampleDocument()

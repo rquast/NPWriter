@@ -85,9 +85,13 @@ class PluginManager {
 
                 setTimeout(() => {
                     if (!resolved) {
-                        reject(plugin.id + " did not respond in time");
+                        if(plugin.mandatory) {
+                            reject(plugin.id + " did not respond in time");
+                        }
+                        // plugin is not mandatory, resolve
+                        resolve()
                     }
-                }, 10000)
+                }, 5000)
             })
         })
 

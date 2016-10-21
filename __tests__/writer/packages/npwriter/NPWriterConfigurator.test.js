@@ -2,7 +2,7 @@ import {Component} from 'substance'
 import NPWriterConfigurator from '../../../../writer/packages/npwriter/NPWriterConfigurator'
 import AppPackage from '../../../../writer/AppPackage'
 
-describe('Add validators to configuration', () => {
+describe('Add Items to configuration', () => {
 
     let configurator
     beforeEach(() => {
@@ -20,6 +20,7 @@ describe('Add validators to configuration', () => {
         }
 
         configurator.addComponentToSidebarWithTabId('dummy', 'dummy', dummyComponent)
+        console.log("configurator.getSidebarPanels()", configurator.getSidebarPanels());
         expect(configurator.getSidebarPanels().length).toBe(1)
 
 
