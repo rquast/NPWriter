@@ -12,6 +12,8 @@ import SubheadlinePackage from '../subheadline/SubheadlinePackage'
 import ParagraphPackage from '../paragraph/ParagraphPackage'
 import BlockquotePackage from '../blockquote/BlockquotePackage'
 import SwitchTextTypePackage from '../switch-text-type/SwitchTextTypePackage'
+import ConfigEditorPackage from '../config-editor/ConfigEditorPackage'
+
 // import PreamblePackage from '../preamble/PreamblePackage'
 
 
@@ -37,6 +39,7 @@ export default {
         config.import(BlockquotePackage)
         // config.import(PreamblePackage)
 
+        config.import(ConfigEditorPackage)
 
         // general purpose
         config.import(BasePackage)

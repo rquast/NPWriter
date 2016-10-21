@@ -1,25 +1,34 @@
 {
-
-  "plugins": [
-    {
-      "id": "se.infomaker.preamble",
-      "name": "preamble",
-      "url": "http://localhost:3000/index.js",
-      "enabled": false,
-      "mandatory": false,
-      "data": {
-        "foo": "bar"
-      }
-    },
-    {
-      "id": "se.infomaker.textanalyzer",
-      "name": "textanalyzer",
-      "url": "http://localhost:3000/index.js",
-      "mandatory": false,
-      "enabled": false,
-      "data": {
-        "foo": "bar"
-      }
-    }
-  ]
+    "plugins": [
+        {
+            "id": "se.infomaker.preamble",
+            "name": "preamble",
+            "url": "http://localhost:3000/index.js",
+            "enabled": false,
+            "mandatory": false,
+            "data": {
+                "foo": "bar"
+            }
+        },
+        {
+            "id": "se.infomaker.textanalyzer",
+            "name": "textanalyzer",
+            "url": "http://localhost:3000/index.js",
+            "mandatory": false,
+            "enabled": false,
+            "data": {
+                "foo": "bar"
+            }
+        },
+        {
+            "id": "se.infomaker.npwriterdevkit",
+            "name": "npwriterdevkit",
+            "url": "http://localhost:3000/index.js",
+            "mandatory": false,
+            "enabled": true,
+            "data": {
+                "foo": "bar"
+            }
+        }
+    ]
 }

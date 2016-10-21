@@ -1,7 +1,7 @@
-var express = require('express')
-var router = express.Router()
-
-var ConfigRoutes = require('./config')
+const express = require('express')
+const router = express.Router()
+const bodyParser = require('body-parser');
+const ConfigRoutes = require('./config')
 const NewsItemRoutes = require('./newsitem')
 
 // ==================================
@@ -12,7 +12,12 @@ router.use(function timeLog(req, res, next) {
     next();
 });
 
+router.use(bodyParser.json({limit: '50Mb', extended: true, type: "application/json"}));
+
+
 router.route('/config').get(ConfigRoutes.getConfig);
+router.route('/config').post(ConfigRoutes.setConfig);
+
 // router.route('/newsitem/:uuid').get(PluginRoutes.getPlugins);
 router.use(NewsItemRoutes)
 

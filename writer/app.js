@@ -98,7 +98,6 @@ class App extends Component {
                         })
                     })
                     .catch((error) => {
-                        console.log("Error", error.response.statusText);
                         this.setState({
                             status: STATUS_HAS_ERROR,
                             statusMessage: error.response.statusText

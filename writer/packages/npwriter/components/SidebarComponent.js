@@ -13,7 +13,7 @@ class SidebarComponent extends Component {
     getInitialState() {
         return {
             tabs: this.context.configurator.config.sidebarTabs.reverse(),
-            tabId: "one"
+            tabId: "main"
         }
     }
 
