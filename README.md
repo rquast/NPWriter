@@ -2,12 +2,43 @@
 
 Based on Substance BETA 5
 
+## Prerequisites
+Requires Node 6.9.1 and NPM
 
-###Get started
+##Get started
 
-* `npm install`
-* Start by running: `npm run dev`
-* Server should be running at `127.0.0.1:5000` 
+#### Download and run Newspilot Writer 
+```
+git clone git@github.com:Infomaker/NPWriter.git
+```
+
+Install depedencies
+```
+npm install 
+```
+
+Start server at [localhost:5000](http://localhost:5000)
+```
+npm run dev
+```
+
+
+#### Download Plugin bundle
+```
+git clone git@github.com:Infomaker/NPWriterPluginBundle.git
+```
+
+Install depedencies
+```
+npm install 
+```
+
+Start server at [localhost:5001](http://localhost:5001)
+```
+npm run dev
+```
+
+
 
 ###Running test
 Run Jest test with `npm test`
