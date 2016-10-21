@@ -7,7 +7,8 @@ Requires Node 6.9.1 and NPM
 
 ##Get started
 
-#### Download and run Newspilot Writer 
+#### Download and run Newspilot Writer
+**Note: You must also download our plugin bundle, see "Download plugin bundle" section further down**
 ```
 git clone git@github.com:Infomaker/NPWriter.git
 ```
@@ -54,7 +55,7 @@ Download the Devkit to get started [Download](https://github.com/Infomaker/NPWri
 ####Configure which plugins to load
 Configure plugins in `./server/config/writer.json`
 
-This file should be moved to another location, for example S3 or a database
+Add a section for you plugin and specify URL to plugin. 
 
 
 ###Import API and Components in your plugin

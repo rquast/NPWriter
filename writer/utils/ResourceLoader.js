@@ -39,7 +39,7 @@ class ResourceLoader {
             resource = document.createElement('link')
             resource.setAttribute("type", "text/css")
             resource.setAttribute("rel", "stylesheet")
-            resource.setAttribute("href", plugin.url)
+            resource.setAttribute("href", plugin.style)
         } else {
             return Promise.reject("Tried to load invalid type" + type)
         }
@@ -50,6 +50,8 @@ class ResourceLoader {
         } else {
             document.body.appendChild(resource)
         }
+
+        // console.log("",document.getElementsByTagName("head")[0].outerHTML);
 
         return new Promise(function (resolve, reject) {
             resource.onload = () => {

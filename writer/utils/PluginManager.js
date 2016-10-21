@@ -38,8 +38,16 @@ class PluginManager {
     }
 
 
+    appendPluginStylesheet(plugin) {
+        const resourceLoader = new ResourceLoader()
+        if(plugin.style) {
+            resourceLoader.load(plugin, 'css')
+        }
+    }
+
+
     /**
-     * Called by the plugin when it's done loaded.
+     * Called by the plugin when it's done loading
      * @param pluginPackage
      */
     registerPlugin(pluginPackage) {
@@ -80,11 +88,17 @@ class PluginManager {
                     resolved = true;
                     this.plugins.set(plugin.id, plugin)
                     this.registerPluginList.delete(plugin.id)
+
+                    // If plugin successfully registers then append the stylesheet provided for plugin
+                    this.appendPluginStylesheet(plugin)
+
                     resolve();
                 })
 
                 setTimeout(() => {
                     if (!resolved) {
+                        this.registerPluginList.delete(plugin.id) // Delete from loading list
+
                         if(plugin.mandatory) {
                             reject(plugin.id + " did not respond in time");
                         }
