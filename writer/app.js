@@ -98,8 +98,8 @@ class App extends Component {
 
                         // Clear guid if hash is empty
                         if (!api.browser.getHash()) {
-                            api.setGuid(null);
-                            api.removeDocumentURI();
+                            api.newsItem.setGuid(null);
+                            api.newsItem.removeDocumentURI();
                         }
 
                         this.setState({
