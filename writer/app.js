@@ -68,11 +68,11 @@ class App extends Component {
 
         window.writer.api = this.api
 
-        setTimeout(() => {
-            console.log("Add tab");
-            this.configurator.addSidebarTab({id: 'related', name: 'Relatera'})
-            this.rerender()
-        }, 3000)
+        // setTimeout(() => {
+        //     console.log("Add tab");
+        //     this.configurator.addSidebarTab({id: 'related', name: 'Relatera'})
+        //     this.rerender()
+        // }, 3000)
 
         this.pluginManager.getListOfPlugins('/api/config')
             .then(plugins => this.pluginManager.load(plugins))
@@ -85,9 +85,9 @@ class App extends Component {
                         // Adds package for unsupported elements in document
                         this.configurator.import(UnsupportedPackage)
 
-                        // this.props.configurator.addSidebarTab({id: 'related', name: 'Relatera'})
-                        // this.props.configurator.addSidebarTab({id: 'information', name: 'Information'})
-                        // this.props.configurator.addSidebarTab({id: 'main', name: 'Meta'})
+                        this.configurator.addSidebarTab({id: 'related', name: 'Relatera'})
+                        this.configurator.addSidebarTab({id: 'information', name: 'Information'})
+                        this.configurator.addSidebarTab({id: 'main', name: 'Meta'})
 
                         var importer = this.configurator.createImporter('newsml')
                         const idfDocument = importer.importDocument(xmlStr)
