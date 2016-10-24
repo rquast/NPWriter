@@ -23,6 +23,7 @@ Start server at [localhost:5000](http://localhost:5000)
 npm run dev
 ```
 
+You can now open thw writer with a demo document [localhost:5000/#demo](http://localhost:5000/#demo)
 
 #### Download Plugin bundle
 ```
