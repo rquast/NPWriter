@@ -82,12 +82,7 @@ class App extends Component {
                     .then(response => response.text())
                     .then((xmlStr) => {
 
-                        // Adds package for unsupported elements in document
-                        this.configurator.import(UnsupportedPackage)
-
-                        this.configurator.addSidebarTab({id: 'related', name: 'Relatera'})
-                        this.configurator.addSidebarTab({id: 'information', name: 'Information'})
-                        this.configurator.addSidebarTab({id: 'main', name: 'Meta'})
+                        this.addDefaultConfiguratorComponent()
 
                         var importer = this.configurator.createImporter('newsml')
                         const idfDocument = importer.importDocument(xmlStr)
@@ -134,7 +129,6 @@ class App extends Component {
     }
 
     render($$) {
-        console.log("Render");
         var el = $$('div').addClass('sc-app').ref('app')
 
         switch (this.state.status) {
@@ -158,6 +152,19 @@ class App extends Component {
                 el.append($$(Start, {}))
         }
         return el
+    }
+
+    /**
+     * Adds a couple of defaults component to our configurator
+     */
+    addDefaultConfiguratorComponent() {
+        // Adds package for unsupported elements in document
+        this.configurator.import(UnsupportedPackage)
+
+        this.configurator.addSidebarTab({id: 'related', name: 'Relatera'})
+        this.configurator.addSidebarTab({id: 'information', name: 'Information'})
+        this.configurator.addSidebarTab({id: 'main', name: 'Meta'})
+
     }
 }
 

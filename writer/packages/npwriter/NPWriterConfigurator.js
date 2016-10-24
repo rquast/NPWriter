@@ -47,9 +47,14 @@ class NPWriterConfigurator extends Configurator {
     }
 
 
+    /**
+     * Returns a registered sidebarPanels
+     * @returns {Array}
+     */
     getSidebarPanels() {
         return this.config.sidebarPanels
     }
+
 
     addComponentToSidebarTop(pluginId, component) {
         this.addComponent(pluginId+"-topbar", component)
@@ -58,15 +63,6 @@ class NPWriterConfigurator extends Configurator {
             type: pluginId,
             component: component
         })
-    }
-
-    addUi(type, component) {
-
-        if (!component instanceof Component) {
-            console.log("Ui must be an instance of Component");
-        }
-        this.config.uis.set(type, component)
-
     }
 
     addValidator(validator) {
