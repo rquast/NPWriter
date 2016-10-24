@@ -52,7 +52,7 @@ Plugins is loaded externally, meaning the plugins can reside on a completely dif
 Download the Devkit to get started [Download](https://github.com/Infomaker/NPWriterDevKit)
 
 
-### Plugins documentation
+## Plugins documentation
 
 **Provide a stylesheet for plugin**
 
@@ -65,7 +65,42 @@ To provide a stylesheet for a plugin specify the URL to stylesheet in the config
     ...
 }
 ```
+  
        
+### Importing a plugin package
+
+Available methods
+
+`addSidebarTab({obj})`
+
+`addNode(NodeClass)`
+
+`addConverter(type, Converter)`
+
+`addImporter(type, Importer)`
+
+`addExporter(type, ExporterClass)`
+
+`addComponent(name, ComponentClass)`
+
+`addCommand(name, CommandClass, options)`
+
+`addTool(name, ToolClass, options)`
+
+`addLabel(labelName, label)`
+
+`addSeed(seed)`
+
+
+`addTextType(textType, options)`
+
+`addEditingBehavior(editingBehavior)`
+
+`addMacro(macro)`
+
+`addDragAndDrop(DragAndDropHandlerClass)`
+
+`import(pkg, options)`
 
 
 ####Configure which plugins to load

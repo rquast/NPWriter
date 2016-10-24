@@ -51,19 +51,28 @@ class App extends Component {
      */
     getChildContext() {
         return Object.assign({}, {
-            configurator: this.props.configurator,
+            configurator: this.configurator,
             pluginManager: this.pluginManager,
             api: this.api
         });
     }
 
+
     didMount() {
 
-        this.pluginManager = new PluginManager(this.props.configurator);
-        this.api = new API(this.pluginManager, this.props.configurator)
+        this.configurator = new NPWriterConfigurator().import(AppPackage)
+
+        this.pluginManager = new PluginManager(this.configurator);
+        this.api = new API(this.pluginManager, this.configurator)
         const api = this.api
 
         window.writer.api = this.api
+
+        setTimeout(() => {
+            console.log("Add tab");
+            this.configurator.addSidebarTab({id: 'related', name: 'Relatera'})
+            this.rerender()
+        }, 3000)
 
         this.pluginManager.getListOfPlugins('/api/config')
             .then(plugins => this.pluginManager.load(plugins))
@@ -74,13 +83,13 @@ class App extends Component {
                     .then((xmlStr) => {
 
                         // Adds package for unsupported elements in document
-                        this.props.configurator.import(UnsupportedPackage)
+                        this.configurator.import(UnsupportedPackage)
 
-                        this.props.configurator.addSidebarTab({id: 'related', name: 'Relatera'})
-                        this.props.configurator.addSidebarTab({id: 'information', name: 'Information'})
-                        this.props.configurator.addSidebarTab({id: 'main', name: 'Meta'})
+                        // this.props.configurator.addSidebarTab({id: 'related', name: 'Relatera'})
+                        // this.props.configurator.addSidebarTab({id: 'information', name: 'Information'})
+                        // this.props.configurator.addSidebarTab({id: 'main', name: 'Meta'})
 
-                        var importer = this.props.configurator.createImporter('newsml')
+                        var importer = this.configurator.createImporter('newsml')
                         const idfDocument = importer.importDocument(xmlStr)
                         this.documentSession = new DocumentSession(idfDocument)
 
@@ -97,12 +106,12 @@ class App extends Component {
                             status: STATUS_ISREADY
                         })
                     })
-                    .catch((error) => {
-                        this.setState({
-                            status: STATUS_HAS_ERROR,
-                            statusMessage: error.response.statusText
-                        })
-                    });
+                    // .catch((error) => {
+                        // this.setState({
+                        //     status: STATUS_HAS_ERROR,
+                        //     statusMessage: error
+                        // })
+                    // });
             })
             .catch((error) => {
                 this.setState({
@@ -125,6 +134,7 @@ class App extends Component {
     }
 
     render($$) {
+        console.log("Render");
         var el = $$('div').addClass('sc-app').ref('app')
 
         switch (this.state.status) {
@@ -139,7 +149,7 @@ class App extends Component {
                 el.append($$(NPWriterCompontent, {
                     pluginManager: this.pluginManager,
                     documentSession: this.documentSession,
-                    configurator: this.props.configurator
+                    configurator: this.configurator
                 }).ref('writer'))
                 break
 
@@ -153,6 +163,6 @@ class App extends Component {
 
 
 window.onload = () => {
-    var configurator = new NPWriterConfigurator().import(AppPackage)
-    App.mount({configurator: configurator}, document.body)
+
+    App.mount({}, document.body)
 }

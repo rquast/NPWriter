@@ -15,6 +15,11 @@ class NPWriterConfigurator extends Configurator {
     }
 
 
+    /**
+     * Adds a tab to the right sidebar
+     * @param id
+     * @param name
+     */
     addSidebarTab({id, name}) {
         this.config.sidebarTabs.push({
             id: id,
