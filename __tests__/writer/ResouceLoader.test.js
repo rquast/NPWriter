@@ -32,10 +32,12 @@ describe('Appends or remove script and styles to document', () => {
 
         const resourceLoader = new ResourceLoader()
 
-         // return resourceLoader.load({style: 'style.css'}, 'css').then(() => {
-         //     expect(resourceLoader.tags.length).toBe(0)
-         //    console.log("Adding style");
-        // })
+         return resourceLoader.load({style: 'style.css'}, 'css').then(() => {
+             expect(resourceLoader.tags.length).toBe(1)
+
+             const linkTag = document.querySelector('link')
+             expect(linkTag.getAttribute('href')).toBe('style.css')
+        })
     })
 
 

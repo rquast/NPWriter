@@ -51,9 +51,12 @@ class ResourceLoader {
             document.body.appendChild(resource)
         }
 
-        // console.log("",document.getElementsByTagName("head")[0].outerHTML);
-
         return new Promise(function (resolve, reject) {
+            if(type === "css") {
+                // Hack
+                // Since the link element does not fire onload event we need to resolve promise
+                resolve()
+            }
             resource.onload = () => {
                 resolve()
             }

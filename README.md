@@ -52,6 +52,22 @@ Plugins is loaded externally, meaning the plugins can reside on a completely dif
 Download the Devkit to get started [Download](https://github.com/Infomaker/NPWriterDevKit)
 
 
+### Plugins documentation
+
+**Provide a stylesheet for plugin**
+
+To provide a stylesheet for a plugin specify the URL to stylesheet in the config
+```
+{
+    "id": "se.infomaker.dummy",
+    ...
+    "style": "http://localhost:5001/style.css",
+    ...
+}
+```
+       
+
+
 ####Configure which plugins to load
 Configure plugins in `./server/config/writer.json`
 
