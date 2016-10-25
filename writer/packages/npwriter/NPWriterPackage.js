@@ -5,6 +5,7 @@ import {BasePackage, StrongPackage, EmphasisPackage, LinkPackage} from 'substanc
 
 import NewsMLArticle from './NewsMLArticle'
 import NewsMLImporter from './NewsMLImporter'
+import NewsMLExporter from './NewsMLExporter'
 
 import BodyPackage from '../body/BodyPackage'
 import HeadlinePackage from '../headline/HeadlinePackage'
@@ -37,7 +38,6 @@ export default {
         config.import(SubheadlinePackage)
         config.import(ParagraphPackage)
         config.import(BlockquotePackage)
-        // config.import(PreamblePackage)
 
         config.import(ConfigEditorPackage)
 
@@ -50,6 +50,7 @@ export default {
 
         // Override Importer/Exporter
         config.addImporter('newsml', NewsMLImporter)
+        config.addExporter('newsml', NewsMLExporter)
         // config.addExporter('jats', AuthorExporter);
     }
 }

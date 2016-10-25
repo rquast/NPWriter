@@ -3,7 +3,7 @@ import {Document} from 'substance'
 /**
   NewsMLDocument (document) implementation
 */
-class NewsMLDocument extends Document {
+class NewsMLArticle extends Document {
 
     constructor(...args) {
         super(...args)
@@ -15,4 +15,4 @@ class NewsMLDocument extends Document {
 
 }
 
-export default NewsMLDocument
+export default NewsMLArticle

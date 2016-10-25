@@ -79,6 +79,8 @@ class App extends Component {
 
     didMount() {
 
+        document.onkeydown = this.handleApplicationKeyCombos.bind(this)
+
         this.configurator = new NPWriterConfigurator().import(AppPackage)
 
         this.pluginManager = new PluginManager(this.configurator);
@@ -133,7 +135,29 @@ class App extends Component {
             });
     }
 
+    handleApplicationKeyCombos(e) {
+        let handled = false;
 
+        if (e.keyCode === 83 && (e.metaKey || e.ctrlKey)) {
+            // Save: cmd+s
+            console.log("Press save!!");
+            // this.props.pluginManager.api.triggerEvent('__controller', 'useraction:save', {});
+
+            var exporter = this.configurator.createExporter('newsml')
+            let exportedArticle = exporter.convert(this.documentSession.getDocument(), {}, this.newsItemArticle)
+            // const idfDocument = importer.importDocument(xmlStr)
+
+            console.log("exportedArticle", exportedArticle);
+
+            handled = true;
+        }
+
+        if(handled) {
+            e.preventDefault()
+            e.stopPropagation()
+        }
+
+    }
     /**
      * Replace changes the current newsItem and creates and replaces the document session and then rerenders the writer
      * @param newsItem

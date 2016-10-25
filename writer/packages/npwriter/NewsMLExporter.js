@@ -1,4 +1,4 @@
-import { XMLExporter } from 'substance'
+import {XMLExporter} from 'substance'
 
 class NewsMLExporter extends XMLExporter {
 
@@ -57,6 +57,7 @@ class NewsMLExporter extends XMLExporter {
         }
     }
 
+
     convert(doc, options, newsItem) {
 
         this.state.doc = doc;
@@ -66,9 +67,9 @@ class NewsMLExporter extends XMLExporter {
         var groupContainer = newsItem.querySelector('idf');
 
         // Add converted header, body group and add teaser
-        this.addHeaderGroup(doc, newsItem, $$, groupContainer);
-        this.addBodyGroup(doc, newsItem, $$, groupContainer);
-        this.addTeaser(newsItem, groupContainer);
+        // this.addHeaderGroup(doc, newsItem, $$, groupContainer);
+        // this.addBodyGroup(doc, newsItem, $$, groupContainer);
+        // this.addTeaser(newsItem, groupContainer);
 
         return newsItem.documentElement.outerHTML;
     }
