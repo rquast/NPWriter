@@ -16,8 +16,8 @@ import Start from './packages/load-screens/Start'
 import Error from './packages/load-screens/Error'
 
 const STATUS_ISREADY = 'isReady',
-      STATUS_LOADING = 'loading',
-      STATUS_HAS_ERROR = 'hasErrors'
+    STATUS_LOADING = 'loading',
+    STATUS_HAS_ERROR = 'hasErrors'
 
 class App extends Component {
 
@@ -46,7 +46,7 @@ class App extends Component {
 
     /**
      * A Dependency injection mechanism
-     * Added objects is reachable from this.context
+     * Added objects is reachable from this.context in children
      * @returns {*}
      */
     getChildContext() {
@@ -56,7 +56,6 @@ class App extends Component {
             api: this.api
         });
     }
-
 
     didMount() {
 
@@ -68,17 +67,28 @@ class App extends Component {
 
         window.writer.api = this.api
 
-        // setTimeout(() => {
-        //     console.log("Add tab");
-        //     this.configurator.addSidebarTab({id: 'related', name: 'Relatera'})
-        //     this.rerender()
-        // }, 3000)
 
-        this.pluginManager.getListOfPlugins('/api/config')
+
+
+        this.configurator.loadConfigJSON('/api/config')
+            .then(() => {
+                return this.configurator.config.writerConfigFile.plugins
+            })
             .then(plugins => this.pluginManager.load(plugins))
             .then(() => {
-                api.router.get('/api/newsitem/' + api.browser.getHash(), {imType: 'x-im/article'})
-                    .then(response => api.router.checkForOKStatus(response) )
+
+                let hash = api.browser.getHash();
+                if (!hash) {
+                    // new document, get from config
+                    if (this.configurator.config.writerConfigFile.newsItemTemplateId) {
+                        hash = this.configurator.config.writerConfigFile.newsItemTemplateId
+                    } else {
+                        console.error('No template was found');
+                    }
+                }
+
+                api.router.get('/api/newsitem/' + hash, {imType: 'x-im/article'})
+                    .then(response => api.router.checkForOKStatus(response))
                     .then(response => response.text())
                     .then((xmlStr) => {
 
@@ -88,7 +98,7 @@ class App extends Component {
                         const idfDocument = importer.importDocument(xmlStr)
                         this.documentSession = new DocumentSession(idfDocument)
 
-                        var result = api.newsitem.setSource(xmlStr, {});
+                        var result = api.newsItem.setSource(xmlStr, {});
                         this.replaceDoc(result);
 
                         // Clear guid if hash is empty
@@ -101,12 +111,12 @@ class App extends Component {
                             status: STATUS_ISREADY
                         })
                     })
-                    // .catch((error) => {
-                        // this.setState({
-                        //     status: STATUS_HAS_ERROR,
-                        //     statusMessage: error
-                        // })
-                    // });
+                .catch((error) => {
+                this.setState({
+                    status: STATUS_HAS_ERROR,
+                    statusMessage: error
+                })
+                });
             })
             .catch((error) => {
                 this.setState({
@@ -122,9 +132,12 @@ class App extends Component {
      * @param newsItem
      * @param idfDocument
      */
-    replaceDoc({newsItem, idfDocument}) {
-        this.newsItem = newsItem;
+    replaceDoc({newsItemArticle, idfDocument}) {
+        this.newsItemArticle = newsItemArticle;
         this.documentSession = new DocumentSession(idfDocument)
+
+        this.api.init(newsItemArticle, this.documentSession, this.refs)
+
         this.rerender();
     }
 
@@ -138,7 +151,7 @@ class App extends Component {
                 break
 
             case STATUS_ISREADY:
-                this.api.init(this.newsItem, this.documentSession, this.refs)
+
 
                 el.append($$(NPWriterCompontent, {
                     pluginManager: this.pluginManager,

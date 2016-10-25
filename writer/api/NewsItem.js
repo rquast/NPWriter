@@ -147,21 +147,21 @@ class NewsItem {
         var newsMLImporter = this.api.configurator.createImporter('newsml')
 
         var parser = new DOMParser();
-        var newsItem = parser.parseFromString(newsML, "application/xml"),
+        var newsItemArticle = parser.parseFromString(newsML, "application/xml"),
             idfDocument = newsMLImporter.importDocument(newsML);
 
         if (writerConfig) {
             return {
-                newsItem: newsItem,
+                newsItemArticle: newsItemArticle,
                 idfDocument: idfDocument
             };
         }
 
-        this.newsItem = newsItem;
-        this.doc = idfDocument;
+        this.api.newsItemArticle = newsItemArticle;
+        this.api.doc = idfDocument;
 
         this.refs.writer.send('replacedoc', {
-            newsItem: newsItem,
+            newsItemArticle: newsItemArticle,
             idfDocument: idfDocument
         });
     }
@@ -172,9 +172,9 @@ class NewsItem {
      * @return {String}
      */
     getGuid() {
-        for (var n in this.newsItem.childNodes) {
-            if (this.newsItem.childNodes[n].nodeName === 'newsItem') {
-                return !(!this.newsItem.childNodes[n].getAttribute('guid'));
+        for (var n in this.api.newsItemArticle.childNodes) {
+            if (this.api.newsItemArticle.childNodes[n].nodeName === 'newsItem') {
+                return !(!this.api.newsItemArticle.childNodes[n].getAttribute('guid'));
             }
         }
     }
@@ -185,9 +185,11 @@ class NewsItem {
      * @param {String} New uuid or null to clear
      */
     setGuid(uuid) {
-        for (var n in this.newsItem.childNodes) {
-            if (this.newsItem.childNodes[n].nodeName === 'newsItem') {
-                this.newsItem.childNodes[n].setAttribute(
+        const newsItemArticle = this.api.newsItemArticle
+
+        for (var n in newsItemArticle.childNodes) {
+            if (newsItemArticle.childNodes[n].nodeName === 'newsItem') {
+                newsItemArticle.childNodes[n].setAttribute(
                     'guid',
                     (uuid ? uuid : '')
                 );
@@ -214,7 +216,7 @@ class NewsItem {
      */
 
     removeDocumentURI() {
-        var node = this.newsItem.querySelector('itemMeta > itemMetaExtProperty[type="imext:uri"]');
+        var node = this.api.newsItemArticle.querySelector('itemMeta > itemMetaExtProperty[type="imext:uri"]');
         if (node) {
             node.parentNode.removeChild(node);
         }

@@ -32,7 +32,7 @@ class Api {
         this.eventListeners = []
 
         this.document = new Document(this)
-        this.newsitem = new NewsItem(this)
+        this.newsItem = new NewsItem(this)
         this.events = new Events()
         this.router = new Router()
         this.article = new Article(this)
@@ -55,7 +55,7 @@ class Api {
      */
 
     init(newsItem, documentSession, refs) {
-        this.newsItem = newsItem
+        this.newsItemArticle = newsItem
         this.documentSession = documentSession
         this.doc = documentSession.getDocument()
         this.refs = refs

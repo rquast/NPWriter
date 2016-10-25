@@ -8,8 +8,6 @@ class ConfigEditorComponent extends Component {
         this.context.api.router.get('/api/config')
             .then(response => response.json())
             .then((json) => {
-                console.log("", json);
-
 
                 this.setState({
                     configJSON: json
