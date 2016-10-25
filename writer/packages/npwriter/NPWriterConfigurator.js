@@ -91,14 +91,17 @@ class NPWriterConfigurator extends Configurator {
             })
             .then(response => response.json())
             .then((json) => {
-                try {
-                    this.config.writerConfigFile = json
-                } catch (e) {
-                    throw new Error("Could not load Config file", e)
-                }
+                this.config.writerConfigFile = json
             })
     }
 
+    /**
+     * Returns the newsItemTemplateId from the configFile
+     * @returns {*}
+     */
+    getNewsItemTemplateId() {
+        return this.config.writerConfigFile.newsItemTemplateId
+    }
 }
 
 export default NPWriterConfigurator

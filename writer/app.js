@@ -57,6 +57,23 @@ class App extends Component {
         });
     }
 
+    /**
+     * If no ID is available in browser hash, check if there is a specified id in the config file
+     * @returns {string} hash 
+     * @throws Error
+     */
+    getHash() {
+        let hash = this.api.browser.getHash();
+        if (!hash) {
+            if (this.configurator.getNewsItemTemplateId()) {
+                hash = this.configurator.getNewsItemTemplateId()
+            } else {
+                throw new Error('No template was found')
+            }
+        }
+        return hash
+    }
+
     didMount() {
 
         this.configurator = new NPWriterConfigurator().import(AppPackage)
@@ -68,8 +85,6 @@ class App extends Component {
         window.writer.api = this.api
 
 
-
-
         this.configurator.loadConfigJSON('/api/config')
             .then(() => {
                 return this.configurator.config.writerConfigFile.plugins
@@ -77,17 +92,7 @@ class App extends Component {
             .then(plugins => this.pluginManager.load(plugins))
             .then(() => {
 
-                let hash = api.browser.getHash();
-                if (!hash) {
-                    // new document, get from config
-                    if (this.configurator.config.writerConfigFile.newsItemTemplateId) {
-                        hash = this.configurator.config.writerConfigFile.newsItemTemplateId
-                    } else {
-                        console.error('No template was found');
-                    }
-                }
-
-                api.router.get('/api/newsitem/' + hash, {imType: 'x-im/article'})
+                api.router.get('/api/newsitem/' + this.getHash(), {imType: 'x-im/article'})
                     .then(response => api.router.checkForOKStatus(response))
                     .then(response => response.text())
                     .then((xmlStr) => {
@@ -111,14 +116,16 @@ class App extends Component {
                             status: STATUS_ISREADY
                         })
                     })
-                .catch((error) => {
-                this.setState({
-                    status: STATUS_HAS_ERROR,
-                    statusMessage: error
-                })
-                });
+                    .catch((error) => {
+                        console.error("ERROR", error);
+                        this.setState({
+                            status: STATUS_HAS_ERROR,
+                            statusMessage: error
+                        })
+                    });
             })
             .catch((error) => {
+                console.error("ERROR", error);
                 this.setState({
                     status: STATUS_HAS_ERROR,
                     statusMessage: error

@@ -61,6 +61,15 @@ describe('Configurator handles load of the config file', () => {
         })
     })
 
+    it('Can access newsItemTemplateId through method', () => {
+        var res = getMockedResponseWithStatusCode(getConfigData(), 200)
+        window.fetch.returns(Promise.resolve(res));
+
+        return configurator.loadConfigJSON('/api/config').then(() => {
+            expect(configurator.getNewsItemTemplateId()).toBe('dummyId')
+        })
+    })
+
     it('Fails to load config file', () => {
         var res = getMockedResponseWithStatusCode(getConfigData(), 404)
         window.fetch.returns(Promise.resolve(res));
