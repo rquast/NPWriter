@@ -1,12 +1,9 @@
-import {
-    Component,
-    DocumentSession
-} from 'substance'
+import {Component, EditorSession} from 'substance'
 
 import './styles/app.scss';
 
 
-import NPWriterCompontent from './packages/npwriter/NPWriterComponent'
+import NPWriterComponent from './packages/npwriter/NPWriterComponent'
 import NPWriterConfigurator from './packages/npwriter/NPWriterConfigurator'
 import AppPackage from './AppPackage'
 import UnsupportedPackage from './packages/unsupported/UnsupportedPackage'
@@ -101,7 +98,12 @@ class App extends Component {
 
                         var importer = this.configurator.createImporter('newsml')
                         const idfDocument = importer.importDocument(xmlStr)
-                        this.documentSession = new DocumentSession(idfDocument)
+                        this.editorSession = new EditorSession(idfDocument, {
+                            configurator: this.configurator,
+                            context: {
+                                api: this.api
+                            }
+                        })
 
                         var result = api.newsItem.setSource(xmlStr, {});
                         this.replaceDoc(result);
@@ -141,9 +143,14 @@ class App extends Component {
      */
     replaceDoc({newsItemArticle, idfDocument}) {
         this.newsItemArticle = newsItemArticle;
-        this.documentSession = new DocumentSession(idfDocument)
+        this.editorSession = new EditorSession(idfDocument, {
+            configurator: this.configurator,
+            context: {
+                api: this.api
+            }
+        })
 
-        this.api.init(newsItemArticle, this.documentSession, this.refs)
+        this.api.init(newsItemArticle, this.editorSession, this.refs)
 
         this.rerender();
     }
@@ -159,10 +166,9 @@ class App extends Component {
 
             case STATUS_ISREADY:
 
-
-                el.append($$(NPWriterCompontent, {
+                el.append($$(NPWriterComponent, {
                     pluginManager: this.pluginManager,
-                    documentSession: this.documentSession,
+                    editorSession: this.editorSession,
                     configurator: this.configurator
                 }).ref('writer'))
                 break

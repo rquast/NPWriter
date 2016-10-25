@@ -3,7 +3,6 @@ import {AbstractEditor} from 'substance'
 
 import ContentMenu from './ContentMenu'
 import SidebarComponent from './components/SidebarComponent'
-import NPWriterOverlayTools from './NPWriterOverlayTools'
 
 class NPWriter extends AbstractEditor {
 
@@ -14,8 +13,7 @@ class NPWriter extends AbstractEditor {
     }
 
     didMount() {
-
-        this.documentSession.on('didUpdate', this.documentSessionUpdated, this)
+        this.editorSession.onUpdate(this.editorSessionUpdated, this)
     }
 
 
@@ -44,20 +42,19 @@ class NPWriter extends AbstractEditor {
     }
 
     _renderContentMenu($$) {
-        var commandStates = this.commandManager.getCommandStates()
+        var commandStates = this.editorSession.getCommandStates()
         return $$(ContentMenu, {
             commandStates: commandStates
         }).ref('contentMenu')
     }
 
     _renderContentPanel($$) {
-        const doc = this.documentSession.getDocument()
+        const doc = this.editorSession.getDocument()
         const body = doc.get('body')
         var configurator = this.props.configurator;
 
         let contentPanel = $$(ScrollPane, {
             scrollbarType: 'native',
-            overlay: NPWriterOverlayTools,
             gutter: this._renderContentMenu($$)
         }).ref('contentPanel')
 
@@ -88,17 +85,30 @@ class NPWriter extends AbstractEditor {
         // return this.props.configurator.createExporter('newsml')
     }
 
-    documentSessionUpdated(...args) {
+    editorSessionUpdated() {
+        var editorSession = this.editorSession
+        if (editorSession.hasDocumentChanged() || editorSession.hasSelectionChanged()) {
+            // TODO: we should discuss if this really how we want it
+            var data = {
+                change: {
+                    change: editorSession.getChange(),
+                    selection: editorSession.getSelection()
+                },
+                info: editorSession.getChangeInfo(),
+                doc: editorSession.getDocument()
+            }
 
-        // Trigger onDocumentChanged event
-        this.context.api.events.onDocumentChanged(...args)
-
-        var contentMenu = this.refs.contentMenu
-        if (contentMenu) {
-            var commandStates = this.commandManager.getCommandStates()
-            contentMenu.setProps({
-                commandStates: commandStates
-            })
+            // Trigger onDocumentChanged event
+            this.context.api.events.onDocumentChanged(data)
+        }
+        if (editorSession.hasCommandStatesChanged()) {
+            var contentMenu = this.refs.contentMenu
+            if (contentMenu) {
+                var commandStates = editorSession.getCommandStates()
+                contentMenu.setProps({
+                    commandStates: commandStates
+                })
+            }
         }
     }
 
