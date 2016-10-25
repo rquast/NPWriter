@@ -22,7 +22,7 @@ class App extends Component {
         window.document.createRange = () => {}
 
         let api = new Api({}, this.props.configurator)
-        api.newsitem.newsItem = Helper.getParsedExampleDocument()
+        api.init(Helper.getParsedExampleDocument(), {getDocument:()=>{}}, {}) // Mocking documentSession parameter
 
         this.props.configurator.import(UnsupportedPackage)
         var importer = this.props.configurator.createImporter('newsml')
