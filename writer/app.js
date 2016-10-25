@@ -57,9 +57,12 @@ class App extends Component {
         });
     }
 
+
     /**
-     * If no ID is available in browser hash, check if there is a specified id in the config file
-     * @returns {string} hash 
+     * If no ID is available in browser hash,
+     * check if there is a specified id in the config file
+     *
+     * @returns {string} hash
      * @throws Error
      */
     getHash() {
@@ -82,19 +85,16 @@ class App extends Component {
         this.api = new API(this.pluginManager, this.configurator)
         const api = this.api
 
-        window.writer.api = this.api
+        window.writer.api = this.api // Expose the API on the window
 
-
-        this.configurator.loadConfigJSON('/api/config')
-            .then(() => {
-                return this.configurator.config.writerConfigFile.plugins
-            })
-            .then(plugins => this.pluginManager.load(plugins))
+        this.configurator.loadConfigJSON('/api/config')                     // Load config file and store it in configurator
+            .then(() => this.configurator.config.writerConfigFile.plugins)  // Get the plugins section from config (stored in the configurator)
+            .then(plugins => this.pluginManager.load(plugins))              // Let the pluginManger load and append the plugins
             .then(() => {
 
-                api.router.get('/api/newsitem/' + this.getHash(), {imType: 'x-im/article'})
-                    .then(response => api.router.checkForOKStatus(response))
-                    .then(response => response.text())
+                api.router.get('/api/newsitem/' + this.getHash(), {imType: 'x-im/article'}) // Make request to fetch article
+                    .then(response => api.router.checkForOKStatus(response))                // Check if the status is between 200 and 300
+                    .then(response => response.text())                                      // Gets the text/xml in the response
                     .then((xmlStr) => {
 
                         this.addDefaultConfiguratorComponent()

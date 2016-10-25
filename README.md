@@ -40,6 +40,15 @@ Start server at [localhost:5001](http://localhost:5001)
 npm run dev
 ```
 
+## Configuration
+
+**Specify Id for a template article**
+The NewsItemsTemplateId is specifed in the writer.json
+```
+{
+    "newsItemTemplateId": "30eae1c0-c640-4053-b114-05c64e28bbe7"
+}
+```
 
 
 ###Running test
