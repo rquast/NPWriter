@@ -5,6 +5,7 @@ import {BasePackage, StrongPackage, EmphasisPackage, LinkPackage, OverlayPackage
 
 import NewsMLArticle from './NewsMLArticle'
 import NewsMLImporter from './NewsMLImporter'
+import NPWriterDragAndDropHandler from './NPWriterDragAndDropHandler'
 
 import BodyPackage from '../body/BodyPackage'
 import HeadlinePackage from '../headline/HeadlinePackage'
@@ -49,5 +50,7 @@ export default {
 
         // Override Importer/Exporter
         config.addImporter('newsml', NewsMLImporter)
+
+        config.addDragAndDrop(NPWriterDragAndDropHandler)
     }
 }
