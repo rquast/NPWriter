@@ -39,7 +39,7 @@ class ResourceLoader {
             resource = document.createElement('link')
             resource.setAttribute("type", "text/css")
             resource.setAttribute("rel", "stylesheet")
-            resource.setAttribute("href", plugin.url)
+            resource.setAttribute("href", plugin.style)
         } else {
             return Promise.reject("Tried to load invalid type" + type)
         }
@@ -52,6 +52,11 @@ class ResourceLoader {
         }
 
         return new Promise(function (resolve, reject) {
+            if(type === "css") {
+                // Hack
+                // Since the link element does not fire onload event we need to resolve promise
+                resolve()
+            }
             resource.onload = () => {
                 resolve()
             }

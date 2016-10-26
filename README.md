@@ -2,12 +2,54 @@
 
 Based on Substance BETA 5
 
+## Prerequisites
+Requires Node 6.9.1 and NPM
 
-###Get started
+##Get started
 
-* `npm install`
-* Start by running: `npm run dev`
-* Server should be running at `127.0.0.1:5000` 
+#### Download and run Newspilot Writer
+**Note: You must also download our plugin bundle, see "Download plugin bundle" section further down**
+```
+git clone git@github.com:Infomaker/NPWriter.git
+```
+
+Install depedencies
+```
+npm install 
+```
+
+Start server at [localhost:5000](http://localhost:5000)
+```
+npm run dev
+```
+
+You can now open thw writer with a demo document [localhost:5000/#demo](http://localhost:5000/#demo)
+
+#### Download Plugin bundle
+```
+git clone git@github.com:Infomaker/NPWriterPluginBundle.git
+```
+
+Install depedencies
+```
+npm install 
+```
+
+Start server at [localhost:5001](http://localhost:5001)
+```
+npm run dev
+```
+
+## Configuration
+
+**Specify Id for a template article**
+The NewsItemsTemplateId is specifed in the writer.json
+```
+{
+    "newsItemTemplateId": "30eae1c0-c640-4053-b114-05c64e28bbe7"
+}
+```
+
 
 ###Running test
 Run Jest test with `npm test`
@@ -20,10 +62,61 @@ Plugins is loaded externally, meaning the plugins can reside on a completely dif
 Download the Devkit to get started [Download](https://github.com/Infomaker/NPWriterDevKit)
 
 
+## Plugins documentation
+
+**Provide a stylesheet for plugin**
+
+To provide a stylesheet for a plugin specify the URL to stylesheet in the config
+```
+{
+    "id": "se.infomaker.dummy",
+    ...
+    "style": "http://localhost:5001/style.css",
+    ...
+}
+```
+  
+       
+### Importing a plugin package
+
+Available methods
+
+`addSidebarTab({obj})`
+
+`addNode(NodeClass)`
+
+`addConverter(type, Converter)`
+
+`addImporter(type, Importer)`
+
+`addExporter(type, ExporterClass)`
+
+`addComponent(name, ComponentClass)`
+
+`addCommand(name, CommandClass, options)`
+
+`addTool(name, ToolClass, options)`
+
+`addLabel(labelName, label)`
+
+`addSeed(seed)`
+
+
+`addTextType(textType, options)`
+
+`addEditingBehavior(editingBehavior)`
+
+`addMacro(macro)`
+
+`addDragAndDrop(DragAndDropHandlerClass)`
+
+`import(pkg, options)`
+
+
 ####Configure which plugins to load
 Configure plugins in `./server/config/writer.json`
 
-This file should be moved to another location, for example S3 or a database
+Add a section for you plugin and specify URL to plugin. 
 
 
 ###Import API and Components in your plugin

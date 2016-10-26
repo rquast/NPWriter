@@ -1,4 +1,5 @@
 {
+  "newsItemTemplateId": "dummyId",
   "plugins": [
     {
       "id": "se.infomaker.dummy",

@@ -1,4 +1,5 @@
-import { Configurator, Component } from 'substance'
+import {Configurator, Component} from 'substance'
+import 'whatwg-fetch'
 
 class NPWriterConfigurator extends Configurator {
 
@@ -15,6 +16,11 @@ class NPWriterConfigurator extends Configurator {
     }
 
 
+    /**
+     * Adds a tab to the right sidebar
+     * @param id
+     * @param name
+     */
     addSidebarTab({id, name}) {
         this.config.sidebarTabs.push({
             id: id,
@@ -33,7 +39,7 @@ class NPWriterConfigurator extends Configurator {
             throw new Error('Ui must be an instance of Component')
         }
 
-        this.addComponent(tabId+"-tab", component)
+        this.addComponent(tabId + "-tab", component)
         this.config.sidebarPanels.push({
             type: id,
             tabId: tabId,
@@ -42,12 +48,17 @@ class NPWriterConfigurator extends Configurator {
     }
 
 
+    /**
+     * Returns a registered sidebarPanels
+     * @returns {Array}
+     */
     getSidebarPanels() {
         return this.config.sidebarPanels
     }
 
+
     addComponentToSidebarTop(pluginId, component) {
-        this.addComponent(pluginId+"-topbar", component)
+        this.addComponent(pluginId + "-topbar", component)
 
         this.config.sidebarTopBar.push({
             type: pluginId,
@@ -55,19 +66,42 @@ class NPWriterConfigurator extends Configurator {
         })
     }
 
-    addUi(type, component) {
-
-        if (!component instanceof Component) {
-            console.log("Ui must be an instance of Component");
-        }
-        this.config.uis.set(type, component)
-
-    }
-
     addValidator(validator) {
         this.config.validators.push(validator)
     }
 
+
+    /**
+     * Loads /api/config endpoint and stores it in configurator
+     * Checks if http status code is 200 otherwise throw an exception
+     * @param {string} configURL The URL to the config endpoint
+     * @returns {Promise.<TResult>|*}
+     * @throws Error
+     */
+    loadConfigJSON(configURL) {
+        return fetch(configURL)
+            .then((response) => {
+                if (response.status === 200) {
+                    return response
+                } else {
+                    var error = new Error("Failed to load config file")
+                    error.response = response
+                    throw error
+                }
+            })
+            .then(response => response.json())
+            .then((json) => {
+                this.config.writerConfigFile = json
+            })
+    }
+
+    /**
+     * Returns the newsItemTemplateId from the configFile
+     * @returns {*}
+     */
+    getNewsItemTemplateId() {
+        return this.config.writerConfigFile.newsItemTemplateId
+    }
 }
 
 export default NPWriterConfigurator
