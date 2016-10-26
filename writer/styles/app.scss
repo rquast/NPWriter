@@ -30,12 +30,14 @@ body {
     bottom: 0;
     top: 0;
 
+    .sc-np-writer {
+        &>.sc-split-pane {
+            top: 49px;
+        }
+    }
+
     .se-context-section {
         border-left: 1px solid #ddd;
-
-        .sc-tabbed-pane {
-            margin-top:40px;
-        }
     }
 
     .se-main-section {
