@@ -1,6 +1,7 @@
 import {SplitPane, ScrollPane, Layout} from 'substance'
 import {AbstractEditor} from 'substance'
 
+import BarComponent from './../../components/bar/BarComponent'
 import ContentMenu from './ContentMenu'
 import SidebarComponent from './components/SidebarComponent'
 import NPWriterOverlayTools from './NPWriterOverlayTools'
@@ -8,26 +9,32 @@ import NPWriterOverlayTools from './NPWriterOverlayTools'
 class NPWriter extends AbstractEditor {
 
     _initialize(...args) {
-
         super._initialize(...args)
         this.exporter = this._getExporter();
     }
 
     didMount() {
-
         this.documentSession.on('didUpdate', this.documentSessionUpdated, this)
     }
 
 
     render($$) {
-        const el = $$('div').addClass('sc-np-writer')
+        const el = $$('div')
+            .addClass('sc-np-writer')
+
         el.append(
+            this._renderMainbarPanel($$),
             $$(SplitPane, {splitType: 'vertical'}).append(
                 this._renderMainSection($$),
                 this._renderSidebarPanel($$)
             )
         )
+
         return el
+    }
+
+    _renderMainbarPanel($$) {
+        return $$(BarComponent).ref('topBar')
     }
 
     _renderSidebarPanel($$) {
