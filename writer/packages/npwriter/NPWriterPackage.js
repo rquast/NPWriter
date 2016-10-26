@@ -1,7 +1,10 @@
 import './scss/_content-menu.scss'
 
 // Base packages
-import {BasePackage, StrongPackage, EmphasisPackage, LinkPackage, OverlayPackage} from 'substance'
+import {BasePackage, OverlayPackage,
+    StrongPackage, EmphasisPackage, LinkPackage,
+    SpellCheckPackage
+} from 'substance'
 
 import NewsMLArticle from './NewsMLArticle'
 import NewsMLImporter from './NewsMLImporter'
@@ -50,6 +53,8 @@ export default {
 
         // Override Importer/Exporter
         config.addImporter('newsml', NewsMLImporter)
+
+        config.import(SpellCheckPackage)
 
         config.addDragAndDrop(NPWriterDragAndDropHandler)
     }

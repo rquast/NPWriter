@@ -1,4 +1,4 @@
-import {SplitPane, ScrollPane, Layout} from 'substance'
+import {SplitPane, ScrollPane, Layout, SpellCheckManager} from 'substance'
 import {AbstractEditor} from 'substance'
 
 import ContentMenu from './ContentMenu'
@@ -7,13 +7,26 @@ import SidebarComponent from './components/SidebarComponent'
 class NPWriter extends AbstractEditor {
 
     _initialize(...args) {
-
         super._initialize(...args)
+
         this.exporter = this._getExporter();
+        this.spellCheckManager = new SpellCheckManager(this.editorSession, {
+            wait: 750,
+            // same URL as configured in /server/routes/spellcheck.js
+            apiURL: '/api/spellcheck'
+        })
     }
 
     didMount() {
         this.editorSession.onUpdate(this.editorSessionUpdated, this)
+
+        this.spellCheckManager.runGlobalCheck()
+    }
+
+    dispose() {
+        super.dispose()
+
+        this.spellCheckManager.dispose()
     }
 
 

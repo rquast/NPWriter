@@ -1,5 +1,6 @@
 {
   "newsItemTemplateId": "30eae1c0-c640-4053-b114-05c64e28bbe7",
+  "language": "sv_SE",
   "plugins": [
     {
       "id": "se.infomaker.preamble",

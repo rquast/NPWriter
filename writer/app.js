@@ -100,6 +100,7 @@ class App extends Component {
                         const idfDocument = importer.importDocument(xmlStr)
                         this.editorSession = new EditorSession(idfDocument, {
                             configurator: this.configurator,
+                            lang: this.configurator.config.writerConfigFile.language,
                             context: {
                                 api: this.api
                             }
@@ -145,6 +146,7 @@ class App extends Component {
         this.newsItemArticle = newsItemArticle;
         this.editorSession = new EditorSession(idfDocument, {
             configurator: this.configurator,
+            lang: this.configurator.config.writerConfigFile.language,
             context: {
                 api: this.api
             }
@@ -165,7 +167,6 @@ class App extends Component {
                 break
 
             case STATUS_ISREADY:
-
                 el.append($$(NPWriterComponent, {
                     pluginManager: this.pluginManager,
                     editorSession: this.editorSession,
