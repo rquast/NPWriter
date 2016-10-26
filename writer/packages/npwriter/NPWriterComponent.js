@@ -1,4 +1,4 @@
-import {SplitPane, ScrollPane, Layout, SpellCheckManager} from 'substance'
+import {SplitPane, ScrollPane, SpellCheckManager} from 'substance'
 import {AbstractEditor} from 'substance'
 
 import ContentMenu from './ContentMenu'
@@ -18,8 +18,6 @@ class NPWriter extends AbstractEditor {
     }
 
     didMount() {
-        this.editorSession.onUpdate(this.editorSessionUpdated, this)
-
         this.spellCheckManager.runGlobalCheck()
     }
 
@@ -54,26 +52,18 @@ class NPWriter extends AbstractEditor {
         return mainSection
     }
 
-    _renderContentMenu($$) {
-        var commandStates = this.editorSession.getCommandStates()
-        return $$(ContentMenu, {
-            commandStates: commandStates
-        }).ref('contentMenu')
-    }
-
     _renderContentPanel($$) {
         const doc = this.editorSession.getDocument()
         const body = doc.get('body')
-        var configurator = this.props.configurator;
+        let configurator = this.props.configurator
+        let ContextMenu = this.getComponent('context-menu')
+        let Overlay = this.getComponent('overlay')
 
         let contentPanel = $$(ScrollPane, {
-            scrollbarType: 'native',
-            gutter: this._renderContentMenu($$)
+            scrollbarType: 'native'
         }).ref('contentPanel')
 
-        let layout = $$(Layout, {
-            width: 'large'
-        })
+        let layout = $$('div').addClass('se-layout')
 
         var BodyComponent = this.componentRegistry.get('body')
 
@@ -85,7 +75,12 @@ class NPWriter extends AbstractEditor {
             })
         )
 
-        contentPanel.append(layout)
+        contentPanel.append(
+            layout,
+            $$(ContextMenu),
+            $$(Overlay),
+            $$(ContentMenu)
+        )
         return contentPanel
     }
 
@@ -93,37 +88,12 @@ class NPWriter extends AbstractEditor {
         this.refs.contentPanel.scrollTo(nodeId)
     }
 
+
     _getExporter() {
         return {}
         // return this.props.configurator.createExporter('newsml')
     }
 
-    editorSessionUpdated() {
-        var editorSession = this.editorSession
-        if (editorSession.hasDocumentChanged() || editorSession.hasSelectionChanged()) {
-            // TODO: we should discuss if this really how we want it
-            var data = {
-                change: {
-                    change: editorSession.getChange(),
-                    selection: editorSession.getSelection()
-                },
-                info: editorSession.getChangeInfo(),
-                doc: editorSession.getDocument()
-            }
-
-            // Trigger onDocumentChanged event
-            this.context.api.events.onDocumentChanged(data)
-        }
-        if (editorSession.hasCommandStatesChanged()) {
-            var contentMenu = this.refs.contentMenu
-            if (contentMenu) {
-                var commandStates = editorSession.getCommandStates()
-                contentMenu.setProps({
-                    commandStates: commandStates
-                })
-            }
-        }
-    }
 
 }
 
