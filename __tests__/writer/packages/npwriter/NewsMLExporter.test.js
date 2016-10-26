@@ -27,19 +27,31 @@ describe('Import and export document results in no loss or change', () => {
 
         expect(document instanceof NewsMLArticle).toBe(true)
 
+        const exporter = configurator.createExporter('newsml')
+        exporter.convert(document, {}, Helper.getParsedExampleDocument())
     })
 
 
     it('Can export document', () => {
         const importer = configurator.createImporter('newsml')
+
         try {
-            const xmlDocument = Helper.getParsedExampleDocument()
-            console.log("XML", xmlDocument);
+            const xmlDocument = Helper.getContentFromExampleDocument()
+            const document = importer.importDocument(xmlDocument)
+
+            const exporter = configurator.createExporter('newsml')
+            const exportedArticle = exporter.exportDocument(document, Helper.getParsedExampleDocument())
+
+            // console.log(xmlDocument)//.replace(/\ /g,''));
+            // console.log(exportedArticle)//.replace(/\ /g,''));
+
+            expect(xmlDocument.replace(/\s/g,'')).toEqual(exportedArticle.replace(/\s/g,''))
+
         } catch (e) {
             console.log("ERROR", e);
         }
 
-        // const document = importer.importDocument(xmlDocument)
+
 
         // const exporter = configurator.createExporter('newsml')
 

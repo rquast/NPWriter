@@ -22,7 +22,7 @@ export default {
             format: node.format
         })
 
-        return el.attr('type', 'subheadline')
+        return el.attr('type', 'subheadline'+node.level)
             .append(converter.annotatedText([node.id, 'content']));
     }
 }

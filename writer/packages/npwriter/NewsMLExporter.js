@@ -7,18 +7,13 @@ class NewsMLExporter extends XMLExporter {
     }
 
     addHeaderGroup(doc, newsItem, $$, groupContainer) {
-
         if (doc.get('metadata')) {
             var idfHeaderGroup = newsItem.querySelector('idf group[type="header"]');
             var headerElements = this.convertNode(doc.get('metadata'));
-            // var headerGroup = $$('group').attr('type', 'body');
-            const headerGroup = document.createElement('group').setAttribute('type', 'body')
-            headerGroup.append(headerElements);
 
-            console.log("headerGroup", headerGroup);
-            const parser = new DOMParser()
+            var parser = new DOMParser()
+            var headerDomElement = parser.parseFromString(headerElements.outerHTML, 'application/xml').firstChild;
 
-            var headerDomElement = parser.parseFromString(headerGroup.innerHTML.firstChild, 'UTF-8');
             groupContainer.removeChild(idfHeaderGroup);
             groupContainer.appendChild(headerDomElement);
         }
@@ -34,19 +29,17 @@ class NewsMLExporter extends XMLExporter {
         // Export article body with substance convert container function
         // Create a substance group element to make life easier
         var bodyElements = this.convertContainer(doc.get('body'));
-        const bodyGroup = newsItem.createElement('group').setAttribute('type', 'body')
-        console.log("Body", newsItem, bodyGroup);
-
+        var bodyGroup = $$('group').attr('type', 'body');
         bodyGroup.append(bodyElements);
 
-
-
         // Reinsert the body group
-        var articleDomElement = $.parseXML(bodyGroup.outerHTML).firstChild;
+        let parser = new DOMParser()
+
+        var articleDomElement = parser.parseFromString(bodyGroup.outerHTML, 'application/xml');
 
         groupContainer.removeChild(idfBodyGroupNode);
         // Append body group
-        groupContainer.appendChild(articleDomElement);
+        groupContainer.appendChild(articleDomElement.documentElement);
 
 
     }
@@ -55,7 +48,6 @@ class NewsMLExporter extends XMLExporter {
         // Extract x-im/teaser object and move it to its correct position if it exists
         var oldTeaser = newsItem.querySelector('contentMeta > metadata > object[type="x-im/teaser"]');
         var metadata = newsItem.querySelector('contentMeta > metadata');
-
         if (oldTeaser) {
             metadata.removeChild(oldTeaser);
         }
@@ -77,9 +69,10 @@ class NewsMLExporter extends XMLExporter {
 
         this.addHeaderGroup(doc, newsItemArticle, $$, groupContainer);
         this.addBodyGroup(doc, newsItemArticle, $$, groupContainer);
+        this.addTeaser(newsItemArticle, groupContainer);
 
         // let articleEl = this.convertNode(doc.get('body'))
-        return ""
+        return newsItemArticle.documentElement.outerHTML;
     }
 
     convert(doc, options, newsItem) {

@@ -135,6 +135,28 @@ class App extends Component {
             });
     }
 
+    createNewsItem(newsItemXmlString) {
+        return this.api.router.post('/api/newsitem', newsItemXmlString)
+            .done(function (uuid) {
+                window.location.hash = uuid;
+                this.api.events.onDocumentSaved();
+            }.bind(this))
+            .error(function (error, xhr, text) {
+                console.log("e", error);
+            }.bind(this));
+    }
+
+    updateNewsItem(uuid, newsItemXmlString) {
+        return this.api.router.put('/api/newsitem/' + uuid, newsItemXmlString)
+            .then((response) => {
+                console.log("Response", response);
+                this.api.events.onDocumentSaved();
+            })
+            .catch((error, xhr, text) => {
+                console.log("c",error, xhr, text);
+            })
+    }
+
     handleApplicationKeyCombos(e) {
         let handled = false;
 
@@ -147,20 +169,35 @@ class App extends Component {
             // this.props.pluginManager.api.triggerEvent('__controller', 'useraction:save', {});
 
             var exporter = this.configurator.createExporter('newsml')
+            const exportedArticle = exporter.exportDocument(this.documentSession.getDocument(), this.newsItemArticle)
             // let exportedArticle = exporter.convert(this.documentSession.getDocument(), {}, this.newsItemArticle)
             // const idfDocument = importer.importDocument(xmlStr)
 
-            console.log("exportedArticle", exportedArticle);
+            // console.log("exportedArticle", exportedArticle);
 
             handled = true;
+            let uuid = this.newsItemArticle.documentElement.getAttribute('guid');
+
+            console.log("SAAVE", exportedArticle);
+
+            if (!this.api.newsItem.getGuid()) {
+                // A new article
+                this.createNewsItem(
+                    '<?xml version="1.0" encoding="UTF-8"?>' + exportedArticle);
+            }
+            else {
+                this.updateNewsItem(uuid,
+                    '<?xml version="1.0" encoding="UTF-8"?>' + exportedArticle);
+            }
         }
 
-        if(handled) {
+        if (handled) {
             e.preventDefault()
             e.stopPropagation()
         }
 
     }
+
     /**
      * Replace changes the current newsItem and creates and replaces the document session and then rerenders the writer
      * @param newsItem

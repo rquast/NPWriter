@@ -15,7 +15,7 @@ export default {
   },
 
   export: function(node, el, converter) {
-    el.attr('type', 'body')
+    el.attr('type', 'blockquote')
       .append(converter.annotatedText([node.id, 'content']));
   }
 

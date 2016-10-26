@@ -148,9 +148,13 @@ class Router {
         };
 
         if (data) {
-            sendData['data'] = data;
+            // sendData['data'] = data;
+            sendData['body'] = data
         }
-        return $.ajax(sendData);
+
+        console.log("SendData", sendData);
+
+        return fetch(url, sendData)
     }
 
     /**
