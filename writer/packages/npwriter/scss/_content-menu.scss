@@ -1,10 +1,52 @@
 .sc-content-menu {
-  position: absolute;
-  top: -15px;
-  left: 40px;
-}
+    position: absolute;
+    top: -15px;
+    left: 40px;
 
-.sc-content-menu .se-available-tools {
-  width: 200px;
-  background: #222;
+    .se-toggle {
+        cursor: pointer;
+        float: left;
+        width: 20px;
+        text-align: center;
+    }
+
+    .se-available-tools {
+        float: left;
+        background: #fff;
+        box-shadow: rgba(0, 0, 0, 0.298039) 2px 2px 8px -1px;
+        margin-left: 6px;
+        border-radius: 0.25rem;
+        padding: 0px;
+        border-top: 1px solid rgb(221, 221, 221);
+        border-left: 1px solid rgb(221, 221, 221);
+
+        .sc-np-switch-text-type {
+            display: table;
+            font-size: 90%;
+
+            button {
+                display: table-row;
+                color: #222;
+
+                div.se-label {
+                    float: none;
+                    display: table-cell;
+                    font-weight: normal;
+                }
+
+                div.se-hint {
+                    float: none;
+                    display: table-cell;
+                    color: #bbb;
+                    text-align: right;
+                }
+            }
+        }
+    }
+
+    .sc-button.sm-style-outline {
+        border-radius: 4px;
+        border: none;
+        font-size: 16px;
+    }
 }
