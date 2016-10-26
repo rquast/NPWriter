@@ -138,13 +138,16 @@ class App extends Component {
     handleApplicationKeyCombos(e) {
         let handled = false;
 
+
+        // Implement a save handler
+
         if (e.keyCode === 83 && (e.metaKey || e.ctrlKey)) {
             // Save: cmd+s
             console.log("Press save!!");
             // this.props.pluginManager.api.triggerEvent('__controller', 'useraction:save', {});
 
             var exporter = this.configurator.createExporter('newsml')
-            let exportedArticle = exporter.convert(this.documentSession.getDocument(), {}, this.newsItemArticle)
+            // let exportedArticle = exporter.convert(this.documentSession.getDocument(), {}, this.newsItemArticle)
             // const idfDocument = importer.importDocument(xmlStr)
 
             console.log("exportedArticle", exportedArticle);

@@ -7,12 +7,18 @@ class NewsMLExporter extends XMLExporter {
     }
 
     addHeaderGroup(doc, newsItem, $$, groupContainer) {
+
         if (doc.get('metadata')) {
             var idfHeaderGroup = newsItem.querySelector('idf group[type="header"]');
             var headerElements = this.convertNode(doc.get('metadata'));
-            var headerGroup = $$('group').attr('type', 'body');
+            // var headerGroup = $$('group').attr('type', 'body');
+            const headerGroup = document.createElement('group').setAttribute('type', 'body')
             headerGroup.append(headerElements);
-            var headerDomElement = $.parseXML(headerGroup.innerHTML).firstChild;
+
+            console.log("headerGroup", headerGroup);
+            const parser = new DOMParser()
+
+            var headerDomElement = parser.parseFromString(headerGroup.innerHTML.firstChild, 'UTF-8');
             groupContainer.removeChild(idfHeaderGroup);
             groupContainer.appendChild(headerDomElement);
         }
@@ -28,8 +34,12 @@ class NewsMLExporter extends XMLExporter {
         // Export article body with substance convert container function
         // Create a substance group element to make life easier
         var bodyElements = this.convertContainer(doc.get('body'));
-        var bodyGroup = $$('group').attr('type', 'body');
+        const bodyGroup = newsItem.createElement('group').setAttribute('type', 'body')
+        console.log("Body", newsItem, bodyGroup);
+
         bodyGroup.append(bodyElements);
+
+
 
         // Reinsert the body group
         var articleDomElement = $.parseXML(bodyGroup.outerHTML).firstChild;
@@ -58,8 +68,23 @@ class NewsMLExporter extends XMLExporter {
     }
 
 
+
+    exportDocument(doc, newsItemArticle) {
+        this.state.doc = doc
+        const $$ = this.$$
+
+        var groupContainer = newsItemArticle.querySelector('idf');
+
+        this.addHeaderGroup(doc, newsItemArticle, $$, groupContainer);
+        this.addBodyGroup(doc, newsItemArticle, $$, groupContainer);
+
+        // let articleEl = this.convertNode(doc.get('body'))
+        return ""
+    }
+
     convert(doc, options, newsItem) {
 
+        console.info("convert method is deprecated, use exportDocument")
         this.state.doc = doc;
         var $$ = this.$$;
 
