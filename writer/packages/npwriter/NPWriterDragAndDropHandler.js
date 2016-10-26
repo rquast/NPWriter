@@ -1,19 +1,12 @@
-class NPWriterDragAndDropHandler {
+import {DragAndDropHandler} from 'substance'
 
-  dragStart(params, context) {
-    console.log('NPWriterDragAndDropHandler.dragStart', params, context)
-  }
+class NPWriterDragAndDropHandler extends DragAndDropHandler {
 
   drop(params, context) {
-    console.log('NPWriterDragAndDropHandler.drop', params, context)
-  }
-
-  dragEnd(params, context) {
-    console.log('NPWriterDragAndDropHandler.dragEnd', params, context)
+    let surface = params.target.surface
+    context.api.drop.handleDrop(surface, params.event, null, context)
   }
 
 }
-
-NPWriterDragAndDropHandler.prototype._isDragAndDropHandler = true
 
 export default NPWriterDragAndDropHandler

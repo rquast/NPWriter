@@ -56,7 +56,7 @@ class Drop {
      */
     handleUris(uris, surface, plugin, context) {
 
-        var pluginManager = this.pluginManager;
+        var pluginManager = context.api.pluginManager;
 
         try {
             if (uris) {
@@ -110,7 +110,7 @@ class Drop {
      * @returns {boolean}
      */
     handleEntityDrop(data, surface, plugin, context) {
-        var pluginManager = this.pluginManager;
+        var pluginManager = context.api.pluginManager;
 
         this.router.get('/api/newsitem/' + data.uuid, {imType: data.type})
             .done(function (str) {
@@ -173,13 +173,14 @@ class Drop {
      */
     handleDrop(surface, evt, plugin, context) {
         var isStandardDrop = evt.dataTransfer.files.length === 0;
+        var pluginManager = context.api.pluginManager
 
         if (isStandardDrop) {
             var uris = this.extractUrisFromDrop(evt.dataTransfer);
 
             this.handleUris(uris, surface, plugin, context);
         } else {
-            this.handleFilesDrop(evt, surface, this.pluginManager, plugin, context);
+            this.handleFilesDrop(evt, surface, pluginManager, plugin, context);
         }
 
     };
