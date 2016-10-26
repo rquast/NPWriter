@@ -12,11 +12,6 @@ var SpellChecker = require('../models/SpellChecker');
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
-// initialize and configure the Spellcheck backend
-// TODO: we need to figure out
-// - how we want this be done generally
-//   maybe you want to load that resource from somewhere else?
-// - how we want to manage multiple languages
 var dataDir = path.resolve(path.join(__dirname, '..', '..', 'data', 'spellchecker'))
 var spellchecker = new SpellChecker({
     dir: dataDir,
