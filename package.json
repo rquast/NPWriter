@@ -10,6 +10,7 @@
     "http-proxy": "^1.15.1",
     "lodash": "^4.14.1",
     "moment": "^2.15.1",
+    "nodehun": "^2.0.11",
     "request": "^2.75.0",
     "whatwg-fetch": "1.0.0"
   },
@@ -37,10 +38,7 @@
     "sass-loader": "^4.0.2",
     "sinon": "2.0.0-pre.3",
     "style-loader": "^0.13.1",
-    "substance": "1.0.0-beta.5.8",
-    "substance-bundler": "^0.5.1",
-    "substance-docgen": "^0.4.7",
-    "substance-test": "^0.3.1",
+    "substance": "substance/substance#beta-6",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.2"
   },
@@ -50,6 +48,7 @@
     "test-coverage": "jest --coverage",
     "webpack": "webpack --watch",
     "dev": "npm-run-all --parallel start webpack",
+    "build-substance": "cd node_modules/substance/ && npm install && node make",
     "reset": "rm -rf node_modules/; yarn cache clean; yarn install"
   },
   "jest": {

@@ -142,6 +142,12 @@ class PluginManager {
         return this.configurationCache[namePath];
     }
 
+
+    getHandlerCommandsForFile(fileType) {
+        // TODO: get commands for file drop from configurator
+        return []
+    }
+
     /**
      * Get and cache requested config path from within plugins data section
      * @protected

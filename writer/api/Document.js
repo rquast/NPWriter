@@ -121,7 +121,7 @@ class Document {
      * @returns {Array}
      */
     getDocumentNodes() {
-        const doc = this.api.documentSession.getDocument()
+        const doc = this.api.editorSession.getDocument()
 
         const docNodes = doc.getNodes()['body'].nodes;
         return docNodes.map((nodeId) => {

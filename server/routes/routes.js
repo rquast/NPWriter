@@ -3,6 +3,7 @@ const router = express.Router()
 const bodyParser = require('body-parser');
 const ConfigRoutes = require('./config')
 const NewsItemRoutes = require('./newsitem')
+const SpellCheckRoutes = require('./spellcheck')
 
 // ==================================
 // Middleware to do some logging
@@ -20,5 +21,6 @@ router.route('/config').post(ConfigRoutes.setConfig);
 
 // router.route('/newsitem/:uuid').get(PluginRoutes.getPlugins);
 router.use(NewsItemRoutes)
+router.use(SpellCheckRoutes)
 
 module.exports = router;

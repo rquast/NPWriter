@@ -1,11 +1,15 @@
 import './scss/_content-menu.scss'
 
 // Base packages
-import {BasePackage, StrongPackage, EmphasisPackage, LinkPackage} from 'substance'
+import {BasePackage, OverlayPackage,
+    StrongPackage, EmphasisPackage, LinkPackage,
+    SpellCheckPackage
+} from 'substance'
 
 import NewsMLArticle from './NewsMLArticle'
 import NewsMLImporter from './NewsMLImporter'
 import NewsMLExporter from './NewsMLExporter'
+import NPWriterDragAndDropHandler from './NPWriterDragAndDropHandler'
 
 import BodyPackage from '../body/BodyPackage'
 import HeadlinePackage from '../headline/HeadlinePackage'
@@ -14,9 +18,6 @@ import ParagraphPackage from '../paragraph/ParagraphPackage'
 import BlockquotePackage from '../blockquote/BlockquotePackage'
 import SwitchTextTypePackage from '../switch-text-type/SwitchTextTypePackage'
 import ConfigEditorPackage from '../config-editor/ConfigEditorPackage'
-
-// import PreamblePackage from '../preamble/PreamblePackage'
-
 
 export default {
     name: 'npwriter',
@@ -27,10 +28,14 @@ export default {
             defaultTextType: 'paragraph'
         })
 
+        // basics
+        config.import(BasePackage)
+        config.addToolGroup('content-menu')
+
         // core nodes
-        config.import(StrongPackage, {toolTarget: 'overlay'})
-        config.import(EmphasisPackage, {toolTarget: 'overlay'})
-        config.import(LinkPackage, {toolTarget: 'overlay'})
+        config.import(StrongPackage, {toolGroup: 'overlay'})
+        config.import(EmphasisPackage, {toolGroup: 'overlay'})
+        config.import(LinkPackage, {toolGroup: 'overlay'})
 
         // content-nodes
         config.import(BodyPackage)
@@ -42,7 +47,6 @@ export default {
         config.import(ConfigEditorPackage)
 
         // general purpose
-        config.import(BasePackage)
         config.import(SwitchTextTypePackage)
 
         config.addIcon('content-menu-open', {'fontawesome': 'fa-pencil'});
@@ -52,5 +56,9 @@ export default {
         config.addImporter('newsml', NewsMLImporter)
         config.addExporter('newsml', NewsMLExporter)
         // config.addExporter('jats', AuthorExporter);
+
+        config.import(SpellCheckPackage)
+
+        config.addDragAndDrop(NPWriterDragAndDropHandler)
     }
 }
