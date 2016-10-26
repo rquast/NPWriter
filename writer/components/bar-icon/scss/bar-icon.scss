@@ -1,0 +1,24 @@
+.sc-np-bar-icon {
+    line-height: 52px;
+    height: 52px;
+    font-size: 18px;
+    vertical-align: middle;
+
+    a {
+        padding: 6px;
+        color: #888;
+        border-radius: 4px;
+
+        &:hover {
+            color: #222;
+            cursor: pointer;
+        }
+    }
+
+    &.active {
+        a {
+            background: #aaa;
+            color: #fff;
+        }
+    }
+}

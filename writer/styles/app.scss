@@ -32,12 +32,32 @@ body {
 
     .sc-np-writer {
         &>.sc-split-pane {
-            top: 49px;
+            top: 53px;
         }
     }
 
     .se-context-section {
         border-left: 1px solid #ddd;
+
+        .se-tabs {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            height: auto;
+            border-bottom: none;
+
+            .se-tab {
+                flex-grow: 1;
+                float: none;
+                padding: 0 5px;
+                text-align: center;
+                border-bottom: 1px solid #ddd;
+
+                &.sm-active {
+                    border-bottom: 1px solid #444;
+                }
+            }
+        }
     }
 
     .se-main-section {
