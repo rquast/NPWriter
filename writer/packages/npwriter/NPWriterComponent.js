@@ -83,7 +83,7 @@ class NPWriter extends AbstractEditor {
             layout,
             $$(ContextMenu),
             $$(Overlay),
-            // $$(ContentMenu)
+            $$(ContentMenu)
         ])
         return contentPanel
     }

@@ -159,15 +159,15 @@ class App extends Component {
 
         if (e.keyCode === 83 && (e.metaKey || e.ctrlKey)) { // Save: cmd+s
             // this.props.pluginManager.api.triggerEvent('__controller', 'useraction:save', {});
-
+            console.log("Save", this.editorSession._saveHandler);
+            this.editorSession.save()
             var exporter = this.configurator.createExporter('newsml')
             const exportedArticle = exporter.exportDocument(this.editorSession.getDocument(), this.newsItemArticle)
 
             handled = true;
             let uuid = this.newsItemArticle.documentElement.getAttribute('guid');
 
-            console.log("Save", this.editorSession._saveHandler);
-            this.editorSession.save()
+
 
             // if (!this.api.newsItem.getGuid()) {
             //     A new article
