@@ -121,6 +121,9 @@ class App extends Component {
                             }
                         })
 
+                        // ATTENTION: we need to update the API as well to use the fresh editorSession
+                        api.editorSession = this.editorSession
+
                         this.editorSession.saveHandler = this.getSaveHandler()
                         // this.editorSession.setSaveHandler(this.getSaveHandler())
 

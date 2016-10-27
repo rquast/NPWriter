@@ -71,4 +71,4 @@ class ResourceLoader {
     }
 }
 
-export default ResourceLoader 
+export default ResourceLoader

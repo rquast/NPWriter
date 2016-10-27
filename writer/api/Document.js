@@ -22,7 +22,7 @@ class Document {
     insertInlineNode(name, data) {
 
         let newAnno
-        const surface = this.refs.writer.getFocusedSurface();
+        const surface = this.api.editorSession.getFocusedSurface();
 
         if (!surface) {
             throw new Error("Trying to insert node with no active surface");
@@ -66,7 +66,7 @@ class Document {
      */
     insertBlockNode(name, data) {
 
-        var surface = this.refs.writer.getFocusedSurface(),
+        var surface = this.api.editorSession.getFocusedSurface(),
             result;
 
         if (!surface) {
@@ -98,8 +98,8 @@ class Document {
      */
     deleteNode(name, node) {
 
-        var docSession = this.refs.writer.getDocumentSession();
-        var surface = this.refs.writer.getFocusedSurface();
+        var editorSession = this.api.editorSession;
+        var surface = editorSession.getFocusedSurface();
 
         var beforeSelection = surface.getSelection();
 
