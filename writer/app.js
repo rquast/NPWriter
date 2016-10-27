@@ -76,11 +76,14 @@ class App extends Component {
     }
 
     getSaveHandler() {
-        return new SaveHandler({
-            editorSession: this.editorSession,
-            configurator: this.configurator,
-            api: this.api
-        })
+        if(!this.saveHandler) {
+            this.saveHandler = new SaveHandler({
+                editorSession: this.editorSession,
+                configurator: this.configurator,
+                api: this.api
+            })
+        }
+        return this.saveHandler
     }
 
     didMount() {
@@ -118,7 +121,8 @@ class App extends Component {
                             }
                         })
 
-                        this.editorSession.setSaveHandler(this.getSaveHandler())
+                        this.editorSession.saveHandler = this.getSaveHandler()
+                        // this.editorSession.setSaveHandler(this.getSaveHandler())
 
                         // Clear guid if hash is empty
                         if (!api.browser.getHash()) {

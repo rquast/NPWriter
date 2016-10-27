@@ -62,6 +62,7 @@ class NPWriter extends AbstractEditor {
         let configurator = this.props.configurator
         let ContextMenu = this.getComponent('context-menu')
         let Overlay = this.getComponent('overlay')
+
         let contentPanel = $$(ScrollPane, {
             scrollbarType: 'native'
         }).ref('contentPanel')
