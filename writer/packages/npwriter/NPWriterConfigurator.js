@@ -6,6 +6,7 @@ class NPWriterConfigurator extends Configurator {
     constructor(...args) {
         super(...args)
 
+        this.config.popovers = []
         this.config.validators = []
         this.config.sidebarTopBar = []
         this.config.sidebarTabs = []
@@ -15,6 +16,25 @@ class NPWriterConfigurator extends Configurator {
         this.config.tools.set('overlay', new Map());
     }
 
+
+    /**
+     * Add a substance Component in a popover that is triggered by an
+     * icon in the top bar.
+     * @param {string} id Package id
+     * @param {string} icon Font awesome icon name
+     * @param {string} align Alignment of icon in the top bar, either "left" or "right"
+     * @param {Component} component Substance component
+     */
+    addPopover(id, icon, align, component) {
+        let alignment = align === 'left' ? 'left' : 'right'
+
+        this.config.popovers.push({
+            id: id,
+            icon: icon,
+            align: alignment,
+            component: component
+        })
+    }
 
     /**
      * Adds a tab to the right sidebar

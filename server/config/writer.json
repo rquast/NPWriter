@@ -1,14 +1,22 @@
 {
   "newsItemTemplateId": "30eae1c0-c640-4053-b114-05c64e28bbe7",
   "plugins": [
-    {
-      "id": "se.infomaker.preamble",
-      "name": "preamble",
-      "url": "http://localhost:5001/index.js",
-      "style": "http://localhost:5001/style.css",
-      "enabled": true,
-      "mandatory": true
-    },
+      {
+        "id": "se.infomaker.preamble",
+        "name": "preamble",
+        "url": "http://localhost:5001/index.js",
+        "style": "http://localhost:5001/style.css",
+        "enabled": true,
+        "mandatory": true
+      },
+      {
+        "id": "se.infomaker.publishflow",
+        "name": "publishflow",
+        "url": "http://localhost:5001/index.js",
+        "style": "http://localhost:5001/style.css",
+        "enabled": true,
+        "mandatory": true
+      },
     {
       "id": "se.infomaker.textanalyzer",
       "name": "textanalyzer",

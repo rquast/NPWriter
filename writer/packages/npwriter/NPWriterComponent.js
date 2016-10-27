@@ -1,10 +1,11 @@
 import {SplitPane, ScrollPane, Layout} from 'substance'
 import {AbstractEditor} from 'substance'
 
-import BarComponent from './../../components/bar/BarComponent'
 import ContentMenu from './ContentMenu'
 import SidebarComponent from './components/SidebarComponent'
 import NPWriterOverlayTools from './NPWriterOverlayTools'
+
+import BarComponent from './../../components/bar/BarComponent'
 
 class NPWriter extends AbstractEditor {
 
@@ -34,7 +35,9 @@ class NPWriter extends AbstractEditor {
     }
 
     _renderMainbarPanel($$) {
-        return $$(BarComponent).ref('topBar')
+        return $$(BarComponent, {
+            popovers: this.props.configurator.config.popovers
+        }).ref('topBar')
     }
 
     _renderSidebarPanel($$) {
