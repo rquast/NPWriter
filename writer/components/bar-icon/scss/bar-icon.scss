@@ -1,13 +1,16 @@
 .sc-np-bar-icon {
-    line-height: 52px;
-    height: 52px;
-    font-size: 18px;
+    display: inline-block;
     vertical-align: middle;
 
     a {
+        display: inline-block;
+        height: 22px;
+        width: 22px;
         padding: 6px;
         color: #888;
         border-radius: 4px;
+
+        font-size: 18px;
 
         &:hover {
             color: #222;
@@ -17,8 +20,8 @@
 
     &.active {
         a {
-            background: #aaa;
-            color: #fff;
+            background: #fafafa;
+            color: #000;
         }
     }
 }
