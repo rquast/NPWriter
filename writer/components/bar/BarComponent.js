@@ -36,21 +36,22 @@ class BarComponent extends Component {
     renderPopover($$, popover) {
         let popoverEl = $$(PopoverComponent)
             .ref(popover.id)
-            .append(popover.component)
+            .append($$(popover.component))
 
+        var id = popover.id
         let bariconEl = $$(BarIconComponent, {
             icon: popover.icon
-        }).on('click', this.openPopover)
+        }).on('click', (evt) => this.openPopover(evt, id))
 
         return [bariconEl, popoverEl]
     }
 
-    openPopover(evt) {
+    openPopover(evt, id) {
         if (evt.target.nodeName !== 'A') {
             return false
         }
 
-        this.refs.mypopover.extendProps({
+        this.refs[id].extendProps({
             triggerElement: evt.currentTarget
         })
     }
