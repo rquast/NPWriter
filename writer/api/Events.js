@@ -1,5 +1,6 @@
 import find from 'lodash/find'
 import remove from 'lodash/remove'
+import Event from '../utils/Event'
 /**
  * @class Events
  *
@@ -106,7 +107,7 @@ class Events {
      * Triggers an document saved event (document:saved)
      */
     onDocumentSaved() {
-        this.triggerEvent(null, 'document:saved');
+        this.triggerEvent(null, Event.DOCUMENT_SAVED);
     }
 
 

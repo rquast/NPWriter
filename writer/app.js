@@ -12,6 +12,7 @@ import API from './api/Api'
 import Start from './packages/load-screens/Start'
 import Error from './packages/load-screens/Error'
 import SaveHandler from './packages/npwriter/SaveHandler'
+import Event from './utils/Event'
 
 const STATUS_ISREADY = 'isReady',
     STATUS_LOADING = 'loading',
@@ -97,6 +98,7 @@ class App extends Component {
         const api = this.api
 
         window.writer.api = this.api // Expose the API on the window
+        window.writer.Event = this.Event // Expose the API on the window
 
         this.configurator.loadConfigJSON('/api/config')                     // Load config file and store it in configurator
             .then(() => this.configurator.config.writerConfigFile.plugins)  // Get the plugins section from config (stored in the configurator)
@@ -219,8 +221,6 @@ class App extends Component {
         // Adds package for unsupported elements in document
         this.configurator.import(UnsupportedPackage)
 
-        this.configurator.addSidebarTab({id: 'related', name: 'Relatera'})
-        this.configurator.addSidebarTab({id: 'information', name: 'Information'})
         this.configurator.addSidebarTab({id: 'main', name: 'Meta'})
 
     }
