@@ -8,10 +8,18 @@ class SaveHandler {
         this.configurator = configurator
     }
 
-    saveDocument(doc, changes, callback) {
+    saveDocument() {
 
-        console.log("Save document", doc, changes, callback);
+        let uuid = this.api.newsItemArticle.documentElement.getAttribute('guid');
 
+        var exporter = this.configurator.createExporter('newsml')
+        const exportedArticle = exporter.exportDocument(this.editorSession.getDocument(), this.api.newsItemArticle)
+
+        if(uuid) {
+            return this.updateNewsItem(uuid, exportedArticle)
+        } else {
+            this.createNewsItem(exportedArticle)
+        }
     }
 
     createNewsItem(newsItemXmlString) {

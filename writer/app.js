@@ -134,24 +134,22 @@ class App extends Component {
                             status: STATUS_ISREADY
                         })
                     })
-                    // .catch((error) => {
-                        // console.error("ERROR", error);
-                        // this.setState({
-                        //     status: STATUS_HAS_ERROR,
-                        //     statusMessage: error
-                        // })
-                    // });
+                    .catch(this.handleError.bind(this));
             })
-            .catch((error) => {
-                console.error("ERROR", error);
-                this.setState({
-                    status: STATUS_HAS_ERROR,
-                    statusMessage: error
-                })
-            });
+            .catch(this.handleError.bind(this));
     }
 
 
+    /**
+     * Handles errors from for instance plugin loading
+     * @param error
+     */
+    handleError(error) {
+        this.setState({
+            status: STATUS_HAS_ERROR,
+            statusMessage: error
+        })
+    }
 
     handleApplicationKeyCombos(e) {
         let handled = false;
@@ -159,25 +157,8 @@ class App extends Component {
 
         if (e.keyCode === 83 && (e.metaKey || e.ctrlKey)) { // Save: cmd+s
             // this.props.pluginManager.api.triggerEvent('__controller', 'useraction:save', {});
-            console.log("Save", this.editorSession._saveHandler);
-            this.editorSession.save()
-            var exporter = this.configurator.createExporter('newsml')
-            const exportedArticle = exporter.exportDocument(this.editorSession.getDocument(), this.newsItemArticle)
-
+            this.editorSession.saveHandler.saveDocument() // Temp fix for now..
             handled = true;
-            let uuid = this.newsItemArticle.documentElement.getAttribute('guid');
-
-
-
-            // if (!this.api.newsItem.getGuid()) {
-            //     A new article
-                // this.createNewsItem(
-                //     '<?xml version="1.0" encoding="UTF-8"?>' + exportedArticle);
-            // }
-            // else {
-            //     this.updateNewsItem(uuid,
-            //         '<?xml version="1.0" encoding="UTF-8"?>' + exportedArticle);
-            // }
         }
 
         if (handled) {
