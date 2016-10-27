@@ -1,3 +1,4 @@
+import {DefaultDOMElement} from 'substance'
 export default {
 
     type: 'unsupported',
@@ -19,15 +20,16 @@ export default {
     },
 
     export: function (node, el) {
-        el.tagName = node.tagName
+        let exportElement = DefaultDOMElement.parseXML('<'+node.tagName+'></'+node.tagName+'>')
+        // el.tagName = node.tagName
 
         if (node.attributes) {
             Object.keys(node.attributes).forEach((key) => {
-                el.setAttribute(key, node.attributes[key])
+                exportElement.setAttribute(key, node.attributes[key])
             })
         }
-        el.innerHTML = node.xmlContent
-        return el
+        exportElement.innerHTML = node.xmlContent
+        return exportElement
     }
 
 }

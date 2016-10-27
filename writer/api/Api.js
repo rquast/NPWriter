@@ -49,13 +49,13 @@ class Api {
     /**
      * Initialize api and provide it with the current newsItem.
      *
-     * @param {object} newsItem The currently loaded news item
-     * @param {object} doc The currently loaded idf document
+     * @param newsItemArticle
+     * @param editorSession
      * @param {object} refs A reference to Writer Controller
      */
 
-    init(newsItem, editorSession, refs) {
-        this.newsItem = newsItem
+    init(newsItemArticle, editorSession, refs) {
+        this.newsItemArticle = newsItemArticle
         this.editorSession = editorSession
         this.doc = editorSession.getDocument()
         this.refs = refs

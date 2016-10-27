@@ -1,6 +1,6 @@
 import 'whatwg-fetch'
 import Api from '../../../writer/api/Api'
-import {DocumentSession} from 'substance'
+import {EditorSession} from 'substance'
 import NPWriterConfigurator from '../../../writer/packages/npwriter/NPWriterConfigurator'
 import AppPackage from '../../../writer/AppPackage'
 import UnsupportedPackage from '../../../writer/packages/unsupported/UnsupportedPackage'
@@ -28,15 +28,21 @@ describe('Loads newsItem', () => {
 
         var importer = configurator.createImporter('newsml')
         let idfDocument = importer.importDocument(Helper.getContentFromExampleDocument())
-        let documentSession = new DocumentSession(idfDocument)
+        let editorSession = new EditorSession(idfDocument, {
+            configurator: configurator,
+            lang: "sv_SE",
+            context: {
+                api: api
+            }
+        })
 
-        api.init(newsItem, documentSession, refs)
+        api.init(newsItem, editorSession, refs)
 
     })
 
 
     it('Gets a list of document nodes from document', () => {
-        let nodes = api.documentSession.getDocument().getNodes()['body'].nodes;
+        let nodes = api.editorSession.getDocument().getNodes()['body'].nodes;
         expect(nodes.length).toBe(17)
     })
 

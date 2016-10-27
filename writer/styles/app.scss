@@ -42,10 +42,6 @@ body {
     margin-top:40px;
 }
 
-.se-main-section .se-scrollable .se-content {
-    width: 100%;
-    padding: 40px 55px;
-}
 
 .sc-layout.sm-width-large {
     max-width: 800px;
@@ -53,4 +49,8 @@ body {
 
 .sc-preamble {
     font-weight: 700;
+}
+
+.sc-np-writer .se-layout {
+    margin: 100px;
 }

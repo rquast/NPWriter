@@ -11,6 +11,7 @@ import PluginManager from './utils/PluginManager'
 import API from './api/Api'
 import Start from './packages/load-screens/Start'
 import Error from './packages/load-screens/Error'
+import SaveHandler from './packages/npwriter/SaveHandler'
 
 const STATUS_ISREADY = 'isReady',
     STATUS_LOADING = 'loading',
@@ -74,6 +75,14 @@ class App extends Component {
         return hash
     }
 
+    getSaveHandler() {
+        return new SaveHandler({
+            editorSession: this.editorSession,
+            configurator: this.configurator,
+            api: this.api
+        })
+    }
+
     didMount() {
 
         document.onkeydown = this.handleApplicationKeyCombos.bind(this)
@@ -98,9 +107,10 @@ class App extends Component {
 
                         this.addDefaultConfiguratorComponent()
 
-                        var importer = this.configurator.createImporter('newsml')
-                        const idfDocument = importer.importDocument(xmlStr)
-                        this.editorSession = new EditorSession(idfDocument, {
+                        var result = api.newsItem.setSource(xmlStr, {});
+                        this.replaceDoc(result);
+
+                        this.editorSession = new EditorSession(result.idfDocument, {
                             configurator: this.configurator,
                             lang: this.configurator.config.writerConfigFile.language,
                             context: {
@@ -108,8 +118,7 @@ class App extends Component {
                             }
                         })
 
-                        var result = api.newsItem.setSource(xmlStr, {});
-                        this.replaceDoc(result);
+                        this.editorSession.setSaveHandler(this.getSaveHandler())
 
                         // Clear guid if hash is empty
                         if (!api.browser.getHash()) {
@@ -121,13 +130,13 @@ class App extends Component {
                             status: STATUS_ISREADY
                         })
                     })
-                    .catch((error) => {
-                        console.error("ERROR", error);
-                        this.setState({
-                            status: STATUS_HAS_ERROR,
-                            statusMessage: error
-                        })
-                    });
+                    // .catch((error) => {
+                        // console.error("ERROR", error);
+                        // this.setState({
+                        //     status: STATUS_HAS_ERROR,
+                        //     statusMessage: error
+                        // })
+                    // });
             })
             .catch((error) => {
                 console.error("ERROR", error);
@@ -138,60 +147,33 @@ class App extends Component {
             });
     }
 
-    createNewsItem(newsItemXmlString) {
-        return this.api.router.post('/api/newsitem', newsItemXmlString)
-            .done(function (uuid) {
-                window.location.hash = uuid;
-                this.api.events.onDocumentSaved();
-            }.bind(this))
-            .error(function (error, xhr, text) {
-                console.log("e", error);
-            }.bind(this));
-    }
 
-    updateNewsItem(uuid, newsItemXmlString) {
-        return this.api.router.put('/api/newsitem/' + uuid, newsItemXmlString)
-            .then((response) => {
-                console.log("Response", response);
-                this.api.events.onDocumentSaved();
-            })
-            .catch((error, xhr, text) => {
-                console.log("c",error, xhr, text);
-            })
-    }
 
     handleApplicationKeyCombos(e) {
         let handled = false;
 
 
-        // Implement a save handler
-
-        if (e.keyCode === 83 && (e.metaKey || e.ctrlKey)) {
-            // Save: cmd+s
-            console.log("Press save!!");
+        if (e.keyCode === 83 && (e.metaKey || e.ctrlKey)) { // Save: cmd+s
             // this.props.pluginManager.api.triggerEvent('__controller', 'useraction:save', {});
 
             var exporter = this.configurator.createExporter('newsml')
-            const exportedArticle = exporter.exportDocument(this.documentSession.getDocument(), this.newsItemArticle)
-            // let exportedArticle = exporter.convert(this.documentSession.getDocument(), {}, this.newsItemArticle)
-            // const idfDocument = importer.importDocument(xmlStr)
-
-            // console.log("exportedArticle", exportedArticle);
+            const exportedArticle = exporter.exportDocument(this.editorSession.getDocument(), this.newsItemArticle)
 
             handled = true;
             let uuid = this.newsItemArticle.documentElement.getAttribute('guid');
 
-            console.log("SAAVE", exportedArticle);
+            console.log("Save", this.editorSession._saveHandler);
+            this.editorSession.save()
 
-            if (!this.api.newsItem.getGuid()) {
-                // A new article
-                this.createNewsItem(
-                    '<?xml version="1.0" encoding="UTF-8"?>' + exportedArticle);
-            }
-            else {
-                this.updateNewsItem(uuid,
-                    '<?xml version="1.0" encoding="UTF-8"?>' + exportedArticle);
-            }
+            // if (!this.api.newsItem.getGuid()) {
+            //     A new article
+                // this.createNewsItem(
+                //     '<?xml version="1.0" encoding="UTF-8"?>' + exportedArticle);
+            // }
+            // else {
+            //     this.updateNewsItem(uuid,
+            //         '<?xml version="1.0" encoding="UTF-8"?>' + exportedArticle);
+            // }
         }
 
         if (handled) {

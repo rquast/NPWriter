@@ -1,4 +1,4 @@
-import {XMLExporter} from 'substance'
+import {XMLExporter, DefaultDOMElement} from 'substance'
 
 class NewsMLExporter extends XMLExporter {
 
@@ -19,7 +19,7 @@ class NewsMLExporter extends XMLExporter {
         }
     }
 
-    addBodyGroup(doc, newsItem, $$, groupContainer) {
+    addBodyGroup(doc, newsItem, groupContainer) {
         // Get the first group with type body in IDF section
         var idfBodyGroupNode = newsItem.querySelector('idf group[type="body"]');
         if (!idfBodyGroupNode) {
@@ -29,12 +29,15 @@ class NewsMLExporter extends XMLExporter {
         // Export article body with substance convert container function
         // Create a substance group element to make life easier
         var bodyElements = this.convertContainer(doc.get('body'));
-        var bodyGroup = $$('group').attr('type', 'body');
-        bodyGroup.append(bodyElements);
+        var bodyGroup = document.createElement('group')
+        bodyGroup.setAttribute('type', 'body');
+
+        for(var node of bodyElements) {
+            bodyGroup.appendChild(node.el);
+        }
 
         // Reinsert the body group
         let parser = new DOMParser()
-
         var articleDomElement = parser.parseFromString(bodyGroup.outerHTML, 'application/xml');
 
         groupContainer.removeChild(idfBodyGroupNode);
@@ -53,6 +56,7 @@ class NewsMLExporter extends XMLExporter {
         }
 
         var newTeaser = groupContainer.querySelector('object[type="x-im/teaser"]');
+
         if (newTeaser) {
             newTeaser.parentElement.removeChild(newTeaser);
             metadata.appendChild(newTeaser);
@@ -64,11 +68,10 @@ class NewsMLExporter extends XMLExporter {
     exportDocument(doc, newsItemArticle) {
         this.state.doc = doc
         const $$ = this.$$
-
         var groupContainer = newsItemArticle.querySelector('idf');
 
         this.addHeaderGroup(doc, newsItemArticle, $$, groupContainer);
-        this.addBodyGroup(doc, newsItemArticle, $$, groupContainer);
+        this.addBodyGroup(doc, newsItemArticle, groupContainer);
         this.addTeaser(newsItemArticle, groupContainer);
 
         // let articleEl = this.convertNode(doc.get('body'))
@@ -89,6 +92,8 @@ class NewsMLExporter extends XMLExporter {
         // this.addBodyGroup(doc, newsItem, $$, groupContainer);
         // this.addTeaser(newsItem, groupContainer);
 
+
+        console.log("Export", newsItem.documentElement.outerHTML);
         return newsItem.documentElement.outerHTML;
     }
 }

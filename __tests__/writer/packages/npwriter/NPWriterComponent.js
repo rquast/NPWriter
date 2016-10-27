@@ -1,4 +1,4 @@
-import { Component, DocumentSession } from 'substance'
+import { Component, EditorSession } from 'substance'
 import NPWriterConfigurator from '../../../../writer/packages/npwriter/NPWriterConfigurator'
 import AppPackage from '../../../../writer/AppPackage'
 import Api from '../../../../writer/api/Api'
@@ -27,10 +27,17 @@ class App extends Component {
         this.props.configurator.import(UnsupportedPackage)
         var importer = this.props.configurator.createImporter('newsml')
         const idfDocument = importer.importDocument(Helper.getContentFromExampleDocument())
-        let documentSession = new DocumentSession(idfDocument)
+
+        let editorSession = new EditorSession(idfDocument, {
+            configurator: this.props.configurator,
+            lang: "sv_SE",
+            context: {
+                api: api
+            }
+        })
 
         let writer = $$(NPWriterCompontent, {
-            documentSession: documentSession,
+            editorSession: editorSession,
             configurator: this.props.configurator
         }).ref('writer')
 
@@ -41,6 +48,19 @@ class App extends Component {
 }
 
 describe('Start a Writer', () => {
+
+    let xhr, requests
+    beforeEach(() => {
+
+        xhr = sinon.useFakeXMLHttpRequest();
+        requests = [];
+        xhr.onCreate = function (req) { requests.push(req); };
+
+    })
+
+    afterEach(() => {
+        xhr.restore();
+    })
 
     it('Mounts a writer to document', () => {
         var configurator = new NPWriterConfigurator().import(AppPackage)
