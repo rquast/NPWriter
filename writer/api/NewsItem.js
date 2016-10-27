@@ -166,15 +166,20 @@ class NewsItem {
         });
     }
 
+
     /**
-     * Get news item guid (uuid)
-     *
-     * @return {String}
+     * Return the GUID in the NewsItemArticle
+     * Can return null if no GUID is found in NewsItem
+     * @returns {guid|null}
      */
     getGuid() {
         for (var n in this.api.newsItemArticle.childNodes) {
             if (this.api.newsItemArticle.childNodes[n].nodeName === 'newsItem') {
-                return !(!this.api.newsItemArticle.childNodes[n].getAttribute('guid'));
+                const guid = this.api.newsItemArticle.childNodes[n].getAttribute('guid')
+                if(guid) {
+                    return guid
+                }
+                return null
             }
         }
     }

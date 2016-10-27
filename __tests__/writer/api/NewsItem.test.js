@@ -23,8 +23,8 @@ describe('Loads newsItem', () => {
 
     })
 
-    it('Can reads GUID from NewsItem', () => {
-        expect(api.newsItem.getGuid()).toBe(true)
+    it('Can read GUID from NewsItem', () => {
+        expect(api.newsItem.getGuid()).toBe("809ed0c6-aa7e-42ad-86a1-917bd4614c04")
     })
 
 
