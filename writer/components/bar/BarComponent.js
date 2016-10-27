@@ -11,25 +11,19 @@ class BarComponent extends Component {
     }
 
     render($$) {
-        let popover = $$(PopoverComponent)
-            .ref('mypopover')
-            .append(
-                $$('div').append(
-                    'Hello popover! Halo!'
-                )
-                .css('padding', '10px')
-            )
+        let popovers = this.props.popovers.length ? this.props.popovers : [],
+            leftRibbon = $$('div'),
+            rightRibbon = $$('div')
 
-        let baricon = $$(BarIconComponent).on('click', this.openPopover)
-
-        let leftRibbon = $$('div'),
-            rightRibbon = $$('div');
-
-        // TODO: Handle here in what section sub components should go
-        rightRibbon.append([
-            baricon,
-            popover
-        ])
+        popovers.forEach(popover => {
+            let els = this.renderPopover($$, popover)
+            if (popover.align === 'left') {
+                leftRibbon.append(els)
+            }
+            else {
+                rightRibbon.append(els)
+            }
+        })
 
         return $$('div')
             .addClass('sc-np-bar')
@@ -37,6 +31,18 @@ class BarComponent extends Component {
                 leftRibbon,
                 rightRibbon
             ])
+    }
+
+    renderPopover($$, popover) {
+        let popoverEl = $$(PopoverComponent)
+            .ref(popover.id)
+            .append(popover.component)
+
+        let bariconEl = $$(BarIconComponent, {
+            icon: popover.icon
+        }).on('click', this.openPopover)
+
+        return [bariconEl, popoverEl]
     }
 
     openPopover(evt) {
