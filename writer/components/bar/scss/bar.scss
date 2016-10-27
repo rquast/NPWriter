@@ -2,4 +2,20 @@ div.sc-np-bar {
     height: 52px;
     line-height: 52px;
     border-bottom: 1px solid #eaeaea;
+
+    &>div:first-child {
+        float: left;
+        height: 52px;
+        margin-left: 70px;
+    }
+
+    &>div:last-child {
+        float: right;
+        height: 52px;
+        margin-right: 20px;
+    }
+
+    div.sc-np-popover {
+        top: 46px;
+    }
 }
