@@ -20,6 +20,8 @@ class NPWriter extends AbstractEditor {
     }
 
     didMount() {
+        super.didMount()
+
         this.spellCheckManager.runGlobalCheck()
     }
 
