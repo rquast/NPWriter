@@ -1,4 +1,4 @@
-import { createAnnotation, insertText, NodeSelection, deleteNode } from 'substance'
+import { createAnnotation, insertText, NodeSelection, deleteNode, insertNode } from 'substance'
 import idGenerator from '../utils/IdGenerator'
 
 /**
@@ -21,28 +21,22 @@ class Document {
      */
     insertInlineNode(name, data) {
 
-        let newAnno
         const surface = this.api.editorSession.getFocusedSurface();
-
         if (!surface) {
             throw new Error("Trying to insert node with no active surface");
         }
-
         return surface.transaction((tx, args) => {
-
             // 1. Insert fake character where the citation should stick on
             args = insertText(tx, {
                 selection: args.selection,
                 text: '$'
             });
-
             var citationSel = this.doc.createSelection({
                 type: 'property',
                 path: args.selection.path,
                 startOffset: args.selection.endOffset - 1,
                 endOffset: args.selection.endOffset
             });
-
 
             // 2. Create citation annotation
             args.annotationType = name;
@@ -52,7 +46,6 @@ class Document {
             args.containerId = surface.getContainerId();
 
             args = createAnnotation(tx, args);
-            newAnno = args.result;
             return args;
         });
     }
@@ -66,8 +59,9 @@ class Document {
      */
     insertBlockNode(name, data) {
 
-        var surface = this.api.editorSession.getFocusedSurface(),
-            result;
+        let editorSession = this.api.editorSession;
+        let surface = editorSession.getFocusedSurface();
+        let result;
 
         if (!surface) {
             throw new Error("Trying to insert node with no active surface");
@@ -77,13 +71,15 @@ class Document {
         data.type = !data.type ? name : data.type;
         data.id = !data.id ? idGenerator() : data.id;
 
-        surface.transaction((tx, args) => {
+        editorSession.transaction((tx, args) => {
             args.node = data;
             args.containerId = 'body';
-            result = surface.insertNode(tx, args);
+            result = insertNode(tx, args);
+            // NOTE: need to return result here, so that the selection is set
+            return result
         });
-        return result;
 
+        return result;
     }
 
     /**
@@ -97,22 +93,17 @@ class Document {
      * @fires data:changed
      */
     deleteNode(name, node) {
-
+        // TODO: is this actually always a node in the body?
+        // i.e. the surface is always the body editor?
         var editorSession = this.api.editorSession;
         var surface = editorSession.getFocusedSurface();
-
-        var beforeSelection = surface.getSelection();
-
-        docSession.transaction((tx, args) => {
+        editorSession.transaction((tx, args) => {
             args.nodeId = node.id;
-            deleteNode(tx, args);
+            args.containerId = surface.getContainerId();
+            return deleteNode(tx, args);
         });
-
-        surface.setSelection(beforeSelection);
-
-        this.triggerEvent(name, 'data:changed', {});
+        this.api.triggerEvent(name, 'data:changed', {});
     }
-
 
     /**
      * Get all nodes in the document

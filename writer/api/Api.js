@@ -157,6 +157,10 @@ class Api {
 
         return this.router.proxy('/api/external/' + name, op);
     }
+
+    triggerEvent(...args) {
+        return this.events.triggerEvent(...args)
+    }
 }
 
 export default Api
