@@ -21,6 +21,12 @@ class NPWriter extends AbstractEditor {
 
     didMount() {
         this.spellCheckManager.runGlobalCheck()
+        this.editorSession.onUpdate(this.editorSessionUpdated, this)
+
+    }
+
+    editorSessionUpdated(data) {
+        this.props.api.events.onDocumentChanged(data)
     }
 
     dispose() {

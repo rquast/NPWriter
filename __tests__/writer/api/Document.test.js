@@ -43,7 +43,7 @@ describe('Loads newsItem', () => {
 
     it('Gets a list of document nodes from document', () => {
         let nodes = api.editorSession.getDocument().getNodes()['body'].nodes;
-        expect(nodes.length).toBe(17)
+        expect(nodes.length).toBe(4)
     })
 
 
