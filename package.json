@@ -2,6 +2,7 @@
   "name": "np-writer",
   "description": "NewsPilot Writer",
   "dependencies": {
+    "aws-sdk": "^2.6.12",
     "b64": "^3.0.2",
     "body-parser": "^1.15.2",
     "bunyan": "^1.8.1",
@@ -44,6 +45,7 @@
   },
   "scripts": {
     "start": "node server.js",
+    "start-production": "AWS_ACCESS_KEY_ID=XXX AWS_SECRET_ACCESS_KEY=XXX AWS_S3_BUCKET_NAME=writer-dev-config NODE_ENV=production PORT=5000 node server.js",
     "test": "jest",
     "test-coverage": "jest --coverage",
     "webpack": "webpack --watch",

@@ -24,19 +24,19 @@ class SaveHandler {
 
     createNewsItem(newsItemXmlString) {
         return this.api.router.post('/api/newsitem', newsItemXmlString)
-            .done(function (uuid) {
+            .then(response => response.text())
+            .then((uuid) => {
                 window.location.hash = uuid;
                 this.api.events.onDocumentSaved();
-            }.bind(this))
-            .error(function (error, xhr, text) {
+            })
+            .catch((error, xhr, text) => {
                 console.log("e", error);
-            }.bind(this));
+            });
     }
 
     updateNewsItem(uuid, newsItemXmlString) {
         return this.api.router.put('/api/newsitem/' + uuid, newsItemXmlString)
             .then((response) => {
-                console.log("Response", response);
                 this.api.events.onDocumentSaved();
             })
             .catch((error, xhr, text) => {
