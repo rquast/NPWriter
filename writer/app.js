@@ -15,6 +15,8 @@ import SaveHandler from './packages/npwriter/SaveHandler'
 import Event from './utils/Event'
 import moment from 'moment'
 import idGenerator from './utils/IdGenerator'
+import APIManager from './api/APIManager'
+import lodash from 'lodash'
 
 const STATUS_ISREADY = 'isReady',
     STATUS_LOADING = 'loading',
@@ -95,14 +97,20 @@ class App extends Component {
 
         this.configurator = new NPWriterConfigurator().import(AppPackage)
 
-        this.pluginManager = new PluginManager(this.configurator);
-        this.api = new API(this.pluginManager, this.configurator)
+        this.APIManager = new APIManager()
+
+        this.pluginManager = new PluginManager(this.configurator, this.APIManager)
+        this.api = new API(this.pluginManager, this.configurator, this.APIManager)
+
         const api = this.api
 
-        window.writer.api = this.api // Expose the API on the window
-        window.writer.Event = Event // Expose the API on the window
-        window.writer.moment = Event // Expose the API on the window
-        window.writer.idGenerator = idGenerator // Expose the API on the window
+        // Expose classes and endpoint on window.writer
+        api.apiManager.expose('api', this.api)
+        api.apiManager.expose('event', Event) // Expose the API on the window
+        api.apiManager.expose('moment', moment) // Expose moment.js on window
+        api.apiManager.expose('idGenerator', idGenerator) // Expose the ID Generator helper method
+        api.apiManager.expose('lodash', lodash) // Expose the ID Generator helper method
+
 
         this.configurator.loadConfigJSON('/api/config')                     // Load config file and store it in configurator
             .then(() => this.configurator.config.writerConfigFile.plugins)  // Get the plugins section from config (stored in the configurator)

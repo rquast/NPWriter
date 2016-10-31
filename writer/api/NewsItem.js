@@ -13,8 +13,7 @@ jxon.config({
     autoDate: false,
     parseValues: false,
     lowerCaseTags: false,
-    trueIsEmpty: false,
-    attrKey: '@'
+    trueIsEmpty: false
 });
 
 /**
