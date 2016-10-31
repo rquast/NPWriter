@@ -3,16 +3,31 @@ div.sc-np-bar {
     line-height: 52px;
     border-bottom: 1px solid #eaeaea;
 
+    &>div {
+        div > p {
+            font-size: 90%;
+            margin: 0 10px;
+        }
+    }
+
     &>div:first-child {
         float: left;
         height: 52px;
         margin-left: 70px;
+
+        div > p {
+            float: right;
+        }
     }
 
     &>div:last-child {
         float: right;
         height: 52px;
         margin-right: 20px;
+
+        div > p {
+            float: left;
+        }
     }
 
     div.sc-np-popover {

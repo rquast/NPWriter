@@ -15,22 +15,18 @@ class PopoverComponent extends Component {
     }
 
     willReceiveProps(props) {
-        if (this.state.active === null) {
+        if (this.state.active === null || !props.triggerElement) {
             this.extendState({
                 active: false
             })
-        }
-        else {
-            this.extendState({
-                active: !this.state.active
-            })
+            return false
         }
 
-        if (props.triggerElement) {
-            this.extendState({
-                triggerElement: props.triggerElement
-            })
-        }
+
+        this.extendState({
+            active: !this.state.active,
+            triggerElement: props.triggerElement
+        })
 
         return true
     }

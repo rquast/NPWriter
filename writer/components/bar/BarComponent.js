@@ -10,6 +10,21 @@ class BarComponent extends Component {
         super(...args)
     }
 
+    getInitialState() {
+        return {
+            statusText: {}
+        }
+    }
+
+    onStatusText(id, statusText) {
+        if (this.state.statusText[id + '_status'] === statusText) {
+            return
+        }
+
+        this.state.statusText[id + '_status'] = statusText
+        this.rerender()
+    }
+
     render($$) {
         let popovers = this.props.popovers.length ? this.props.popovers : [],
             leftRibbon = $$('div'),
@@ -34,16 +49,38 @@ class BarComponent extends Component {
     }
 
     renderPopover($$, popover) {
+        var id = popover.id
+
+        // Actual popover
         let popoverEl = $$(PopoverComponent)
             .ref(popover.id)
-            .append($$(popover.component))
+            .append(
+                $$(popover.component, {
+                    setStatusText: (statusText) => this.onStatusText(id, statusText)
+                })
+            )
 
-        var id = popover.id
+        // Container for icons, texts, etc
+        let containerEl = $$('div')
+
+        // The popover icon
         let bariconEl = $$(BarIconComponent, {
             icon: popover.icon
         }).on('click', (evt) => this.openPopover(evt, id))
+        containerEl.append(bariconEl)
 
-        return [bariconEl, popoverEl]
+        // Status text
+        if (this.state.statusText[id + '_status']) {
+            let statusEl = $$('p')
+                .ref(popover.id + '_status')
+                .append(
+                    this.state.statusText[id + '_status']
+                )
+
+            containerEl.append(statusEl)
+        }
+
+        return [containerEl, popoverEl]
     }
 
     openPopover(evt, id) {
