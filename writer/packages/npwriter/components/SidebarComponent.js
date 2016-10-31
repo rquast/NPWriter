@@ -49,7 +49,7 @@ class SidebarComponent extends Component {
     getTopBarComponents($$) {
         return this.context.configurator.config.sidebarTopBar.map((plugin) => {
             return $$('div')
-                .addClass('plugin plugin-'+plugin.type)
+                .addClass('plugin plugin-'+plugin.getCSSFriendlyName())
                 .append($$(plugin.component, {panel: plugin}))
         })
     }
@@ -59,7 +59,7 @@ class SidebarComponent extends Component {
             return panel.tabId === tabId
         }).map((panel) => {
             return $$('div')
-                .addClass('plugin plugin-'+panel.type)
+                .addClass('plugin plugin-'+panel.getCSSFriendlyName())
                 .append($$(panel.component, {panel: panel}))
         })
     }

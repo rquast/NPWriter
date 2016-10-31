@@ -1,4 +1,4 @@
-// import jxon from 'jxon/index'
+import jxon from 'jxon'
 import omit from 'lodash/omit'
 import startsWith from 'lodash/startsWith'
 import replace from 'lodash/replace'
@@ -9,12 +9,12 @@ import isArray from 'lodash/isArray'
 import NewsMLExporter from '../packages/npwriter/NewsMLExporter'
 import NewsMLImporter from '../packages/npwriter/NewsMLImporter'
 
-// jxon.config({
-//     autoDate: false,
-//     parseValues: false,
-//     lowerCaseTags: false,
-//     trueIsEmpty: false
-// });
+jxon.config({
+    autoDate: false,
+    parseValues: false,
+    lowerCaseTags: false,
+    trueIsEmpty: false
+});
 
 /**
  * @class NewsItem
@@ -233,7 +233,7 @@ class NewsItem {
      * @return {Object} News priority object
      */
     getNewsPriority() {
-        var node = this.newsItem.querySelector(
+        var node = this.api.newsItemArticle.querySelector(
             'contentMeta metadata object[type="x-im/newsvalue"]');
         if (!node) {
             console.warn('News Priority not found in document');
@@ -265,7 +265,7 @@ class NewsItem {
 
         metaDataNode.appendChild(newsValueNode.childNodes[0]);
 
-        this.triggerEvent(
+        this.api.events.triggerEvent(
             name,
             'data:changed',
             this.getNewsPriority(name)
@@ -291,13 +291,13 @@ class NewsItem {
             throw new Error('Undefined value');
         }
 
-        var metaDataNode = this.newsItem.querySelector('contentMeta metadata'),
-            newsValueNode = this.newsItem.querySelector(
+        var metaDataNode = this.api.newsItemArticle.querySelector('contentMeta metadata'),
+            newsValueNode = this.api.newsItemArticle.querySelector(
                 'contentMeta metadata object[type="x-im/newsvalue"]');
 
         if (!metaDataNode) {
-            var contentMetaNode = this.newsItem.querySelector('contentMeta');
-            metaDataNode = this.newsItem.createElement('metadata');
+            var contentMetaNode = this.api.newsItemArticle.querySelector('contentMeta');
+            metaDataNode = this.api.newsItemArticle.createElement('metadata');
             contentMetaNode.appendChild(metaDataNode);
         }
         else if (newsValueNode) {
@@ -307,7 +307,7 @@ class NewsItem {
         newsValueNode = jxon.unbuild(newsPriority, null, 'object');
         metaDataNode.appendChild(newsValueNode.childNodes[0]);
 
-        this.triggerEvent(
+        this.api.events.triggerEvent(
             name,
             'data:changed',
             this.getNewsPriority(name)
@@ -518,7 +518,7 @@ class NewsItem {
         pubStartNode.setAttribute('value', pubStart.value);
         pubStartNode.setAttribute('type', 'imext:pubstart');
 
-        this.triggerEvent(name, 'data:changed', this.getPubStart());
+        this.api.events.triggerEvent(name, 'data:changed', this.getPubStart());
     };
 
 
@@ -864,7 +864,7 @@ class NewsItem {
         linkTagNode.setAttribute('rel', subject);
         linkTagNode.setAttribute('type', tag.imType[0]);
 
-        this.triggerEvent(name, 'data:changed', {});
+        this.api.events.triggerEvent(name, 'data:changed', {});
 
     }
 
@@ -896,7 +896,7 @@ class NewsItem {
             'itemMeta links link[uuid="' + uuid + '"][rel="' + rel + '"]');
         if (linkNode) {
             linkNode.parentElement.removeChild(linkNode);
-            this.triggerEvent(name, 'data:changed', {});
+            this.api.events.triggerEvent(name, 'data:changed', {});
         } else {
             throw new this.NotFoundException('Could not find linkNode with UUID: ' + uuid);
         }
@@ -944,7 +944,7 @@ class NewsItem {
 
         linksNode.appendChild(locationLinkNode);
 
-        this.triggerEvent(name, 'data:changed', location);
+        this.api.events.triggerEvent(name, 'data:changed', location);
     };
 
     updateLocation(name, location) {
@@ -962,7 +962,7 @@ class NewsItem {
             }
             positionNode.textContent = location.data.position;
 
-            this.triggerEvent(name, 'data:changed', {});
+            this.api.events.triggerEvent(name, 'data:changed', {});
         } else {
             throw new this.NotFoundException('Could not find linkNode with UUID: ' + uuid);
         }
@@ -1030,7 +1030,7 @@ class NewsItem {
         var linkXML = jxon.unbuild(link, null, 'link');
         itemMetaNode.appendChild(linkXML.documentElement);
 
-        this.triggerEvent(name, 'data:changed', link);
+        this.api.events.triggerEvent(name, 'data:changed', link);
     }
 
 
@@ -1115,7 +1115,7 @@ class NewsItem {
         linkNode.setAttribute('type', 'x-im/story');
 
         linksNode.appendChild(linkNode);
-        this.triggerEvent(name, 'data:changed', story);
+        this.api.events.triggerEvent(name, 'data:changed', story);
     }
 
 
@@ -1136,7 +1136,7 @@ class NewsItem {
         if (linkNode) {
             linkNode.setAttribute('title', story.title);
 
-            this.triggerEvent(name, 'data:changed', {});
+            this.api.events.triggerEvent(name, 'data:changed', {});
         } else {
             throw new this.NotFoundException('Could not find linkNode with UUID: ' + uuid);
         }
@@ -1166,7 +1166,7 @@ class NewsItem {
 
         linksNode.appendChild(linkNode);
 
-        this.triggerEvent(name, 'data:changed', contentprofile);
+        this.api.events.triggerEvent(name, 'data:changed', contentprofile);
     }
 
 
@@ -1193,7 +1193,7 @@ class NewsItem {
 
         linksNode.appendChild(linkNode);
 
-        this.triggerEvent(name, 'data:changed', category);
+        this.api.events.triggerEvent(name, 'data:changed', category);
     }
 
 
@@ -1214,7 +1214,7 @@ class NewsItem {
         if (linkNode) {
             linkNode.setAttribute('title', contentprofile.title);
 
-            this.triggerEvent(name, 'data:changed', {});
+            this.api.events.triggerEvent(name, 'data:changed', {});
         } else {
             throw new this.NotFoundException('Could not find linkNode with UUID: ' + uuid);
         }
