@@ -4,14 +4,13 @@ import 'whatwg-fetch'
 
 class PluginManager {
 
-    constructor(configurator) {
+    constructor(configurator, apiManager) {
         this.configurator = configurator
         this.registerPluginList = new Map()
         this.plugins = new Map()
         this.configurationCache = {};
 
-        window.writer = {}
-        window.writer.registerPlugin = this.registerPlugin.bind(this)
+        apiManager.expose('registerPlugin', this.registerPlugin.bind(this))
     }
 
     /**

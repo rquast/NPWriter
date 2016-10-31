@@ -13,6 +13,10 @@ import Start from './packages/load-screens/Start'
 import Error from './packages/load-screens/Error'
 import SaveHandler from './packages/npwriter/SaveHandler'
 import Event from './utils/Event'
+import moment from 'moment'
+import idGenerator from './utils/IdGenerator'
+import APIManager from './api/APIManager'
+import lodash from 'lodash'
 
 const STATUS_ISREADY = 'isReady',
     STATUS_LOADING = 'loading',
@@ -93,12 +97,20 @@ class App extends Component {
 
         this.configurator = new NPWriterConfigurator().import(AppPackage)
 
-        this.pluginManager = new PluginManager(this.configurator);
-        this.api = new API(this.pluginManager, this.configurator)
+        this.APIManager = new APIManager()
+
+        this.pluginManager = new PluginManager(this.configurator, this.APIManager)
+        this.api = new API(this.pluginManager, this.configurator, this.APIManager)
+
         const api = this.api
 
-        window.writer.api = this.api // Expose the API on the window
-        window.writer.Event = this.Event // Expose the API on the window
+        // Expose classes and endpoint on window.writer
+        api.apiManager.expose('api', this.api)
+        api.apiManager.expose('event', Event) // Expose the API on the window
+        api.apiManager.expose('moment', moment) // Expose moment.js on window
+        api.apiManager.expose('idGenerator', idGenerator) // Expose the ID Generator helper method
+        api.apiManager.expose('lodash', lodash) // Expose the ID Generator helper method
+
 
         this.configurator.loadConfigJSON('/api/config')                     // Load config file and store it in configurator
             .then(() => this.configurator.config.writerConfigFile.plugins)  // Get the plugins section from config (stored in the configurator)
@@ -113,7 +125,7 @@ class App extends Component {
                         this.addDefaultConfiguratorComponent()
 
                         var result = api.newsItem.setSource(xmlStr, {});
-                        this.replaceDoc(result);
+
 
                         this.editorSession = new EditorSession(result.idfDocument, {
                             configurator: this.configurator,
@@ -126,8 +138,7 @@ class App extends Component {
                         // ATTENTION: we need to update the API as well to use the fresh editorSession
                         api.editorSession = this.editorSession
 
-                        this.editorSession.saveHandler = this.getSaveHandler()
-                        // this.editorSession.setSaveHandler(this.getSaveHandler())
+                        this.replaceDoc(result);
 
                         // Clear guid if hash is empty
                         if (!api.browser.getHash()) {
@@ -139,7 +150,7 @@ class App extends Component {
                             status: STATUS_ISREADY
                         })
                     })
-                    .catch(this.handleError.bind(this));
+                    // .catch(this.handleError.bind(this));
             })
             .catch(this.handleError.bind(this));
     }
@@ -188,6 +199,8 @@ class App extends Component {
             }
         })
 
+        this.editorSession.saveHandler = this.getSaveHandler()
+        // this.editorSession.setSaveHandler(this.getSaveHandler())
         this.api.init(newsItemArticle, this.editorSession, this.refs)
 
         this.rerender();
@@ -206,7 +219,8 @@ class App extends Component {
                 el.append($$(NPWriterComponent, {
                     pluginManager: this.pluginManager,
                     editorSession: this.editorSession,
-                    configurator: this.configurator
+                    configurator: this.configurator,
+                    api: this.api
                 }).ref('writer'))
                 break
 

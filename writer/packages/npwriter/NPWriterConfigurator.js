@@ -61,9 +61,12 @@ class NPWriterConfigurator extends Configurator {
 
         this.addComponent(tabId + "-tab", component)
         this.config.sidebarPanels.push({
-            type: id,
+            id: id,
             tabId: tabId,
-            component: component
+            component: component,
+            getCSSFriendlyName: () => {
+                return id.replace(/\./g, '-')
+            }
         })
     }
 
@@ -81,8 +84,12 @@ class NPWriterConfigurator extends Configurator {
         this.addComponent(pluginId + "-topbar", component)
 
         this.config.sidebarTopBar.push({
-            type: pluginId,
-            component: component
+            id: pluginId,
+            component: component,
+            getCSSFriendlyName: () => {
+                return pluginId.replace(/\./g, '-')
+            }
+
         })
     }
 

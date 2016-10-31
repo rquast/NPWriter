@@ -61,11 +61,12 @@ class Document {
 
         let editorSession = this.api.editorSession;
         let surface = editorSession.getFocusedSurface();
+        console.log("Surface", editorSession.surfaceManager._state);
         let result;
 
-        if (!surface) {
-            throw new Error("Trying to insert node with no active surface");
-        }
+        // if (!surface) {
+        //     throw new Error("Trying to insert node with no active surface");
+        // }
 
         // Add type and a generated id if not provided
         data.type = !data.type ? name : data.type;
@@ -102,7 +103,7 @@ class Document {
             args.containerId = surface.getContainerId();
             return deleteNode(tx, args);
         });
-        this.api.triggerEvent(name, 'data:changed', {});
+        this.api.Event.triggerEvent(name, 'data:changed', {});
     }
 
     /**

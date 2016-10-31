@@ -27,7 +27,7 @@ jxon.config({
  */
 class Api {
 
-    constructor(pluginManager, configurator) {
+    constructor(pluginManager, configurator, apiManager) {
         this.pluginManager = pluginManager
         this.eventListeners = []
 
@@ -42,8 +42,7 @@ class Api {
         this.upload = new Upload()
         this.exceptions = Exceptions
         this.configurator = configurator
-        this.i18n = {}
-
+        this.apiManager = apiManager
     }
 
     /**
@@ -156,10 +155,6 @@ class Api {
 
 
         return this.router.proxy('/api/external/' + name, op);
-    }
-
-    triggerEvent(...args) {
-        return this.events.triggerEvent(...args)
     }
 }
 

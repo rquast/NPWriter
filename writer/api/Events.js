@@ -90,7 +90,7 @@ class Events {
      * @param {object} data an object with change, info, and doc
      */
     onDocumentChanged(data) {
-        this.triggerEvent(null, 'document:changed', data);
+        this.triggerEvent(null, Event.DOCUMENT_CHANGED, data);
     }
 
     /**
