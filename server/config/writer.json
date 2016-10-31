@@ -3,16 +3,8 @@
     "language": "sv_SE",
     "plugins": [
         {
-          "id": "se.infomaker.publishflow",
-          "name": "publishflow",
-          "url": "http://localhost:5001/index.js",
-          "style": "http://localhost:5001/style.css",
-          "enabled": true,
-          "mandatory": true
-        },
-        {
-            "id": "se.infomaker.preamble",
-            "name": "preamble",
+            "id": "se.infomaker.publishflow",
+            "name": "publishflow",
             "url": "http://localhost:5001/index.js",
             "style": "http://localhost:5001/style.css",
             "enabled": true,

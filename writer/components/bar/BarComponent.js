@@ -2,6 +2,7 @@ import {Component} from 'substance'
 
 import PopoverComponent from './../popover/PopoverComponent'
 import BarIconComponent from './../bar-icon/BarIconComponent'
+import ButtonComponent from './../button/ButtonComponent'
 import './scss/bar.scss'
 
 class BarComponent extends Component {
@@ -12,16 +13,26 @@ class BarComponent extends Component {
 
     getInitialState() {
         return {
-            statusText: {}
+            status: {},
+            button: {}
         }
     }
 
-    onStatusText(id, statusText) {
-        if (this.state.statusText[id + '_status'] === statusText) {
+    onSetStatusText(id, statusText) {
+        if (this.state.status[id + '_status'] === statusText) {
             return
         }
 
-        this.state.statusText[id + '_status'] = statusText
+        this.state.status[id + '_status'] = statusText
+        this.rerender()
+    }
+
+    onSetButtonText(id, buttonText) {
+        if (this.state.button[id + '_btn'] === buttonText) {
+            return
+        }
+
+        this.state.button[id + '_btn'] = buttonText
         this.rerender()
     }
 
@@ -56,25 +67,23 @@ class BarComponent extends Component {
             .ref(popover.id)
             .append(
                 $$(popover.component, {
-                    setStatusText: (statusText) => this.onStatusText(id, statusText)
+                    setStatusText: (statusText) => this.onSetStatusText(id, statusText),
+                    setButtonText: (buttonText) => this.onSetButtonText(id, buttonText)
                 })
+                .ref(popover.id + '_comp')
             )
 
-        // Container for icons, texts, etc
-        let containerEl = $$('div')
-
-        // The popover icon
-        let bariconEl = $$(BarIconComponent, {
-            icon: popover.icon
-        }).on('click', (evt) => this.openPopover(evt, id))
-        containerEl.append(bariconEl)
+        // Container with trigger
+        let containerEl = $$('div').append(
+            this.renderTrigger($$, popover, id)
+        )
 
         // Status text
-        if (this.state.statusText[id + '_status']) {
+        if (this.state.status[id + '_status']) {
             let statusEl = $$('p')
                 .ref(popover.id + '_status')
                 .append(
-                    this.state.statusText[id + '_status']
+                    this.state.status[id + '_status']
                 )
 
             containerEl.append(statusEl)
@@ -83,14 +92,40 @@ class BarComponent extends Component {
         return [containerEl, popoverEl]
     }
 
+    renderTrigger($$, popover, id) {
+        if (!this.state.button[id + '_btn'] || !popover.button) {
+            let bariconEl = $$(BarIconComponent, {
+                icon: popover.icon
+            }).on('click', (evt) => this.openPopover(evt, id))
+
+            return bariconEl
+        }
+        else {
+            let barbuttonEl = $$(ButtonComponent, {
+                contextIcon: popover.icon,
+                label: this.state.button[id + '_btn'],
+                contextClick: (evt) => this.openPopover(evt, id),
+                buttonClick: (evt) => this.buttonClick(evt, id)
+            }).ref(popover.id + '_btn')
+
+            return barbuttonEl
+        }
+    }
+
     openPopover(evt, id) {
-        if (evt.target.nodeName !== 'A') {
+        if (evt.target.nodeName !== 'A' && evt.currentTarget.nodeName !== 'BUTTON') {
             return false
         }
 
         this.refs[id].extendProps({
             triggerElement: evt.currentTarget
         })
+    }
+
+    buttonClick(evt, id) {
+        if (this.refs[id + '_comp'].defaultAction) {
+            this.refs[id + '_comp'].defaultAction()
+        }
     }
 }
 

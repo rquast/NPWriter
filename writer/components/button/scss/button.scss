@@ -1,0 +1,27 @@
+button {
+    display: inline-block;
+
+    background: #0098C7;
+    padding: 0.5rem 1.6rem;
+    font-size: 1rem;
+    line-height: 20px;
+    border-radius: 40px;
+
+    color: #fff;
+    a.fa {
+        color: #fff;
+    }
+}
+
+.sc-np-btn-group {
+    button {
+        &:first-child {
+            border-radius: 40px 0 0 40px;
+            border-right: 1px solid #55A2D6;
+        }
+
+        &:last-child {
+            border-radius: 0 40px 40px 0;
+        }
+    }
+}
