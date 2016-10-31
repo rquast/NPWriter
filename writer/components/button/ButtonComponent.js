@@ -21,6 +21,9 @@ class ButtonComponent extends Component {
             .on('click', evt => this.onButtonClick(evt))
 
         if (!this.props.contextIcon) {
+            if (this.props.enabled === false) {
+                buttonEl.addClass('disabled')
+            }
             return buttonEl
         }
 
@@ -35,11 +38,19 @@ class ButtonComponent extends Component {
                 .on('click', evt => this.onContextClick(evt))
             ])
 
+        if (this.props.enabled === false) {
+            buttonGroupEl.addClass('disabled')
+        }
+
         return buttonGroupEl
     }
 
     onButtonClick(evt) {
         try {
+            if (this.props.enabled === false) {
+                return false
+            }
+
             if (this.props.buttonClick) {
                 this.props.buttonClick(evt)
             }
@@ -49,6 +60,10 @@ class ButtonComponent extends Component {
 
     onContextClick(evt) {
         try {
+            if (this.props.enabled === false) {
+                return false
+            }
+
             if (this.props.contextClick) {
                 this.props.contextClick(evt)
             }

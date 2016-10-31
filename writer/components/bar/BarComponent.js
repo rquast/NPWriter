@@ -41,6 +41,11 @@ class BarComponent extends Component {
         this.rerender()
     }
 
+    onSetEnabled(id, enabled) {
+        this.state.button[id + '_disabled'] = !enabled
+        this.rerender()
+    }
+
     render($$) {
         let popovers = this.props.popovers.length ? this.props.popovers : [],
             leftRibbon = $$('div'),
@@ -74,7 +79,9 @@ class BarComponent extends Component {
                 $$(popover.component, {
                     setStatusText: (statusText) => this.onSetStatusText(id, statusText),
                     setButtonText: (buttonText) => this.onSetButtonText(id, buttonText),
-                    setIcon: (iconClass) => this.onSetIcon(id, iconClass)
+                    setIcon: (iconClass) => this.onSetIcon(id, iconClass),
+                    disable: () => this.onSetEnabled(id, false),
+                    enable: () => this.onSetEnabled(id, true)
                 })
                 .ref(popover.id + '_comp')
             )
@@ -106,7 +113,8 @@ class BarComponent extends Component {
 
         if (!this.state.button[id + '_btn'] || !popover.button) {
             let bariconEl = $$(BarIconComponent, {
-                icon: iconClass
+                icon: iconClass,
+                enabled: this.state.button[id + '_disabled'] ? false : true
             })
             .on('click', (evt) => this.openPopover(evt, id))
 
@@ -116,6 +124,7 @@ class BarComponent extends Component {
             let barbuttonEl = $$(ButtonComponent, {
                 contextIcon: iconClass,
                 label: this.state.button[id + '_btn'],
+                enabled: this.state.button[id + '_disabled'] ? false : true,
                 contextClick: (evt) => this.openPopover(evt, id),
                 buttonClick: (evt) => this.buttonClick(evt, id)
             }).ref(popover.id + '_btn')

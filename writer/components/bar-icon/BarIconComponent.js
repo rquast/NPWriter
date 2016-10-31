@@ -25,11 +25,19 @@ class BarIconComponent extends Component {
             el.addClass('active')
         }
 
+        if (this.props.enabled === false) {
+            el.addClass('disabled')
+        }
+
         return el
     }
 
     onClick() {
         try {
+            if (this.props.enabled === false) {
+                return false
+            }
+
             // HACK: Avoid having the element detached before calculations
             window.setTimeout(() => {
                 this.setState({

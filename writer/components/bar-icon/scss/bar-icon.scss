@@ -1,5 +1,6 @@
 .sc-np-bar-icon {
     display: inline-block;
+    transition: opacity ease-in-out 0.1s;
 
     a {
         display: inline-block;
@@ -22,5 +23,9 @@
             background: #fafafa;
             color: #000;
         }
+    }
+
+    &.disabled {
+        opacity: 0.7;
     }
 }
