@@ -6,6 +6,7 @@ import SidebarComponent from './components/SidebarComponent'
 
 import BarComponent from './../../components/bar/BarComponent'
 import DialogComponent from '../dialog/DialogComponent'
+import Event from '../../utils/Event'
 
 class NPWriter extends AbstractEditor {
 
@@ -20,6 +21,17 @@ class NPWriter extends AbstractEditor {
         })
     }
 
+    constructor(...args) {
+        super(...args)
+
+        const actionHandlers = {}
+        actionHandlers[Event.DIALOG_CLOSE] = () => {
+            this.setState({})
+        }
+
+        this.handleActions(actionHandlers)
+    }
+
     didMount() {
         super.didMount()
 
@@ -30,8 +42,19 @@ class NPWriter extends AbstractEditor {
 
     }
 
+
     editorSessionUpdated(data) {
-        this.props.api.events.onDocumentChanged(data)
+        if (data._change) {
+            // console.log('...has unsaved changes', data._hasUnsavedChanges)
+            // console.log('...is transacting     ', data._isTransacting)
+            // console.log('...is saving          ', data._isSaving)
+            // console.log('...number of changes  ', data._history.doneChanges.length);
+            // console.log('...change             ', data._change);
+            // console.log('...current change     ', data._currentChange);
+            // console.log('-----------------------------------------------------')
+
+            this.props.api.events.onDocumentChanged(data)
+        }
     }
 
     dispose() {
@@ -43,12 +66,13 @@ class NPWriter extends AbstractEditor {
 
     render($$) {
         this.$$ = $$
+
         const el = $$('div')
             .addClass('sc-np-writer').ref('npwriter')
 
         el.append(
             this._renderMainbarPanel($$),
-            $$(SplitPane, {splitType: 'vertical'}).append(
+            $$(SplitPane, {splitType: 'vertical'}).ref('splitPane').append(
                 this._renderMainSection($$),
                 this._renderSidebarPanel($$)
             )
@@ -64,11 +88,11 @@ class NPWriter extends AbstractEditor {
     }
 
     _renderSidebarPanel($$) {
-        return $$(SidebarComponent)
+        return $$(SidebarComponent).ref('sidebar')
     }
 
     _renderMainSection($$) {
-        let mainSection = $$('div').addClass('se-main-section')
+        let mainSection = $$('div').addClass('se-main-section').ref('main-section')
 
         mainSection.append(
             this._renderContentPanel($$)
@@ -125,20 +149,13 @@ class NPWriter extends AbstractEditor {
      */
     showDialog(contentComponent, props, options) {
 
-
-        const context = {
-            context: {
-                api: this.props.api
-            }
-        };
-
         const dialog = {
             content: contentComponent,
-            contentProps: Object.assign({}, props, context),
+            contentProps: Object.assign({}, props, this.context),
             options: options
         };
 
-        this.refs.npwriter.append(this.$$(DialogComponent, dialog));
+        this.refs.npwriter.append(this.$$(DialogComponent, dialog))
     }
 
     _getExporter() {

@@ -30,12 +30,13 @@ class Helper {
             getChildContext() {
                 return Object.assign({}, {
                     configurator: this.props.configurator,
+                    api: this.api
                 });
             }
 
 
             render($$) {
-
+                this.$$ = $$
                 // MOCK
                 window.document.createRange = () => {}
 
@@ -60,7 +61,7 @@ class Helper {
                     api: this.api
                 }).ref('writer')
 
-                return $$('div').attr('id', 'main').append('hello')
+                return $$('div').attr('id', 'main').ref('app').append('hello')
                     .append(writer)
             }
 
