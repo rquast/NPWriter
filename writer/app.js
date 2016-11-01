@@ -80,6 +80,11 @@ class App extends Component {
         return hash
     }
 
+
+    /**
+     * Returns the saveHandler or create one if not created
+     * @returns {SaveHandler}
+     */
     getSaveHandler() {
         if(!this.saveHandler) {
             this.saveHandler = new SaveHandler({
