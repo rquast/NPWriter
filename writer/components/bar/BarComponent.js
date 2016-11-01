@@ -2,12 +2,48 @@ import {Component} from 'substance'
 
 import PopoverComponent from './../popover/PopoverComponent'
 import BarIconComponent from './../bar-icon/BarIconComponent'
+import ButtonComponent from './../button/ButtonComponent'
 import './scss/bar.scss'
 
 class BarComponent extends Component {
 
     constructor(...args) {
         super(...args)
+    }
+
+    getInitialState() {
+        return {
+            status: {},
+            button: {}
+        }
+    }
+
+    onSetStatusText(id, statusText) {
+        if (this.state.status[id + '_status'] === statusText) {
+            return
+        }
+
+        this.state.status[id + '_status'] = statusText
+        this.rerender()
+    }
+
+    onSetButtonText(id, buttonText) {
+        if (this.state.button[id + '_btn'] === buttonText) {
+            return
+        }
+
+        this.state.button[id + '_btn'] = buttonText
+        this.rerender()
+    }
+
+    onSetIcon(id, iconClass) {
+        this.state.button[id + '_icon'] = iconClass
+        this.rerender()
+    }
+
+    onSetEnabled(id, enabled) {
+        this.state.button[id + '_disabled'] = !enabled
+        this.rerender()
     }
 
     render($$) {
@@ -34,26 +70,83 @@ class BarComponent extends Component {
     }
 
     renderPopover($$, popover) {
+        var id = popover.id
+
+        // Actual popover
         let popoverEl = $$(PopoverComponent)
             .ref(popover.id)
-            .append($$(popover.component))
+            .append(
+                $$(popover.component, {
+                    setStatusText: (statusText) => this.onSetStatusText(id, statusText),
+                    setButtonText: (buttonText) => this.onSetButtonText(id, buttonText),
+                    setIcon: (iconClass) => this.onSetIcon(id, iconClass),
+                    disable: () => this.onSetEnabled(id, false),
+                    enable: () => this.onSetEnabled(id, true)
+                })
+                .ref(popover.id + '_comp')
+            )
 
-        var id = popover.id
-        let bariconEl = $$(BarIconComponent, {
-            icon: popover.icon
-        }).on('click', (evt) => this.openPopover(evt, id))
+        // Container with trigger
+        let containerEl = $$('div').append(
+            this.renderTrigger($$, popover, id)
+        )
 
-        return [bariconEl, popoverEl]
+        // Status text
+        if (this.state.status[id + '_status']) {
+            let statusEl = $$('p')
+                .ref(popover.id + '_status')
+                .append(
+                    this.state.status[id + '_status']
+                )
+
+            containerEl.append(statusEl)
+        }
+
+        return [containerEl, popoverEl]
+    }
+
+    renderTrigger($$, popover, id) {
+        let iconClass = popover.icon
+        if (this.state.button[id + '_icon']) {
+            iconClass = this.state.button[id + '_icon']
+        }
+
+        if (!this.state.button[id + '_btn'] || !popover.button) {
+            let bariconEl = $$(BarIconComponent, {
+                icon: iconClass,
+                enabled: this.state.button[id + '_disabled'] ? false : true
+            })
+            .on('click', (evt) => this.openPopover(evt, id))
+
+            return bariconEl
+        }
+        else {
+            let barbuttonEl = $$(ButtonComponent, {
+                contextIcon: iconClass,
+                label: this.state.button[id + '_btn'],
+                enabled: this.state.button[id + '_disabled'] ? false : true,
+                contextClick: (evt) => this.openPopover(evt, id),
+                buttonClick: (evt) => this.buttonClick(evt, id)
+            }).ref(popover.id + '_btn')
+
+            return barbuttonEl
+        }
     }
 
     openPopover(evt, id) {
-        if (evt.target.nodeName !== 'A') {
+        if (evt.target.nodeName !== 'A' && evt.currentTarget.nodeName !== 'BUTTON') {
             return false
         }
 
         this.refs[id].extendProps({
             triggerElement: evt.currentTarget
         })
+    }
+
+    buttonClick(evt, id) {
+        if (this.refs[id + '_comp'].defaultAction) {
+            this.refs[id + '_comp'].defaultAction()
+        }
     }
 }
 

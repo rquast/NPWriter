@@ -17,7 +17,7 @@ class BarIconComponent extends Component {
         var el = $$('div').addClass('sc-np-bar-icon')
             .append(
                 $$('a')
-                    .addClass('fa fa-image')
+                    .addClass('fa ' + this.props.icon)
                     .on('click', evt => this.onClick(evt))
             )
 
@@ -25,14 +25,25 @@ class BarIconComponent extends Component {
             el.addClass('active')
         }
 
+        if (this.props.enabled === false) {
+            el.addClass('disabled')
+        }
+
         return el
     }
 
     onClick() {
         try {
-            this.setState({
-                active: !this.state.active
-            })
+            if (this.props.enabled === false) {
+                return false
+            }
+
+            // HACK: Avoid having the element detached before calculations
+            window.setTimeout(() => {
+                this.setState({
+                    active: !this.state.active
+                })
+            }, 50)
         }
         catch(ex) {}
 

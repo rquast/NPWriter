@@ -21,17 +21,22 @@ class NPWriterConfigurator extends Configurator {
      * Add a substance Component in a popover that is triggered by an
      * icon in the top bar.
      * @param {string} id Package id
-     * @param {string} icon Font awesome icon name
-     * @param {string} align Alignment of icon in the top bar, either "left" or "right"
+     * @param {object} def Definition for the popover trigger icon or button
      * @param {Component} component Substance component
      */
-    addPopover(id, icon, align, component) {
-        let alignment = align === 'left' ? 'left' : 'right'
+    addPopover(id, def, component) {
+        def.align = def.align === 'left' ? 'left' : 'right'
+        def.button = def.button === true ? true : false
+
+        if (!def.icon) {
+            throw new Error('Popover trigger must have a default icon')
+        }
 
         this.config.popovers.push({
             id: id,
-            icon: icon,
-            align: alignment,
+            icon: def.icon,
+            button: def.button,
+            align: def.align,
             component: component
         })
     }
