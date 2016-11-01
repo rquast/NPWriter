@@ -10,6 +10,16 @@ class Browser {
     }
 
     /**
+     * Validate if browser is supported
+     *
+     * @return {boolean}
+     */
+    isSupported() {
+        var browser = require('detect-browser');
+        return browser.name === 'chrome';
+    }
+
+    /**
      * Setup handling of hash, article id, in the browser location bar
      */
     setupHashHandler() {

@@ -170,10 +170,8 @@ class App extends Component {
     handleApplicationKeyCombos(e) {
         let handled = false;
 
-
         if (e.keyCode === 83 && (e.metaKey || e.ctrlKey)) { // Save: cmd+s
-            // this.props.pluginManager.api.triggerEvent('__controller', 'useraction:save', {});
-            this.editorSession.saveHandler.saveDocument() // Temp fix for now..
+            this.api.newsItem.save()
             handled = true;
         }
 
@@ -200,7 +198,6 @@ class App extends Component {
         })
 
         this.editorSession.saveHandler = this.getSaveHandler()
-        // this.editorSession.setSaveHandler(this.getSaveHandler())
         this.api.init(newsItemArticle, this.editorSession, this.refs)
 
         this.rerender();

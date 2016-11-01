@@ -28,7 +28,17 @@ class NPWriter extends AbstractEditor {
     }
 
     editorSessionUpdated(data) {
-        this.props.api.events.onDocumentChanged(data)
+        if (data._change) {
+            // console.log('...has unsaved changes', data._hasUnsavedChanges)
+            // console.log('...is transacting     ', data._isTransacting)
+            // console.log('...is saving          ', data._isSaving)
+            // console.log('...number of changes  ', data._history.doneChanges.length);
+            // console.log('...change             ', data._change);
+            // console.log('...current change     ', data._currentChange);
+            // console.log('-----------------------------------------------------')
+
+            this.props.api.events.onDocumentChanged(data)
+        }
     }
 
     dispose() {

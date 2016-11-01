@@ -29,16 +29,6 @@ class NewsItem {
     }
 
     /**
-     * Validate if browser is supported
-     *
-     * @return {boolean}
-     */
-    isSupportedBrowser() {
-        var browser = require('detect-browser');
-        return browser.name === 'chrome';
-    }
-
-    /**
      * Validate news item before saving
      * This api method is called automatically by the writer when a save is
      * requested. Should normally not be called directly from a plugin as it
@@ -112,18 +102,25 @@ class NewsItem {
      * @param {Function} onError Optional callback function called on validation error
      */
     save(onBeforeSave, onError) {
-        // Create callback that takes a boolean, true = save, false = cancel
-        this.refs.writer.send('validate', function (isValid) {
-            if (isValid) {
-                if (onBeforeSave) {
-                    onBeforeSave();
-                }
-                this.refs.writer.send('save');
-            }
-            else if (onError) {
-                onError();
-            }
-        }.bind(this));
+        if (this.api.browser.isSupported()) {
+            this.api.editorSession.saveHandler.saveDocument()
+        }
+        else {
+            // TODO: Display nicer error dialog
+            console.log('Unsupported browser. Document not saved!')
+        }
+        // // Create callback that takes a boolean, true = save, false = cancel
+        // this.refs.writer.send('validate', function (isValid) {
+        //     if (isValid) {
+        //         if (onBeforeSave) {
+        //             onBeforeSave();
+        //         }
+        //         this.refs.writer.send('save');
+        //     }
+        //     else if (onError) {
+        //         onError();
+        //     }
+        // }.bind(this));
     }
 
     getSource() {
@@ -450,54 +447,63 @@ class NewsItem {
 
     /**
      * Get the pubStatus of document
+     *
      * @returns {Object} Return object with current pubStatus of document
      */
     getPubStatus() {
-        var node = this.newsItem.querySelector('itemMeta pubStatus');
+        let newsItem = this.api.newsItemArticle,
+            node = newsItem.querySelector('itemMeta pubStatus')
+
         if (!node) {
-            return null;
+            return null
         }
 
-        var pubStatusNode = jxon.build(node);
-        pubStatusNode.qcode = pubStatusNode['@qcode'];
-        delete pubStatusNode['@qcode'];
-        return pubStatusNode;
-    };
+        var pubStatusNode = jxon.build(node)
+        pubStatusNode.qcode = pubStatusNode['$qcode']
+        delete pubStatusNode['$qcode']
+        return pubStatusNode
+    }
 
 
     /**
      * Set pubStatus
      * Creates a pubStatus node in itemMeta if it not exists
+     *
      * @param {string} name
      * @param {object} pubStatus
      */
     setPubstatus(name, pubStatus) {
-        var node = this.newsItem.querySelector('itemMeta pubStatus');
+        let newsItem = this.api.newsItemArticle,
+            node = newsItem.querySelector('itemMeta pubStatus')
+
         if (!node) {
-            var itemMetaNode = this.newsItem.querySelector('itemMeta');
-            node = this.newsItem.createElement('pubStatus');
-            itemMetaNode.appendChild(node);
+            let itemMetaNode = newsItem.querySelector('itemMeta')
+            node = newsItem.createElement('pubStatus')
+            itemMetaNode.appendChild(node)
         }
-        node.setAttribute('qcode', pubStatus.qcode);
-    };
+
+        node.setAttribute('qcode', pubStatus.qcode)
+    }
 
 
     /**
      * Get pubStart
+     *
      * @returns {object} Object {value: "2016-02-08T20:37:25 01:00", type: "imext:pubstart"}
      */
     getPubStart() {
-        var pubStartNode = this._getItemMetaExtPropertyByType('imext:pubstart');
+        let pubStartNode = this._getItemMetaExtPropertyByType('imext:pubstart')
         if (!pubStartNode) {
-            return null;
+            return null
         }
-        var pubStartJson = jxon.build(pubStartNode);
-        pubStartJson.value = pubStartJson['@value'];
-        pubStartJson.type = pubStartJson['@type'];
 
-        pubStartJson = omit(pubStartJson, ['@type', '@value']);
-        return pubStartJson;
-    };
+        let pubStartJson = jxon.build(pubStartNode)
+        pubStartJson.value = pubStartJson['$value']
+        pubStartJson.type = pubStartJson['$type']
+        pubStartJson = omit(pubStartJson, ['$type', '$value'])
+
+        return pubStartJson
+    }
 
 
     /**
@@ -509,17 +515,24 @@ class NewsItem {
      * @param {object} pubStart Expect object with value property. Type is ignored. Object {value: "2016-02-08T20:37:25 01:00"}
      */
     setPubStart(name, pubStart) {
-        var pubStartNode = this._getItemMetaExtPropertyByType('imext:pubstart');
-        if (!pubStartNode) {
-            var itemMetaNode = this.newsItem.querySelector('itemMeta');
-            pubStartNode = this.newsItem.createElement('itemMetaExtProperty');
-            itemMetaNode.appendChild(pubStartNode);
-        }
-        pubStartNode.setAttribute('value', pubStart.value);
-        pubStartNode.setAttribute('type', 'imext:pubstart');
+        let newsItem = this.api.newsItemArticle,
+            pubStartNode = this._getItemMetaExtPropertyByType('imext:pubstart')
 
-        this.api.events.triggerEvent(name, 'data:changed', this.getPubStart());
-    };
+        if (!pubStartNode) {
+            let itemMetaNode = newsItem.querySelector('itemMeta')
+            pubStartNode = newsItem.createElement('itemMetaExtProperty')
+            itemMetaNode.appendChild(pubStartNode)
+        }
+
+        pubStartNode.setAttribute('value', pubStart.value)
+        pubStartNode.setAttribute('type', 'imext:pubstart')
+
+        // FIXME: Should we replace data:changed to document:changed?
+        this.api.events.triggerEvent(
+            name,
+            'data:changed', this.getPubStart()
+        )
+    }
 
 
     /**
@@ -531,31 +544,37 @@ class NewsItem {
      * @param name
      */
     removePubStart(name) {
-        var pubStartNode = this._getItemMetaExtPropertyByType('imext:pubstart');
+        let pubStartNode = this._getItemMetaExtPropertyByType('imext:pubstart')
+
         if (pubStartNode) {
-            pubStartNode.parentElement.removeChild(pubStartNode);
+            pubStartNode.parentElement.removeChild(pubStartNode)
         }
-        this._triggerEvent(name, 'data:changed', {});
-    };
+
+        // FIXME: Should we replace data:changed to document:changed?
+        this._triggerEvent(name, 'data:changed', {})
+    }
 
 
     /**
      * Get pubStop
+     *
      * @returns {object}
      */
     getPubStop() {
-        var pubStopNode = this._getItemMetaExtPropertyByType('imext:pubstop');
-        if (!pubStopNode) {
-            return null;
-        }
-        var pubStartJson = jxon.build(pubStopNode);
-        pubStartJson.type = pubStartJson['@type'];
-        pubStartJson.value = pubStartJson['@value'];
-        delete pubStartJson['@type'];
-        delete pubStartJson['@value'];
+        let pubStopNode = this._getItemMetaExtPropertyByType('imext:pubstop')
 
-        return pubStartJson;
-    };
+        if (!pubStopNode) {
+            return null
+        }
+
+        let pubStartJson = jxon.build(pubStopNode)
+        pubStartJson.type = pubStartJson['$type']
+        pubStartJson.value = pubStartJson['$value']
+        delete pubStartJson['$type']
+        delete pubStartJson['$value']
+
+        return pubStartJson
+    }
 
 
     /**
@@ -569,16 +588,19 @@ class NewsItem {
      * @returns {object}
      */
     setPubStop(name, pubStop) {
-        var pubStopNode = this._getItemMetaExtPropertyByType('imext:pubstop');
-        if (!pubStopNode) {
-            var itemMetaNode = this.newsItem.querySelector('itemMeta');
-            pubStopNode = this.newsItem.createElement('itemMetaExtProperty');
-            itemMetaNode.appendChild(pubStopNode);
-        }
-        pubStopNode.setAttribute('value', pubStop.value);
-        pubStopNode.setAttribute('type', 'imext:pubstop');
+        let pubStopNode = this._getItemMetaExtPropertyByType('imext:pubstop')
 
-        this._triggerEvent(name, 'data:changed', this.getPubStop());
+        if (!pubStopNode) {
+            let itemMetaNode = this.newsItem.querySelector('itemMeta')
+            pubStopNode = this.newsItem.createElement('itemMetaExtProperty')
+            itemMetaNode.appendChild(pubStopNode)
+        }
+
+        pubStopNode.setAttribute('value', pubStop.value)
+        pubStopNode.setAttribute('type', 'imext:pubstop')
+
+        // FIXME: Should we replace data:changed to document:changed?
+        this._triggerEvent(name, 'data:changed', this.getPubStop())
     }
 
 
@@ -590,11 +612,13 @@ class NewsItem {
      * @param {string} name Plugin name
      */
     removePubStop(name) {
-        var pubStopNode = this._getItemMetaExtPropertyByType('imext:pubstop');
+        let pubStopNode = this._getItemMetaExtPropertyByType('imext:pubstop')
         if (pubStopNode) {
-            pubStopNode.parentElement.removeChild(pubStopNode);
+            pubStopNode.parentElement.removeChild(pubStopNode)
         }
-        this._triggerEvent(name, 'data:changed', {});
+
+        // FIXME: Should we replace data:changed to document:changed?
+        this._triggerEvent(name, 'data:changed', {})
     }
 
 
@@ -1267,12 +1291,14 @@ class NewsItem {
 
     /**
      * Generic method to find different itemMetaExtproperty nodes
+     *
      * @param {string} imExtType Type of itemMetaExtproprtyNode
      * @returns {Element}
      */
     _getItemMetaExtPropertyByType(imExtType) {
-        return this.newsItem.querySelector(
-            'itemMeta itemMetaExtProperty[type="' + imExtType + '"]');
+        return this.api.newsItemArticle.querySelector(
+            'itemMeta itemMetaExtProperty[type="' + imExtType + '"]'
+        )
     }
 
 
