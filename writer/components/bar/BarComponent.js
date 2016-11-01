@@ -18,13 +18,21 @@ class BarComponent extends Component {
         }
     }
 
+    // didUpdate() {
+    //     if (this.state.flashStatus) {
+    //         this.refs[this.state.flashStatus].addClass('imc-flash')
+    //     }
+    // }
+
     onSetStatusText(id, statusText) {
         if (this.state.status[id + '_status'] === statusText) {
             return
         }
 
         this.state.status[id + '_status'] = statusText
-        this.rerender()
+        this.extendState({
+            flashStatus: id + '_status'
+        })
     }
 
     onSetButtonText(id, buttonText) {
@@ -87,13 +95,16 @@ class BarComponent extends Component {
             )
 
         // Container with trigger
-        let containerEl = $$('div').append(
-            this.renderTrigger($$, popover, id)
-        )
+        let containerEl = $$('div')
+            .addClass('sc-np-bar-container')
+            .append(
+                this.renderTrigger($$, popover, id)
+            )
 
         // Status text
         if (this.state.status[id + '_status']) {
             let statusEl = $$('p')
+                .addClass('sc-np-bar-item')
                 .ref(popover.id + '_status')
                 .append(
                     this.state.status[id + '_status']
