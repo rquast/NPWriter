@@ -2,7 +2,8 @@ var express = require('express');
 var path = require('path');
 var app = express();
 var routes = require('./server/routes/routes')
-var config = require('./server/models/ConfigurationManager');
+var config = require('./server/models/ConfigurationManager')
+
 const ConfigurationLoader = require('./server/models/ConfigurationLoader')
 
 const environmentVariables = process.env

@@ -71,7 +71,7 @@ class Ui {
      * @oaram {object} options Options passed to dialog
      */
     showDialog(contentComponent, props, options) {
-        var writer = this.refs.writer;
+        var writer = this.api.refs.writer;
         writer.showDialog(contentComponent, props, options);
     }
 

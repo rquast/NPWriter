@@ -18,6 +18,8 @@ import ParagraphPackage from '../paragraph/ParagraphPackage'
 import BlockquotePackage from '../blockquote/BlockquotePackage'
 import SwitchTextTypePackage from '../switch-text-type/SwitchTextTypePackage'
 import ConfigEditorPackage from '../config-editor/ConfigEditorPackage'
+import DialogPackage from '../dialog/DialogPackage'
+
 
 export default {
     name: 'npwriter',
@@ -45,6 +47,8 @@ export default {
         config.import(BlockquotePackage)
 
         config.import(ConfigEditorPackage)
+
+        config.import(DialogPackage)
 
         // general purpose
         config.import(SwitchTextTypePackage)

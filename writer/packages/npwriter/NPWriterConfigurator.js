@@ -59,7 +59,7 @@ class NPWriterConfigurator extends Configurator {
             throw new Error('Ui must be an instance of Component')
         }
 
-        this.addComponent(tabId + "-tab", component)
+        this.addComponent(id + "-tab", component)
         this.config.sidebarPanels.push({
             id: id,
             tabId: tabId,

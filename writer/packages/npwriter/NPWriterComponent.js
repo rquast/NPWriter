@@ -5,6 +5,7 @@ import ContentMenu from './ContentMenu'
 import SidebarComponent from './components/SidebarComponent'
 
 import BarComponent from './../../components/bar/BarComponent'
+import DialogComponent from '../dialog/DialogComponent'
 
 class NPWriter extends AbstractEditor {
 
@@ -25,6 +26,8 @@ class NPWriter extends AbstractEditor {
         this.spellCheckManager.runGlobalCheck()
         this.editorSession.onUpdate(this.editorSessionUpdated, this)
 
+        this.props.api.refs.writer = this
+
     }
 
     editorSessionUpdated(data) {
@@ -39,8 +42,9 @@ class NPWriter extends AbstractEditor {
 
 
     render($$) {
+        this.$$ = $$
         const el = $$('div')
-            .addClass('sc-np-writer')
+            .addClass('sc-np-writer').ref('npwriter')
 
         el.append(
             this._renderMainbarPanel($$),
@@ -112,6 +116,30 @@ class NPWriter extends AbstractEditor {
         this.refs.contentPanel.scrollTo(nodeId)
     }
 
+
+    /**
+     *
+     * @param {Component} contentComponent The component passed in by the user, Should be instance of a Substance Component
+     * @param {object} props An object passed by user that is later reached by this.props in the contentComponent
+     * @param {object} options Options passed to the DialogComponent
+     */
+    showDialog(contentComponent, props, options) {
+
+
+        const context = {
+            context: {
+                api: this.props.api
+            }
+        };
+
+        const dialog = {
+            content: contentComponent,
+            contentProps: Object.assign({}, props, context),
+            options: options
+        };
+
+        this.refs.npwriter.append(this.$$(DialogComponent, dialog));
+    }
 
     _getExporter() {
         return {}
