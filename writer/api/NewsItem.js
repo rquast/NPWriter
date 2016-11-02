@@ -551,7 +551,10 @@ class NewsItem {
         }
 
         // FIXME: Should we replace data:changed to document:changed?
-        this._triggerEvent(name, 'data:changed', {})
+        this.api.events.triggerEvent(
+            name,
+            'data:changed', {}
+        )
     }
 
 
@@ -600,7 +603,11 @@ class NewsItem {
         pubStopNode.setAttribute('type', 'imext:pubstop')
 
         // FIXME: Should we replace data:changed to document:changed?
-        this._triggerEvent(name, 'data:changed', this.getPubStop())
+        this.api.events.triggerEvent(
+            name,
+            'data:changed',
+            this.getPubStop()
+        )
     }
 
 
@@ -618,7 +625,10 @@ class NewsItem {
         }
 
         // FIXME: Should we replace data:changed to document:changed?
-        this._triggerEvent(name, 'data:changed', {})
+        this.api.events.triggerEvent(
+            name,
+            'data:changed', {}
+        )
     }
 
 

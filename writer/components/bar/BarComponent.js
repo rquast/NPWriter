@@ -18,13 +18,21 @@ class BarComponent extends Component {
         }
     }
 
+    // didUpdate() {
+    //     if (this.state.flashStatus) {
+    //         this.refs[this.state.flashStatus].addClass('imc-flash')
+    //     }
+    // }
+
     onSetStatusText(id, statusText) {
         if (this.state.status[id + '_status'] === statusText) {
             return
         }
 
         this.state.status[id + '_status'] = statusText
-        this.rerender()
+        this.extendState({
+            flashStatus: id + '_status'
+        })
     }
 
     onSetButtonText(id, buttonText) {
@@ -77,23 +85,29 @@ class BarComponent extends Component {
             .ref(popover.id)
             .append(
                 $$(popover.component, {
-                    setStatusText: (statusText) => this.onSetStatusText(id, statusText),
-                    setButtonText: (buttonText) => this.onSetButtonText(id, buttonText),
-                    setIcon: (iconClass) => this.onSetIcon(id, iconClass),
-                    disable: () => this.onSetEnabled(id, false),
-                    enable: () => this.onSetEnabled(id, true)
+                    popover: {
+                        setStatusText: (statusText) => this.onSetStatusText(id, statusText),
+                        setButtonText: (buttonText) => this.onSetButtonText(id, buttonText),
+                        setIcon: (iconClass) => this.onSetIcon(id, iconClass),
+                        disable: () => this.onSetEnabled(id, false),
+                        enable: () => this.onSetEnabled(id, true),
+                        close: () => this.closePopover(id)
+                    }
                 })
                 .ref(popover.id + '_comp')
             )
 
         // Container with trigger
-        let containerEl = $$('div').append(
-            this.renderTrigger($$, popover, id)
-        )
+        let containerEl = $$('div')
+            .addClass('sc-np-bar-container')
+            .append(
+                this.renderTrigger($$, popover, id)
+            )
 
         // Status text
         if (this.state.status[id + '_status']) {
             let statusEl = $$('p')
+                .addClass('sc-np-bar-item')
                 .ref(popover.id + '_status')
                 .append(
                     this.state.status[id + '_status']
@@ -140,6 +154,12 @@ class BarComponent extends Component {
 
         this.refs[id].extendProps({
             triggerElement: evt.currentTarget
+        })
+    }
+
+    closePopover(id) {
+        this.refs[id].extendProps({
+            triggerElement: null
         })
     }
 

@@ -15,6 +15,7 @@ class ButtonComponent extends Component {
 
     render($$) {
         let buttonEl = $$('button')
+            .addClass('sc-np-btn')
             .append(
                 this.props.label
             )
