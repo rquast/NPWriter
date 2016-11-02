@@ -6,6 +6,7 @@ import SidebarComponent from './components/SidebarComponent'
 
 import BarComponent from './../../components/bar/BarComponent'
 import DialogComponent from '../dialog/DialogComponent'
+import DialogMessageComponent from '../dialog/DialogMessageComponent'
 import Event from '../../utils/Event'
 
 class NPWriter extends AbstractEditor {
@@ -156,6 +157,39 @@ class NPWriter extends AbstractEditor {
         };
 
         this.refs.npwriter.append(this.$$(DialogComponent, dialog))
+    }
+
+    showMessageDialog( messages, props, options) {
+        props.messages = {
+            error: [],
+            warning: [],
+            info: [],
+            title: []
+        };
+
+        for (var n = 0; n < messages.length; n++) {
+            switch(messages[n].type) {
+                case 'error':
+                    props.messages.error.push(messages[n]);
+                    break;
+                case 'warning':
+                    props.messages.warning.push(messages[n]);
+                    break;
+                case 'title':
+                    props.messages.title.push(messages[n]);
+                    break;
+                default:
+                    props.messages.info.push(messages[n]);
+            }
+        }
+
+        var dialog = {
+            content: DialogMessageComponent,
+            contentProps: Object.assign({}, props, this.context),
+            options: options
+        };
+
+        this.refs.npwriter.append(this.$$(DialogComponent, dialog));
     }
 
     _getExporter() {

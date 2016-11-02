@@ -19,7 +19,19 @@ class DialogComponent extends Component {
         });
     }
 
+
+
     didMount() {
+
+        this.changeModalHeight()
+
+        window.onresize = () => {
+            this.changeModalHeight()
+        }
+    }
+
+    dispose() {
+        window.onresize = null
     }
 
     enablePrimaryBtn() {
@@ -43,6 +55,22 @@ class DialogComponent extends Component {
     render($$) {
         this.$$ = $$
 
+        /**
+         * [
+         {
+           "type": "info",
+           "message": "This is a info message."
+         },
+         {
+           "type": "warning",
+           "message": "This is a warning message."
+         },
+         {
+           "type": "error",
+           "message": "Artikeln saknar titel vilket kan göra den svår att hitta."
+         }
+         ]
+         */
 
         const props = this.props;
         const options = props.options;
@@ -78,12 +106,29 @@ class DialogComponent extends Component {
             modalContent.append(
                 $$('div').addClass('modal-header').append(
                     $$('h2').append(
-                        options.title
+                        this.getLabel(options.title)
                     )
                 )
             );
         }
     }
+
+
+    /**
+     * Recalculate the height of the modal window depending on the resolution on the client.innerHeight
+     */
+    changeModalHeight() {
+        var clientHeight = window.innerHeight;
+        if (clientHeight < 700) {
+            this.el.find('.modal-content').addClass('small-screen');
+            this.el.find('.modal-content').css('height', (parseInt(clientHeight - 60))+"px")
+        } else {
+            this.el.find('.modal-content').removeClass('small-screen');
+            this.el.find('.modal-content').css('max-height', clientHeight - 120+"px");
+            this.el.find('.modal-content').css('height', 'auto')
+        }
+    }
+
 
     addPrimaryButtonIfExist($$, modalFooter, options) {
         if (options.primary !== false) {

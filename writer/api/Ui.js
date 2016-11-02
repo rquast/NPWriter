@@ -71,7 +71,7 @@ class Ui {
      * @oaram {object} options Options passed to dialog
      */
     showDialog(contentComponent, props, options) {
-        var writer = this.api.refs.writer;
+        const writer = this.api.refs.writer;
         writer.showDialog(contentComponent, props, options);
     }
 
@@ -118,33 +118,34 @@ class Ui {
             },
             options = {
                 global: true,
-                title: this.refs.writer.i18n.t('Message'),
+                title: 'Message',
                 primary: false,
                 secondary: false
             };
 
         if (level === 2) {
-            options.primary = this.refs.writer.i18n.t('Cancel');
+            options.primary = 'Cancel';
             props.cbPrimary = cbCancel;
         }
         else if (level === 1) {
-            options.primary = this.refs.writer.i18n.t('Cancel');
+            options.primary = 'Cancel';
             props.cbPrimary = cbCancel;
 
-            options.secondary = this.refs.writer.i18n.t('Continue');
+            options.secondary = 'Continue';
             props.cbSecondary = cbContinue;
         }
         else {
-            options.primary = this.refs.writer.i18n.t('Continue');
+            options.primary = 'Continue';
             props.cbPrimary = cbContinue;
 
             if (cbCancel) {
-                options.secondary = this.refs.writer.i18n.t('Cancel');
+                options.secondary = 'Cancel';
                 props.cbSecondary = cbCancel;
             }
         }
 
-        this.refs.writer.showMessageDialog(
+        const writer = this.api.refs.writer;
+        writer.showMessageDialog(
             messages,
             props,
             options

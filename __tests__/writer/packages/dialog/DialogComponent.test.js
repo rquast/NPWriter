@@ -22,12 +22,10 @@ class DummyDialogContent extends Component {
         if (this.props.foo) {
             el.append($$('div').attr('id', this.props.foo))
         }
-
         el.append("My test dialog")
 
         return el
     }
-
 }
 
 describe('Open a modal window', () => {
@@ -112,6 +110,17 @@ describe('Open a modal window', () => {
 
         const primaryButton = body.querySelectorAll('.btn-primary')[0]
         expect(primaryButton.getAttribute('disabled')).toBe('true')
+    })
+
+    /**
+     * Test so we can set a custom label on primary button
+     */
+    test('It can add button with custom label', () => {
+        app.api.ui.showDialog(DummyDialogContent, {}, {primary: "TestString"})
+        const body = document.body
+
+        const primaryButton = body.querySelectorAll('.btn-primary')[0]
+        expect(primaryButton.textContent).toBe('TestString')
     })
 
 
@@ -227,6 +236,190 @@ describe('Open a modal window', () => {
 
         // The modal should been closed
         expect(body.querySelectorAll('.dummy-dialog-content').length).toBe(0)
+    })
+})
+
+
+describe('Open a dialog with messages', () => {
+
+    let xhr, requests, App, app
+    beforeEach(() => {
+        xhr = sinon.useFakeXMLHttpRequest();
+        requests = [];
+        xhr.onCreate = function (req) {
+            requests.push(req);
+        };
+
+        App = Helper.getApp()
+        app = App.mount({configurator: Helper.getConfigurator()}, document.body)
+    })
+
+    afterEach(() => {
+        document.body.innerHTML = '<div></div>';
+        xhr.restore();
+    })
+
+    it('Opens a messageDialog', () => {
+        app.api.ui.showMessageDialog([], () => {
+        }, () => {
+        })
+
+        const body = document.body
+        expect(body.querySelectorAll('.modal').length).toBe(1)
+        expect(body.querySelectorAll('.modal-messages').length).toBe(1)
+    })
+
+
+    it('Opens a messageDialog', () => {
+
+        const messages = [
+            {
+                "type": "info",
+                "message": "This is an info message"
+            },
+            {
+                "type": "warning",
+                "message": "This is a warning message"
+            },
+            {
+                "type": "error",
+                "message": "This is an error message"
+            }
+        ]
+
+        app.api.ui.showMessageDialog(messages, () => {
+        }, () => {
+        })
+
+        const body = document.body
+        expect(body.querySelectorAll('.modal').length).toBe(1)
+
+        expect(body.querySelectorAll('.modal-messages').length).toBe(1)
+        expect(body.querySelectorAll('ul.info').length).toBe(1)
+        expect(body.querySelectorAll('ul.warning').length).toBe(1)
+        expect(body.querySelectorAll('ul.error').length).toBe(1)
+
+        let first = body.querySelectorAll('ul.error')[0].children[0].nodeName
+
+        expect(first = body.querySelectorAll('ul.info')[0].children[0].nodeName).toBe('LI')
+        expect(first = body.querySelectorAll('ul.info')[0].children[0].textContent).toBe('This is an info message')
+
+        expect(first = body.querySelectorAll('ul.warning')[0].children[0].nodeName).toBe('LI')
+        expect(first = body.querySelectorAll('ul.warning')[0].children[0].textContent).toBe('This is a warning message')
+
+        expect(first = body.querySelectorAll('ul.error')[0].children[0].nodeName).toBe('LI')
+        expect(first = body.querySelectorAll('ul.error')[0].children[0].textContent).toBe('This is an error message')
+
+    })
+
+
+    /**
+     * When showing messages with an error message should result in just primary button showing with label Cancel
+     * And click should result in calling cancel callback
+     */
+    it('Opens message dialog and with error message calling callback functions properly', () => {
+
+        let primaryCallback = sinon.spy()
+        let cancelCallback = sinon.spy()
+
+        const messages = [
+            {
+                "type": "error",
+                "message": "This is an error message"
+            }
+        ]
+
+        app.api.ui.showMessageDialog(messages, primaryCallback, cancelCallback)
+
+        const body = document.body
+        const button = body.querySelectorAll('.btn-primary')[0]
+
+        expect(body.querySelectorAll('.btn-primary').length).toBe(1)
+        expect(button.textContent).toBe('Cancel')
+
+        var evt = document.createEvent('MouseEvents');
+        evt.initEvent('click', true, false);
+        button.dispatchEvent(evt);
+
+        expect(primaryCallback.called).toBe(false)
+        expect(cancelCallback.called).toBe(true)
+    })
+
+    /**
+     * When showing messages with an warning message should result in both buttons is showing
+     * And click on primary should result in cancel
+     * Click on secondary should result in primary
+     */
+    it('Opens message dialog and with warning message calling callback functions properly', () => {
+
+        let primaryCallback = sinon.spy()
+        let cancelCallback = sinon.spy()
+
+        const messages = [
+            {
+                "type": "warning",
+                "message": "This is an warning message"
+            }
+        ]
+
+        app.api.ui.showMessageDialog(messages, primaryCallback, cancelCallback)
+
+        const body = document.body
+        const button = body.querySelectorAll('.btn-primary')[0]
+        const secondary = body.querySelectorAll('.btn-secondary')[0]
+
+        expect(body.querySelectorAll('.btn-primary').length).toBe(1)
+        expect(body.querySelectorAll('.btn-secondary').length).toBe(1)
+
+        expect(button.textContent).toBe('Cancel')
+        expect(secondary.textContent).toBe('Continue')
+
+        var evt = document.createEvent('MouseEvents');
+        evt.initEvent('click', true, false);
+        button.dispatchEvent(evt);
+
+        var evt = document.createEvent('MouseEvents');
+        evt.initEvent('click', true, false);
+        secondary.dispatchEvent(evt);
+
+
+        expect(primaryCallback.called).toBe(true)
+        expect(cancelCallback.called).toBe(true)
+    })
+
+    /**
+     * When showing messages with an warning message should result in both buttons is showing
+     * And click on primary should result in cancel
+     * Click on secondary should result in primary
+     */
+    it('Opens message dialog and with info message calling callback functions properly', () => {
+
+        let primaryCallback = sinon.spy()
+
+        const messages = [
+            {
+                "type": "info",
+                "message": "This is an warning message"
+            }
+        ]
+
+        app.api.ui.showMessageDialog(messages, primaryCallback, cancelCallback)
+
+        const body = document.body
+        const button = body.querySelectorAll('.btn-primary')[0]
+        const secondary = body.querySelectorAll('.btn-secondary')[0]
+
+        expect(body.querySelectorAll('.btn-primary').length).toBe(1)
+        expect(body.querySelectorAll('.btn-secondary').length).toBe(1)
+
+        expect(button.textContent).toBe('Continue')
+        expect(secondary.textContent).toBe('Cancel')
+
+        var evt = document.createEvent('MouseEvents');
+        evt.initEvent('click', true, false);
+        secondary.dispatchEvent(evt);
+
+        expect(primaryCallback.called).toBe(true)
     })
 
 
