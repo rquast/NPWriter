@@ -85,11 +85,14 @@ class BarComponent extends Component {
             .ref(popover.id)
             .append(
                 $$(popover.component, {
-                    setStatusText: (statusText) => this.onSetStatusText(id, statusText),
-                    setButtonText: (buttonText) => this.onSetButtonText(id, buttonText),
-                    setIcon: (iconClass) => this.onSetIcon(id, iconClass),
-                    disable: () => this.onSetEnabled(id, false),
-                    enable: () => this.onSetEnabled(id, true)
+                    popover: {
+                        setStatusText: (statusText) => this.onSetStatusText(id, statusText),
+                        setButtonText: (buttonText) => this.onSetButtonText(id, buttonText),
+                        setIcon: (iconClass) => this.onSetIcon(id, iconClass),
+                        disable: () => this.onSetEnabled(id, false),
+                        enable: () => this.onSetEnabled(id, true),
+                        close: () => this.closePopover(id)
+                    }
                 })
                 .ref(popover.id + '_comp')
             )
@@ -151,6 +154,12 @@ class BarComponent extends Component {
 
         this.refs[id].extendProps({
             triggerElement: evt.currentTarget
+        })
+    }
+
+    closePopover(id) {
+        this.refs[id].extendProps({
+            triggerElement: null
         })
     }
 
