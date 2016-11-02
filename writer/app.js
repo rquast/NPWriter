@@ -17,6 +17,7 @@ import moment from 'moment'
 import idGenerator from './utils/IdGenerator'
 import APIManager from './api/APIManager'
 import lodash from 'lodash'
+import SourceComponent from './packages/dialog/SourceComponent'
 
 const STATUS_ISREADY = 'isReady',
     STATUS_LOADING = 'loading',
@@ -177,6 +178,11 @@ class App extends Component {
 
         if (e.keyCode === 83 && (e.metaKey || e.ctrlKey)) { // Save: cmd+s
             this.api.newsItem.save()
+            handled = true;
+        } else if (e.keyCode === 85 && (e.metaKey || e.ctrlKey) && !e.altKey) {
+            const xml = this.getSaveHandler().getExportedDocument()
+            this.api.ui.showDialog(SourceComponent, {message: xml}, {title: 'Source', primary: 'Ok', secondary: false, takeover: true})
+
             handled = true;
         }
 

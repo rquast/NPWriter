@@ -8,6 +8,17 @@ class SaveHandler {
         this.configurator = configurator
     }
 
+    /**
+     * Returns the newsItem after it has been processed by the exporter
+     * @returns {*|String}
+     */
+    getExportedDocument() {
+        var exporter = this.configurator.createExporter('newsml')
+        const exportedArticle = exporter.exportDocument(this.editorSession.getDocument(), this.api.newsItemArticle)
+
+        return exportedArticle
+    }
+
     saveDocument() {
 
         let uuid = this.api.newsItemArticle.documentElement.getAttribute('guid');

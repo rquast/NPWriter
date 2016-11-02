@@ -86,6 +86,9 @@ class DialogComponent extends Component {
         const contentComponent = props.content;
         const modalInnerContent = $$(contentComponent, props.contentProps).addClass('modal-inner-content').ref('contentComponent')
 
+        if(options.takeover) {
+            modal.addClass('global takeover')
+        }
 
         modalBody.append(modalInnerContent)
         this.addPrimaryButtonIfExist($$, modalFooter, options)
@@ -101,6 +104,13 @@ class DialogComponent extends Component {
         return modal
     }
 
+    /**
+     * If a title is provided in the options object it will create a
+     * modal-header and append provided title through the label system
+     * @param $$
+     * @param modalContent
+     * @param options
+     */
     addTitleIfExist($$, modalContent, options) {
         if (options.title) {
             modalContent.append(

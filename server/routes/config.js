@@ -60,11 +60,13 @@ ConfigRoutes.getConfig = (req, res) => {
             if (err) {
                 console.error("Error loading writer.json", err)
             }
-            let map = new Map();
+
+        /*    let map = new Map();
             map.set("action", "fetching config file");
             map.set("httpStatusCode", 200);
+            map.set("configData", data);
             honey.add(map);
-            honey.sendNow()
+            honey.sendNow()*/
 
 
             let plugins = JSON.parse(data);
