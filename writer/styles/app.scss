@@ -18,10 +18,22 @@
 @import '~/../font-awesome/css/font-awesome.min.css';
 @import '~/../substance/substance-pagestyle.css';
 
+
+
+// Bootstrap override {
+.btn-primary {
+    background-color: #0098C7;
+    border:none;
+}
+
+
+
 body {
     font-family: Lato, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
     overflow: hidden;
 }
+
+
 
 h2 {
     font-size: 18px;

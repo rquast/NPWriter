@@ -5,6 +5,7 @@ import Api from '../../../writer/api/Api'
 import NPWriterConfigurator from '../../../writer/packages/npwriter/NPWriterConfigurator'
 import PluginManager from '../../../writer/utils/PluginManager'
 import Helper from '../../helpers'
+import APIManager from '../../../writer/api/APIManager'
 
 describe('Get config values for plugins', () => {
 
@@ -15,7 +16,7 @@ describe('Get config values for plugins', () => {
         var configuratorPackage = { configure: () => { }}
 
         const configurator = new NPWriterConfigurator().import(configuratorPackage);
-        pluginManager = new PluginManager(configurator);
+        pluginManager = new PluginManager(configurator, new APIManager());
 
         api = new Api(pluginManager, configurator)
 

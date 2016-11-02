@@ -38,7 +38,8 @@ class App extends Component {
 
         let writer = $$(NPWriterCompontent, {
             editorSession: editorSession,
-            configurator: this.props.configurator
+            configurator: this.props.configurator,
+            api: api
         }).ref('writer')
 
         return $$('div').attr('id', 'main').append('hello')

@@ -12,9 +12,12 @@ class SidebarComponent extends Component {
 
     getInitialState() {
         return {
-            tabs: this.context.configurator.config.sidebarTabs.reverse(),
             tabId: "main"
         }
+    }
+
+    getTabs() {
+        return this.context.configurator.config.sidebarTabs
     }
 
     render($$) {
@@ -30,8 +33,8 @@ class SidebarComponent extends Component {
         let panels = this.getSidebarPanelsForTabId($$, tabId)
         let topBars = this.getTopBarComponents($$)
 
-        let tabsPanel = $$(TabbedPane, {activeTab: tabId, tabs: this.state.tabs})
-            .ref("" + this.state.tabId)
+        let tabsPanel = $$(TabbedPane, {activeTab: tabId, tabs: this.getTabs()})
+            .ref("tab_" + this.state.tabId)
             .append(panels)
 
         let topBar = $$('div').addClass('sidebar-top').append(topBars)
@@ -60,7 +63,8 @@ class SidebarComponent extends Component {
         }).map((panel) => {
             return $$('div')
                 .addClass('plugin plugin-'+panel.getCSSFriendlyName())
-                .append($$(panel.component, {panel: panel}))
+                .append($$(panel.component, {panel: panel}).ref('plugin-component-'+panel.id))
+                .ref('plugin-panel-'+panel.id)
         })
     }
 }

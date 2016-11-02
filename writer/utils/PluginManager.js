@@ -4,6 +4,11 @@ import 'whatwg-fetch'
 
 class PluginManager {
 
+    /**
+     *
+     * @param {NPWriterConfigurator} configurator The configurator
+     * @param {APIManager} apiManager Requires an API manager that exposes endpoints to window.writer namespace
+     */
     constructor(configurator, apiManager) {
         this.configurator = configurator
         this.registerPluginList = new Map()
@@ -27,7 +32,7 @@ class PluginManager {
     /**
      * Appending script tag for plugins
      * @param plugins
-     * @returns {[{Promise.<TResult>|*}]}
+     * @returns {Promise.<TResult>|*} - Returns an array of promise objects
      */
     appendPluginScripts(plugins) {
         const resourceLoader = new ResourceLoader()

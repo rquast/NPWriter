@@ -3,6 +3,7 @@ import NPWriterConfigurator from '../../../writer/packages/npwriter/NPWriterConf
 import PluginManager from '../../../writer/utils/PluginManager'
 import sinon from 'sinon'
 import Event from '../../../writer/utils/Event'
+import APIManager from '../../../writer/api/APIManager'
 
 describe('Get config values for plugins', () => {
 
@@ -11,7 +12,7 @@ describe('Get config values for plugins', () => {
     beforeEach(() => {
         var configuratorPackage = { configure: () => { }}
         const configurator = new NPWriterConfigurator().import(configuratorPackage);
-        pluginManager = new PluginManager(configurator);
+        pluginManager = new PluginManager(configurator, new APIManager());
 
         api = new Api(pluginManager, configurator)
     })

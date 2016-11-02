@@ -2,7 +2,16 @@
 var fs = require('fs')
 var path = require('path')
 var AWS = require('aws-sdk');
+var libhoney = require('libhoney').default
 const ConfigurationLoader = require('../models/ConfigurationLoader')
+
+
+var honey = new libhoney({
+    apiHost: "",
+    writeKey: process.env["HONEY_WRITE_KEY"],
+    dataset: process.env["HONEY_DATASET"]
+});
+honey._options.apiHost = "https://api.honeycomb.io"
 
 
 const ConfigRoutes = {}
@@ -44,10 +53,22 @@ ConfigRoutes.getConfig = (req, res) => {
             });
         })
     } else {
+
+
+
         fs.readFile(ConfigRoutes.getFilenameForConfig(false), 'utf8', function (err, data) {
             if (err) {
                 console.error("Error loading writer.json", err)
             }
+
+        /*    let map = new Map();
+            map.set("action", "fetching config file");
+            map.set("httpStatusCode", 200);
+            map.set("configData", data);
+            honey.add(map);
+            honey.sendNow()*/
+
+
             let plugins = JSON.parse(data);
             res.contentType('application/json').status(200).send(plugins);
         });

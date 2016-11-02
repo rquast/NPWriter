@@ -1,8 +1,24 @@
+/**
+ * @class Ui
+ */
+
 class Ui {
+
+    /**
+     * Constructor takes a reference to the API
+     * @param api
+     */
     constructor(api) {
         this.api = api
     }
 
+    /**
+     * Show a notification
+     *
+     * @param {string} name - The plugin ID
+     * @param title
+     * @param message
+     */
     showNotification(name, title, message) {
         this.api.triggerEvent('name', 'notification:add', {
             plugin: name,
@@ -10,10 +26,6 @@ class Ui {
             message: message
         });
     }
-
-    // addSidebarTab(name) {
-    //     console.log("This", this.api.configurator.addSidebarTab({id: 'tester', name: 'hello'}));
-    // }
 
     /**
      * Display a dialog with the specified content.
@@ -71,9 +83,10 @@ class Ui {
      * @oaram {object} options Options passed to dialog
      */
     showDialog(contentComponent, props, options) {
-        var writer = this.refs.writer;
+        const writer = this.api.refs.writer;
         writer.showDialog(contentComponent, props, options);
     }
+
 
     /**
      * Display a number of messages and different options depending on the
@@ -118,33 +131,34 @@ class Ui {
             },
             options = {
                 global: true,
-                title: this.refs.writer.i18n.t('Message'),
+                title: 'Message',
                 primary: false,
                 secondary: false
             };
 
         if (level === 2) {
-            options.primary = this.refs.writer.i18n.t('Cancel');
+            options.primary = 'Cancel';
             props.cbPrimary = cbCancel;
         }
         else if (level === 1) {
-            options.primary = this.refs.writer.i18n.t('Cancel');
+            options.primary = 'Cancel';
             props.cbPrimary = cbCancel;
 
-            options.secondary = this.refs.writer.i18n.t('Continue');
+            options.secondary = 'Continue';
             props.cbSecondary = cbContinue;
         }
         else {
-            options.primary = this.refs.writer.i18n.t('Continue');
+            options.primary = 'Continue';
             props.cbPrimary = cbContinue;
 
             if (cbCancel) {
-                options.secondary = this.refs.writer.i18n.t('Cancel');
+                options.secondary = 'Cancel';
                 props.cbSecondary = cbCancel;
             }
         }
 
-        this.refs.writer.showMessageDialog(
+        const writer = this.api.refs.writer;
+        writer.showMessageDialog(
             messages,
             props,
             options

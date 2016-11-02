@@ -8,8 +8,6 @@ import NewsItem from './NewsItem'
 import Exceptions from './Exceptions'
 import Drop from './Drop'
 import Upload from './Upload'
-
-// Namespaced api
 import Article from './Article'
 import Browser from './Browser'
 import Router from './Router'
@@ -21,9 +19,7 @@ jxon.config({
 });
 
 /**
- Api base class
-
- @class
+ * @class Api base class
  */
 class Api {
 

@@ -1,7 +1,9 @@
 import includes from 'lodash/includes'
 import isArray from 'lodash/isArray'
 
-
+/**
+ * @class Upload
+ */
 class Upload {
 
     uploadFile(file, params, observer) {
