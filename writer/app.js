@@ -18,6 +18,7 @@ import idGenerator from './utils/IdGenerator'
 import APIManager from './api/APIManager'
 import lodash from 'lodash'
 import SourceComponent from './packages/dialog/SourceComponent'
+import jxon from 'jxon'
 
 const STATUS_ISREADY = 'isReady',
     STATUS_LOADING = 'loading',

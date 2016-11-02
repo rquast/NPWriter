@@ -1,8 +1,24 @@
+/**
+ * @class Ui
+ */
+
 class Ui {
+
+    /**
+     * Constructor takes a reference to the API
+     * @param api
+     */
     constructor(api) {
         this.api = api
     }
 
+    /**
+     * Show a notification
+     *
+     * @param {string} name - The plugin ID
+     * @param title
+     * @param message
+     */
     showNotification(name, title, message) {
         this.api.triggerEvent('name', 'notification:add', {
             plugin: name,
@@ -10,10 +26,6 @@ class Ui {
             message: message
         });
     }
-
-    // addSidebarTab(name) {
-    //     console.log("This", this.api.configurator.addSidebarTab({id: 'tester', name: 'hello'}));
-    // }
 
     /**
      * Display a dialog with the specified content.
@@ -74,6 +86,7 @@ class Ui {
         const writer = this.api.refs.writer;
         writer.showDialog(contentComponent, props, options);
     }
+
 
     /**
      * Display a number of messages and different options depending on the

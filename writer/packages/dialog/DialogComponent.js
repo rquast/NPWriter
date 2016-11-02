@@ -183,7 +183,7 @@ class DialogComponent extends Component {
     renderPrimaryButton($$, options) {
         var caption = (options.primary) ? options.primary : this.getLabel('ok');
         let button = $$('button').attr('type', 'button')
-            .addClass('btn btn-primary')
+            .addClass('btn-primary')
             .append(caption)
             .on('click', this.save);
 
@@ -197,7 +197,7 @@ class DialogComponent extends Component {
     renderSecondaryButton($$, options) {
         var caption = (options.secondary) ? options.secondary : this.getLabel('Cancel');
         return $$('button').attr('type', 'button')
-            .addClass('btn btn-secondary')
+            .addClass('btn-secondary')
             .attr('data-dismiss', 'modal')
             .append(caption)
             .on('click', this.close);
@@ -210,7 +210,7 @@ class DialogComponent extends Component {
 
         return options.tertiary.map((btn) => {
             return $$('button').attr('type', 'button')
-                .addClass('btn btn-secondary btn-tertiary')
+                .addClass('btn-secondary btn-tertiary')
                 .attr('data-dismiss', 'modal')
                 .append(btn.caption)
                 .on('click', () => {

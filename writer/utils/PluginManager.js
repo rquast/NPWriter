@@ -32,7 +32,7 @@ class PluginManager {
     /**
      * Appending script tag for plugins
      * @param plugins
-     * @returns {[{Promise.<TResult>|*}]}
+     * @returns {Promise.<TResult>|*} - Returns an array of promise objects
      */
     appendPluginScripts(plugins) {
         const resourceLoader = new ResourceLoader()

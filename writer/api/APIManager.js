@@ -8,6 +8,13 @@ class APIManager {
         window.writer = {}
     }
 
+    /**
+     * Exposes a function or a class on the writer namespace
+     * window.writer
+     *
+     * @param {string} name - The key that will be on window.key
+     * @param apiClass
+     */
     expose(name, apiClass) {
 
         if(this.endpoints.get(name)) {
