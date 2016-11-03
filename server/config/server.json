@@ -5,9 +5,9 @@
   "external": {
     "contentrepository": {
       "protocol": "http:",
-      "host": "52.50.102.61",
+      "host": "52.212.77.42",
       "port": "8181",
-      "endpoint": "cxf/writer/commands",
+      "endpoint": "cxf/writer/v2/commands",
       "upload": "cxf/writer/images/upload"
     },
     "conceptbackend": {

@@ -3,6 +3,7 @@ var path = require('path');
 var app = express();
 var routes = require('./server/routes/routes')
 var config = require('./server/models/ConfigurationManager')
+var log = require('./server/utils/logger');
 
 const ConfigurationLoader = require('./server/models/ConfigurationLoader')
 
@@ -30,7 +31,7 @@ configurationLoader.load().then((configurationManager) => {
     app.use(express.static(path.join(__dirname)));
 
     app.listen(port, function () {
-        console.log("Writer running @ " + protocol+'://'+host+':'+port);
+        log.info("Writer running @ " + protocol+'://'+host+':'+port);
     });
 
 }).catch((error) => {

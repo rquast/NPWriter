@@ -3,6 +3,7 @@ var fs = require('fs')
 var path = require('path')
 var AWS = require('aws-sdk');
 const ConfigurationLoader = require('../models/ConfigurationLoader')
+var log = require('../utils/logger').child({api: 'Router'});
 
 const ConfigRoutes = {}
 
@@ -24,7 +25,6 @@ ConfigRoutes.getFilenameForConfig = (isProduction) => {
  * @param res
  */
 ConfigRoutes.getConfig = (req, res) => {
-    console.log("get");
     const environmentVariables = process.env
     const environment = environmentVariables.NODE_ENV ?  environmentVariables.NODE_ENV : 'develop'
     const isProduction = environment === 'production';

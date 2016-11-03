@@ -24,7 +24,6 @@ ConfigurationManager.load = function (path) {
     throw new Error('Configuration file is missing: ' + path);
   }
 
-console.log("Content in config", content);
   this.configurationCache = {};
   this.configuration = JSON.parse(content);
 };
