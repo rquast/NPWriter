@@ -20,9 +20,20 @@ class NPWriterConfigurator extends Configurator {
     /**
      * Add a substance Component in a popover that is triggered by an
      * icon in the top bar.
+     *
      * @param {string} id Package id
      * @param {object} def Definition for the popover trigger icon or button
      * @param {Component} component Substance component
+     *
+     * @example
+     * config.addPopover(
+     *      'mypopover-2001',     // Unique id for this popover
+     *      {
+     *          icon: 'fa-plane', // Font awesome icon class or image url
+     *          align: 'left'     // Left or right aligned
+     *      },
+     *      AboutComponent        // Component to render in popover
+     * )
      */
     addPopover(id, def, component) {
         def.align = def.align === 'left' ? 'left' : 'right'
@@ -37,6 +48,7 @@ class NPWriterConfigurator extends Configurator {
             icon: def.icon,
             button: def.button,
             align: def.align,
+            css: def.css || {},
             component: component
         })
     }

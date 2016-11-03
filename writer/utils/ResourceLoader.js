@@ -26,8 +26,8 @@ class ResourceLoader {
         // Check if tags with same url is already loaded,
         // In that case just resolve promise immediately
         if (this.tags.filter((t) => {
-                return t.url === plugin.url
-            }).length >= 1) {
+            return t.url === plugin.url
+        }).length >= 1) {
             return Promise.resolve()
         }
 
@@ -52,7 +52,7 @@ class ResourceLoader {
         }
 
         return new Promise(function (resolve, reject) {
-            if(type === "css") {
+            if (type === "css") {
                 // Hack
                 // Since the link element does not fire onload event we need to resolve promise
                 resolve()
@@ -60,7 +60,7 @@ class ResourceLoader {
             resource.onload = () => {
                 resolve()
             }
-            resource.onerror = (e) => {
+            resource.onerror = () => {
                 if (plugin.mandatory) {
                     reject("Failed adding plugin " + plugin.id)
                 } else {

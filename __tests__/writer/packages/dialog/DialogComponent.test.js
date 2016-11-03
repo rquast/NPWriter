@@ -395,6 +395,7 @@ describe('Open a dialog with messages', () => {
     it('Opens message dialog and with info message calling callback functions properly', () => {
 
         let primaryCallback = sinon.spy()
+        let cancelCallback = sinon.spy()
 
         const messages = [
             {

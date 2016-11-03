@@ -54,7 +54,11 @@ class NPWriter extends AbstractEditor {
             // console.log('...current change     ', data._currentChange);
             // console.log('-----------------------------------------------------')
 
-            this.props.api.events.onDocumentChanged(data)
+            this.props.api.events.documentChanged(null, {
+                type: 'edit',
+                action: 'edit',
+                data: data._change
+            })
         }
     }
 

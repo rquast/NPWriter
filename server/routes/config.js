@@ -25,7 +25,6 @@ ConfigRoutes.getFilenameForConfig = (isProduction) => {
  * @param res
  */
 ConfigRoutes.getConfig = (req, res) => {
-
     const environmentVariables = process.env
     const environment = environmentVariables.NODE_ENV ?  environmentVariables.NODE_ENV : 'develop'
     const isProduction = environment === 'production';

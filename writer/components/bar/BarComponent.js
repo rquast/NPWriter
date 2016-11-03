@@ -128,6 +128,7 @@ class BarComponent extends Component {
         if (!this.state.button[id + '_btn'] || !popover.button) {
             let bariconEl = $$(BarIconComponent, {
                 icon: iconClass,
+                css: popover.css,
                 enabled: this.state.button[id + '_disabled'] ? false : true
             })
             .on('click', (evt) => this.openPopover(evt, id))

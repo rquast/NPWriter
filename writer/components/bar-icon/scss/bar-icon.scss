@@ -12,6 +12,13 @@
 
         font-size: 18px;
 
+        &.img {
+            text-align: center;
+            vertical-align: middle;
+            background-repeat: no-repeat;
+            opacity: 0.8;
+        }
+
         &:hover {
             color: #222;
             cursor: pointer;
@@ -20,8 +27,13 @@
 
     &.active {
         a {
-            background: #fafafa;
+            background-color: #fafafa;
             color: #000;
+
+            &.img {
+                background-color: inherit;
+                opacity: 1;
+            }
         }
     }
 

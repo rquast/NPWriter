@@ -28,6 +28,7 @@
     "copy-webpack-plugin": "^3.0.1",
     "css-loader": "^0.25.0",
     "eslint": "^3.2.2",
+    "eslint-loader": "^1.6.1",
     "exports-loader": "^0.6.3",
     "extract-text-webpack-plugin": "^1.0.1",
     "font-awesome": "4.6.3",
@@ -43,6 +44,7 @@
     "sinon": "2.0.0-pre.3",
     "style-loader": "^0.13.1",
     "substance": "substance/substance#beta-6",
+    "uglify-js": "git://github.com/mishoo/UglifyJS2.git#harmony",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.2"
   },
@@ -53,6 +55,7 @@
     "test-coverage": "jest --coverage",
     "webpack": "webpack --watch",
     "dev": "npm-run-all --parallel start webpack",
+    "build": "cd node_modules/substance/ && npm install && node make && cd ../.. && webpack --config webpack.config.production.js && ./node_modules/uglify-js/bin/uglifyjs dist/writer/app.js -o dist/writer/app.js",
     "build-substance": "cd node_modules/substance/ && npm install && node make",
     "reset": "rm -rf node_modules/; yarn cache clean; yarn install",
     "generate-docs": "node_modules/.bin/jsdoc --configure .jsdoc.json --verbose",

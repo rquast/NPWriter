@@ -61,12 +61,11 @@ class Document {
 
         let editorSession = this.api.editorSession;
         let surface = editorSession.getFocusedSurface();
-        console.log("Surface", editorSession.surfaceManager._state);
         let result;
 
-        // if (!surface) {
-        //     throw new Error("Trying to insert node with no active surface");
-        // }
+        if (!surface) {
+            throw new Error("Trying to insert node with no active surface");
+        }
 
         // Add type and a generated id if not provided
         data.type = !data.type ? name : data.type;
@@ -85,13 +84,13 @@ class Document {
 
     /**
      * Deletes a node from the document.
-     * Triggers a 'data:changed' event to all data:changed listeners except
+     * Triggers a 'document:changed' event to all document:changed listeners except
      * the plugin making the change.
      *
      * @param {string} name Plugin name
      * @param {object} node Node to delete, must contain an id
      * @example this.context.api.deleteNode(this.props.node);
-     * @fires data:changed
+     * @fires document:changed
      */
     deleteNode(name, node) {
         // TODO: is this actually always a node in the body?
@@ -103,7 +102,8 @@ class Document {
             args.containerId = surface.getContainerId();
             return deleteNode(tx, args);
         });
-        this.api.Event.triggerEvent(name, 'data:changed', {});
+
+        this.api.Events.documentChanged(name, {});
     }
 
     /**

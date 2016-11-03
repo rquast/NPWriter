@@ -131,7 +131,7 @@ class DialogComponent extends Component {
         var clientHeight = window.innerHeight;
         if (clientHeight < 700) {
             this.el.find('.modal-content').addClass('small-screen');
-            this.el.find('.modal-content').css('height', (parseInt(clientHeight - 60))+"px")
+            this.el.find('.modal-content').css('height', (parseInt(clientHeight - 60, 10))+"px")
         } else {
             this.el.find('.modal-content').removeClass('small-screen');
             this.el.find('.modal-content').css('max-height', clientHeight - 120+"px");

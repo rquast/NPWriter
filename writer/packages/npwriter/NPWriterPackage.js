@@ -1,7 +1,7 @@
 import './scss/_content-menu.scss'
 
 // Base packages
-import {BasePackage, OverlayPackage,
+import {BasePackage,
     StrongPackage, EmphasisPackage, LinkPackage,
     SpellCheckPackage
 } from 'substance'
@@ -19,6 +19,7 @@ import BlockquotePackage from '../blockquote/BlockquotePackage'
 import SwitchTextTypePackage from '../switch-text-type/SwitchTextTypePackage'
 import ConfigEditorPackage from '../config-editor/ConfigEditorPackage'
 import DialogPackage from '../dialog/DialogPackage'
+import AboutPackage from '../about/AboutPackage'
 
 
 export default {
@@ -49,7 +50,7 @@ export default {
         config.import(ConfigEditorPackage)
 
         config.import(DialogPackage)
-
+        config.import(AboutPackage)
         // general purpose
         config.import(SwitchTextTypePackage)
 

@@ -40,18 +40,18 @@ class SaveHandler {
                 window.location.hash = uuid;
                 this.api.events.onDocumentSaved();
             })
-            .catch((error, xhr, text) => {
-                console.log("e", error);
+            .catch((error) => {
+                throw new Error(error)
             });
     }
 
     updateNewsItem(uuid, newsItemXmlString) {
         return this.api.router.put('/api/newsitem/' + uuid, newsItemXmlString)
-            .then((response) => {
+            .then(() => {
                 this.api.events.onDocumentSaved();
             })
-            .catch((error, xhr, text) => {
-                console.log("c",error, xhr, text);
+            .catch((error) => {
+                throw new Error(error)
             })
     }
 

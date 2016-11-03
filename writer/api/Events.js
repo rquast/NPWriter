@@ -11,6 +11,7 @@ class Events {
     constructor() {
         this.eventListeners = []
     }
+
     /**
      * Writer controller fires keypressed:esc
      * name: keypressed:esc
@@ -26,9 +27,9 @@ class Events {
      * @param {Function} Function to call when event is triggered.
      */
     on(name, eventType, func) {
-        if (find(this.eventListeners, function (obj) {
-                return obj.name === name && obj.eventType === eventType;
-            })) {
+        if (find(this.eventListeners, (obj) => {
+            return obj.name === name && obj.eventType === eventType
+        })) {
             return;
         }
 
@@ -85,11 +86,25 @@ class Events {
     }
 
     /**
-     * Triggers an document changed event (document:changed)
+     * Triggers a document changed event (document:changed)
      *
-     * @param {object} data an object with change, info, and doc
+     * @param {string} name Name of plugin that sends the event
+     * @param {object} data An object with change, info, and doc
      */
-    onDocumentChanged(data) {
+    documentChanged(name, data) {
+        if (!data.type) {
+            console.warn('Document changed event triggered without type', name)
+        }
+
+        if (!data.action) {
+            console.warn('Document changed event triggered without action', name);
+        }
+        else {
+            if (-1 === ['add', 'delete', 'update', 'edit'].indexOf(data.action)) {
+                console.warn('Document change event has unknown action', data.action, name);
+            }
+        }
+
         this.triggerEvent(null, Event.DOCUMENT_CHANGED, data);
     }
 
@@ -104,7 +119,7 @@ class Events {
     }
 
     /**
-     * Triggers an document saved event (document:saved)
+     * Triggers a document saved event (document:saved)
      */
     onDocumentSaved() {
         this.triggerEvent(null, Event.DOCUMENT_SAVED);

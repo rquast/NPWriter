@@ -16,7 +16,8 @@ module.exports = {
     'expect': true,
     'it': true,
     'describe': true,
-    'beforeEach': true
+    'beforeEach': true,
+    'Uint8Array': true
   },
   "rules": {
     // 0 - off, 1 - warning, 2 - error
