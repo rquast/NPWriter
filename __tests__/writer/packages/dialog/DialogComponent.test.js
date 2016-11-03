@@ -13,6 +13,7 @@ class DummyDialogContent extends Component {
 
     }
 
+
     onClose(action) {
         return true
     }
@@ -49,6 +50,7 @@ describe('Open a modal window', () => {
 
 
     test('It can open a modal window through the API', () => {
+        console.log("app", app.api);
         app.api.ui.showDialog(DummyDialogContent, {}, {})
 
         const body = document.body

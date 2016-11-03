@@ -36,14 +36,13 @@ class Helper {
 
 
             render($$) {
-                this.$$ = $$
                 // MOCK
                 window.document.createRange = () => {}
 
                 this.api = new Api({}, this.props.configurator)
                 this.api.init(Helper.getParsedExampleDocument(), {getDocument:()=>{}}, {}) // Mocking documentSession parameter
 
-                this.props.configurator.import(UnsupportedPackage)
+                // this.props.configurator.import(UnsupportedPackage)
                 var importer = this.props.configurator.createImporter('newsml')
                 const idfDocument = importer.importDocument(Helper.getContentFromExampleDocument())
 
@@ -61,8 +60,7 @@ class Helper {
                     api: this.api
                 }).ref('writer')
 
-                return $$('div').attr('id', 'main').ref('app').append('hello')
-                    .append(writer)
+                return $$('div').attr('id', 'main').ref('app').append(writer)
             }
 
         }

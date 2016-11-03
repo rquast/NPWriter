@@ -3,10 +3,9 @@ import {AbstractEditor} from 'substance'
 
 import ContentMenu from './ContentMenu'
 import SidebarComponent from './components/SidebarComponent'
-
-import BarComponent from './../../components/bar/BarComponent'
-import DialogComponent from '../dialog/DialogComponent'
 import DialogMessageComponent from '../dialog/DialogMessageComponent'
+import BarComponent from './../../components/bar/BarComponent'
+import DialogPlaceholder from '../dialog/DialogPlaceholder'
 import Event from '../../utils/Event'
 
 class NPWriter extends AbstractEditor {
@@ -26,8 +25,9 @@ class NPWriter extends AbstractEditor {
         super(...args)
 
         const actionHandlers = {}
+
         actionHandlers[Event.DIALOG_CLOSE] = () => {
-            this.setState({})
+            this.hideDialog()
         }
 
         this.handleActions(actionHandlers)
@@ -39,8 +39,7 @@ class NPWriter extends AbstractEditor {
         this.spellCheckManager.runGlobalCheck()
         this.editorSession.onUpdate(this.editorSessionUpdated, this)
 
-        this.props.api.refs.writer = this
-
+        this.props.api.setWriterReference(this);
     }
 
 
@@ -75,15 +74,22 @@ class NPWriter extends AbstractEditor {
         const el = $$('div')
             .addClass('sc-np-writer').ref('npwriter')
 
+
         el.append(
             this._renderMainbarPanel($$),
             $$(SplitPane, {splitType: 'vertical'}).ref('splitPane').append(
                 this._renderMainSection($$),
                 this._renderSidebarPanel($$)
-            )
+            ),
+            this._renderModalContainer($$)
         )
 
         return el
+    }
+
+    _renderModalContainer($$) {
+        return $$(DialogPlaceholder, {}).addClass('modal-placeholder').ref('modalPlaceholder')
+
     }
 
     _renderMainbarPanel($$) {
@@ -146,6 +152,12 @@ class NPWriter extends AbstractEditor {
     }
 
 
+    hideDialog() {
+        this.refs.modalPlaceholder.setProps({
+            showModal: false
+        })
+    }
+
     /**
      *
      * @param {Component} contentComponent The component passed in by the user, Should be instance of a Substance Component
@@ -153,17 +165,16 @@ class NPWriter extends AbstractEditor {
      * @param {object} options Options passed to the DialogComponent
      */
     showDialog(contentComponent, props, options) {
-
-        const dialog = {
-            content: contentComponent,
-            contentProps: Object.assign({}, props, this.context),
+        this.refs.modalPlaceholder.setProps({
+            showModal: true,
+            contentComponent: contentComponent,
+            props: props,
             options: options
-        };
+        })
 
-        this.refs.npwriter.append(this.$$(DialogComponent, dialog))
     }
 
-    showMessageDialog( messages, props, options) {
+    showMessageDialog(messages, props, options) {
         props.messages = {
             error: [],
             warning: [],
@@ -172,7 +183,7 @@ class NPWriter extends AbstractEditor {
         };
 
         for (var n = 0; n < messages.length; n++) {
-            switch(messages[n].type) {
+            switch (messages[n].type) {
                 case 'error':
                     props.messages.error.push(messages[n]);
                     break;
@@ -186,14 +197,13 @@ class NPWriter extends AbstractEditor {
                     props.messages.info.push(messages[n]);
             }
         }
-
-        var dialog = {
-            content: DialogMessageComponent,
-            contentProps: Object.assign({}, props, this.context),
+        this.refs.modalPlaceholder.setProps({
+            showModal: true,
+            contentComponent: DialogMessageComponent,
+            props: props,
             options: options
-        };
+        })
 
-        this.refs.npwriter.append(this.$$(DialogComponent, dialog));
     }
 
     _getExporter() {

@@ -1,7 +1,3 @@
-/**
- * @class Ui
- */
-
 class Ui {
 
     /**

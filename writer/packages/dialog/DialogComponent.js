@@ -53,7 +53,6 @@ class DialogComponent extends Component {
     }
 
     render($$) {
-        this.$$ = $$
 
         /**
          * [
@@ -177,7 +176,7 @@ class DialogComponent extends Component {
 
     showPrimaryButtonLoader() {
         this.refs.primaryButton.el.text("").addClass('disabled');
-        this.refs.primaryButton.append(this.$$(FontAwesomeIcon, {icon: 'fa-spinner fa-spin'}));
+        // this.refs.primaryButton.append(this.$$(FontAwesomeIcon, {icon: 'fa-spinner fa-spin'}));
     }
 
     renderPrimaryButton($$, options) {
