@@ -1,4 +1,4 @@
-import jxon from '../utils/jxon'
+import jxon from 'jxon'
 import isPlainObject from 'lodash/isPlainObject'
 import isString from 'lodash/isString'
 

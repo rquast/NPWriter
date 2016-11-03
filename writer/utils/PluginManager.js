@@ -147,7 +147,7 @@ class PluginManager {
     }
 
 
-    getHandlerCommandsForFile(fileType) {
+    getHandlerCommandsForFile(fileType) {  // eslint-disable-line no-unused-vars
         // TODO: get commands for file drop from configurator
         return []
     }

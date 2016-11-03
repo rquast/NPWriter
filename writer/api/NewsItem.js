@@ -7,7 +7,6 @@ import isObject from 'lodash/isObject'
 import isArray from 'lodash/isArray'
 
 import NewsMLExporter from '../packages/npwriter/NewsMLExporter'
-import NewsMLImporter from '../packages/npwriter/NewsMLImporter'
 
 jxon.config({
     autoDate: false,
@@ -82,16 +81,16 @@ class NewsItem {
         if (validationResponses.length) {
             this.showMessageDialog(
                 validationResponses,
-                function () {
+                () => {
                     cbFunc(true, validationResponses); // Continue
-                }.bind(this),
-                function () {
+                },
+                () => {
                     cbFunc(false, validationResponses); // Cancel
-                }.bind(this)
-            );
+                }
+            )
         }
         else {
-            cbFunc(true, []);
+            cbFunc(true, [])
         }
     }
 
@@ -101,13 +100,15 @@ class NewsItem {
      * @param {Function} onBeforeSave Optional callback function called before saving
      * @param {Function} onError Optional callback function called on validation error
      */
-    save(onBeforeSave, onError) {
+
+    //TODO: Implement the behaviour were callbacks are triggers
+    save(onBeforeSave, onError) { // eslint-disable-line no-unused-vars
         if (this.api.browser.isSupported()) {
             this.api.editorSession.saveHandler.saveDocument()
         }
         else {
             // TODO: Display nicer error dialog
-            console.log('Unsupported browser. Document not saved!')
+            console.info('Unsupported browser. Document not saved!')
         }
         // // Create callback that takes a boolean, true = save, false = cancel
         // this.refs.writer.send('validate', function (isValid) {
@@ -134,8 +135,7 @@ class NewsItem {
      *
      * @param {string} newsML The NewsML source
      * @param {object} writerConfig Optional, explicit writer config used internally only, should be empty.
-     *
-     * @return {object | null}
+     * @return {object|null}
      */
     setSource(newsML, writerConfig) {
         // var newsMLImporter = new NewsMLImporter(
@@ -173,7 +173,7 @@ class NewsItem {
         for (var n in this.api.newsItemArticle.childNodes) {
             if (this.api.newsItemArticle.childNodes[n].nodeName === 'newsItem') {
                 const guid = this.api.newsItemArticle.childNodes[n].getAttribute('guid')
-                if(guid) {
+                if (guid) {
                     return guid
                 }
                 return null
@@ -282,15 +282,16 @@ class NewsItem {
      *
      * @param {string} name Name of the plugin making the call
      * @param {Object} newsPriority News priority object
+     * @throws Error - If no newsPriority is passed as second parameter
      */
     setNewsPriority(name, newsPriority) {
-        if ('undefined' == typeof newsPriority) {
-            throw new Error('Undefined value');
+        if ('undefined' === typeof newsPriority) {
+            throw new Error('Undefined value')
         }
 
         var metaDataNode = this.api.newsItemArticle.querySelector('contentMeta metadata'),
             newsValueNode = this.api.newsItemArticle.querySelector(
-                'contentMeta metadata object[type="x-im/newsvalue"]');
+                'contentMeta metadata object[type="x-im/newsvalue"]')
 
         if (!metaDataNode) {
             var contentMetaNode = this.api.newsItemArticle.querySelector('contentMeta');
@@ -304,11 +305,7 @@ class NewsItem {
         newsValueNode = jxon.unbuild(newsPriority, null, 'object');
         metaDataNode.appendChild(newsValueNode.childNodes[0]);
 
-        this.api.events.triggerEvent(
-            name,
-            'data:changed',
-            this.getNewsPriority(name)
-        );
+        this.api.events.onDocumentChanged(this.getNewsPriority(name))
     }
 
     /**
@@ -385,7 +382,7 @@ class NewsItem {
             itemMetaNode = this.newsItem.querySelector('itemMeta'),
             service = {};
 
-        if (currentChannels.some(currentChannel => channel.qcode == currentChannel['qcode'])) {
+        if (currentChannels.some(currentChannel => channel.qcode === currentChannel['qcode'])) {
             this.removeChannel(name, channel);
         }
 
@@ -441,8 +438,8 @@ class NewsItem {
             type: 'channel',
             action: 'remove',
             data: channel
-        });
-    };
+        })
+    }
 
 
     /**
@@ -640,13 +637,13 @@ class NewsItem {
 
         /*jshint validthis:true */
         function normalizeObject(object) {
-            Object.keys(object).forEach(function (key) {
+            Object.keys(object).forEach((key) => {
                 if (startsWith(key, '@')) {
                     var newKey = replace(key, '@', '');
                     object[newKey] = object[key];
                     delete object[key];
                 }
-            }.bind(this));
+            })
             return object;
         }
 
@@ -747,9 +744,9 @@ class NewsItem {
             authorNode.parentElement.removeChild(authorNode);
             this._triggerEvent(name, 'data:changed', {});
         } else {
-            throw new this.NotFoundException('Could not find authorNode with title: ' + authorName);
+            throw new this.NotFoundException('Could not find authorNode with title: ' + authorName)
         }
-    };
+    }
 
 
     /**
@@ -767,8 +764,8 @@ class NewsItem {
                 object[newKey] = object[key];
                 delete object[key];
             }
-        }.bind(this));
-        return object;
+        })
+        return object
     }
 
 
@@ -795,9 +792,9 @@ class NewsItem {
         }
 
         var querySelectors = [];
-        types.forEach(function (type) {
+        types.forEach((type) => {
             querySelectors.push('itemMeta links link[type="' + type + '"][rel="' + subject + '"]');
-        }.bind(this));
+        })
 
         var querySelectorString = querySelectors.join(', ');
         var tagLinkNodes = this.newsItem.querySelectorAll(querySelectorString);
@@ -875,7 +872,7 @@ class NewsItem {
         linksNode.appendChild(tagLinkNode);
 
         this._triggerEvent(name, 'data:changed', {});
-    };
+    }
 
 
     /**
@@ -898,7 +895,7 @@ class NewsItem {
         linkTagNode.setAttribute('rel', subject);
         linkTagNode.setAttribute('type', tag.imType[0]);
 
-        this.api.events.triggerEvent(name, 'data:changed', {});
+        this.api.events.triggerEvent(name, 'data:changed', {})
 
     }
 
@@ -979,7 +976,7 @@ class NewsItem {
         linksNode.appendChild(locationLinkNode);
 
         this.api.events.triggerEvent(name, 'data:changed', location);
-    };
+    }
 
     updateLocation(name, location) {
         var uuid = location.uuid;
@@ -1028,13 +1025,13 @@ class NewsItem {
             var tag = jxon.build(locationNodes[i]);
             var normalizedTag = this.normalizeObject(tag);
 
-            if (entity == 'all' || typeof normalizedTag.data == 'undefined' || typeof normalizedTag.data.geometry == 'undefined') {
+            if (entity === 'all' || typeof normalizedTag.data === 'undefined' || typeof normalizedTag.data.geometry === 'undefined') {
                 locations.push(normalizedTag);
             }
-            else if (entity == 'polygon' && (normalizedTag.type == 'x-im/polygon' || normalizedTag.data.geometry.match(/^POLYGON/))) {
+            else if (entity === 'polygon' && (normalizedTag.type === 'x-im/polygon' || normalizedTag.data.geometry.match(/^POLYGON/))) {
                 locations.push(normalizedTag);
             }
-            else if (entity == 'position' && (normalizedTag.type == 'x-im/position' || normalizedTag.data.geometry.match(/^POINT/))) {
+            else if (entity === 'position' && (normalizedTag.type === 'x-im/position' || normalizedTag.data.geometry.match(/^POINT/))) {
                 locations.push(normalizedTag);
             }
         }

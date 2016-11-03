@@ -19,7 +19,7 @@ class SourceComponent extends Component {
             el = $$('div').addClass('source');
 
         el.on('dblclick', () => {
-            if(this.state.pretty) {
+            if (this.state.pretty) {
                 this.setState({
                     pretty: false
                 })
@@ -31,12 +31,12 @@ class SourceComponent extends Component {
 
         })
 
-        if(this.state.pretty) {
+        if (this.state.pretty) {
             el.append(lines.map(function (line) {
                 return $$('span').append(line)
             }))
         } else {
-           el.append($$('textarea').css('width', '100%').css('height','500px').append(xmlRaw))
+            el.append($$('textarea').css('width', '100%').css('height', '500px').append(xmlRaw))
         }
 
 

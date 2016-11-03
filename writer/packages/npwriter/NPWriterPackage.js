@@ -1,7 +1,7 @@
 import './scss/_content-menu.scss'
 
 // Base packages
-import {BasePackage, OverlayPackage,
+import {BasePackage,
     StrongPackage, EmphasisPackage, LinkPackage,
     SpellCheckPackage
 } from 'substance'

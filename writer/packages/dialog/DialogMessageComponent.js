@@ -40,7 +40,7 @@ class DialogMessageComponent extends Component {
             }
         }
 
-        else if (typeof this.props.level != 'undefined' && this.props.level === 0 && this.props.cbPrimary) {
+        else if (typeof this.props.level !== 'undefined' && this.props.level === 0 && this.props.cbPrimary) {
             // When ESC is pressed, and a level 0 message dialog is shown, primary callback
             // should be called as there is only continue give to the user as an option
             this.props.cbPrimary();
