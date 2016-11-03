@@ -14,12 +14,24 @@ class BarIconComponent extends Component {
     }
 
     render($$) {
+        let triggerEl = null
+
+        if (this.props.icon.substring(0, 3) === 'fa-') {
+            triggerEl = $$('a').addClass('fa ' + this.props.icon)
+        }
+        else {
+            let css = this.props.css || {}
+            css['background-image'] = 'url("' + this.props.icon + '")'
+
+            triggerEl = $$('a')
+                .addClass('img')
+                .css(css)
+        }
+
+        triggerEl.on('click', evt => this.onClick(evt))
+
         var el = $$('div').addClass('sc-np-bar-icon')
-            .append(
-                $$('a')
-                    .addClass('fa ' + this.props.icon)
-                    .on('click', evt => this.onClick(evt))
-            )
+            .append(triggerEl)
 
         if (this.state.active) {
             el.addClass('active')
