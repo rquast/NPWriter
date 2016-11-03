@@ -20,8 +20,8 @@ export default {
 
 
         config.addLabel('about-header', {
-            en: "NP Writer 2.0",
-            sv: "NP Writer 2.0"
+            en: "NP Writer 3.0 alpha",
+            sv: "NP Writer 3.0 alpha"
         })
 
         config.addLabel('about-description', {
