@@ -48,7 +48,7 @@ describe('Get config values for plugins', () => {
     it('It registers and Triggers documentChanged', () => {
         var callback = sinon.spy();
         api.events.on('dummy', Event.DOCUMENT_CHANGED, callback)
-        api.events.onDocumentChanged({})
+        api.events.documentChanged(null, {})
         expect(callback.called).toBe(true)
 
     })

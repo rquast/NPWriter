@@ -13,7 +13,7 @@ jxon.config({
     parseValues: false,
     lowerCaseTags: false,
     trueIsEmpty: false
-});
+})
 
 /**
  * @class NewsItem
@@ -81,16 +81,16 @@ class NewsItem {
         if (validationResponses.length) {
             this.showMessageDialog(
                 validationResponses,
-                () => {
+                function () {
                     cbFunc(true, validationResponses); // Continue
-                },
-                () => {
+                }.bind(this),
+                function () {
                     cbFunc(false, validationResponses); // Cancel
-                }
-            )
+                }.bind(this)
+            );
         }
         else {
-            cbFunc(true, [])
+            cbFunc(true, []);
         }
     }
 
@@ -100,15 +100,13 @@ class NewsItem {
      * @param {Function} onBeforeSave Optional callback function called before saving
      * @param {Function} onError Optional callback function called on validation error
      */
-
-    //TODO: Implement the behaviour were callbacks are triggers
-    save(onBeforeSave, onError) { // eslint-disable-line no-unused-vars
+    save(onBeforeSave, onError) {
         if (this.api.browser.isSupported()) {
             this.api.editorSession.saveHandler.saveDocument()
         }
         else {
             // TODO: Display nicer error dialog
-            console.info('Unsupported browser. Document not saved!')
+            console.log('Unsupported browser. Document not saved!')
         }
         // // Create callback that takes a boolean, true = save, false = cancel
         // this.refs.writer.send('validate', function (isValid) {
@@ -135,7 +133,8 @@ class NewsItem {
      *
      * @param {string} newsML The NewsML source
      * @param {object} writerConfig Optional, explicit writer config used internally only, should be empty.
-     * @return {object|null}
+     *
+     * @return {object | null}
      */
     setSource(newsML, writerConfig) {
         // var newsMLImporter = new NewsMLImporter(
@@ -167,13 +166,14 @@ class NewsItem {
     /**
      * Return the GUID in the NewsItemArticle
      * Can return null if no GUID is found in NewsItem
+     *
      * @returns {guid|null}
      */
     getGuid() {
         for (var n in this.api.newsItemArticle.childNodes) {
             if (this.api.newsItemArticle.childNodes[n].nodeName === 'newsItem') {
                 const guid = this.api.newsItemArticle.childNodes[n].getAttribute('guid')
-                if (guid) {
+                if(guid) {
                     return guid
                 }
                 return null
@@ -243,11 +243,13 @@ class NewsItem {
 
     /**
      * Create and insert a new newsPriority object into the news item content meta data.
-     * Triggers a 'data:changed' event to all data:changed listeners except
+     * Triggers a documentChanged event to all documentChanged listeners except
      * the plugin making the change.
      *
      * @param {string} name Plugin name
      * @param {object} newsPriority
+     *
+     * @fires event.DOCUMENT_CHANGED
      */
     createNewsPriority(name, newsPriority) {
 
@@ -262,18 +264,19 @@ class NewsItem {
 
         metaDataNode.appendChild(newsValueNode.childNodes[0]);
 
-        this.api.events.triggerEvent(
+        this.api.events.documentChanged(
             name,
-            'data:changed',
-            this.getNewsPriority(name)
+            {
+                type: 'newsPriority',
+                action: 'add',
+                data: this.getNewsPriority(name)
+            }
         );
     }
 
 
     /**
      * Set news priority.
-     * Triggers a 'data:changed' event to all data:changed listeners except
-     * the plugin making the change.
      *
      * @fixme jxon.unbuild() creates object elements from empty strings which is WRONG
      *
@@ -282,16 +285,17 @@ class NewsItem {
      *
      * @param {string} name Name of the plugin making the call
      * @param {Object} newsPriority News priority object
-     * @throws Error - If no newsPriority is passed as second parameter
+     *
+     * @fires event.DOCUMENT_CHANGED
      */
     setNewsPriority(name, newsPriority) {
         if ('undefined' === typeof newsPriority) {
-            throw new Error('Undefined value')
+            throw new Error('Undefined value');
         }
 
         var metaDataNode = this.api.newsItemArticle.querySelector('contentMeta metadata'),
             newsValueNode = this.api.newsItemArticle.querySelector(
-                'contentMeta metadata object[type="x-im/newsvalue"]')
+                'contentMeta metadata object[type="x-im/newsvalue"]');
 
         if (!metaDataNode) {
             var contentMetaNode = this.api.newsItemArticle.querySelector('contentMeta');
@@ -305,7 +309,14 @@ class NewsItem {
         newsValueNode = jxon.unbuild(newsPriority, null, 'object');
         metaDataNode.appendChild(newsValueNode.childNodes[0]);
 
-        this.api.events.onDocumentChanged(this.getNewsPriority(name))
+        this.api.events.documentChanged(
+            name,
+            {
+                type: 'newsPriority',
+                action: 'update',
+                data: this.getNewsPriority(name)
+            }
+        );
     }
 
     /**
@@ -364,13 +375,12 @@ class NewsItem {
     /**
      * Add a channel as a <service>.
      * Renaming qcode to @qcode.
-     * Triggers a 'data:changed' event to all data:changed listeners except
-     * the plugin making the change.
      *
      * @param {string} name Name of plugin
      * @param {string} channel Name of channel
      * @param {boolean} setAsMainChannel Set this channel as main channel
      *
+     * @fires event.DOCUMENT_CHANGED
      * @throws Error
      */
     addChannel(name, channel, setAsMainChannel) {
@@ -400,23 +410,25 @@ class NewsItem {
         var serviceNode = jxon.unbuild(service, null, 'service');
         itemMetaNode.appendChild(serviceNode.childNodes[0]);
 
-        this._triggerEvent(name, 'data:changed', {
-            type: 'channel',
-            action: 'add',
-            data: channel
-        });
+        this.api.events.documentChanged(
+            name,
+            {
+                type: 'channel',
+                action: 'add',
+                data: channel
+            }
+        );
     }
 
 
     /**
      * Removes <service>.
-     * Triggers a 'data:changed' event to all data:changed listeners except
-     * the plugin making the change.
      *
      * @param {string} name Name of plugin
      * @param {string} channel Name of channel
      * @param {boolean} muteEvent Optional. Mute event if set to true, only used internally.
      *
+     * @fires event.DOCUMENT_CHANGED
      * @throws Error
      */
     removeChannel(name, channel, muteEvent) {
@@ -434,11 +446,14 @@ class NewsItem {
             return;
         }
 
-        this._triggerEvent(name, 'data:changed', {
-            type: 'channel',
-            action: 'remove',
-            data: channel
-        })
+        this.api.events.documentChanged(
+            name,
+            {
+                type: 'channel',
+                action: 'delete',
+                data: channel
+            }
+        );
     }
 
 
@@ -458,6 +473,7 @@ class NewsItem {
         var pubStatusNode = jxon.build(node)
         pubStatusNode.qcode = pubStatusNode['$qcode']
         delete pubStatusNode['$qcode']
+
         return pubStatusNode
     }
 
@@ -468,6 +484,8 @@ class NewsItem {
      *
      * @param {string} name
      * @param {object} pubStatus
+     *
+     * @fires event.DOCUMENT_CHANGED
      */
     setPubstatus(name, pubStatus) {
         let newsItem = this.api.newsItemArticle,
@@ -480,6 +498,11 @@ class NewsItem {
         }
 
         node.setAttribute('qcode', pubStatus.qcode)
+        this.api.documentChanged(name, {
+            type: 'pubStatus',
+            action: 'set',
+            data: pubStatus
+        })
     }
 
 
@@ -505,11 +528,11 @@ class NewsItem {
 
     /**
      * Set pubStart
-     * Triggers a 'data:changed' event to all data:changed listeners except
-     * the plugin making the change.
      *
      * @param {string} name Plugin name
      * @param {object} pubStart Expect object with value property. Type is ignored. Object {value: "2016-02-08T20:37:25 01:00"}
+     *
+     * @fires event.DOCUMENT_CHANGED
      */
     setPubStart(name, pubStart) {
         let newsItem = this.api.newsItemArticle,
@@ -524,21 +547,20 @@ class NewsItem {
         pubStartNode.setAttribute('value', pubStart.value)
         pubStartNode.setAttribute('type', 'imext:pubstart')
 
-        // FIXME: Should we replace data:changed to document:changed?
-        this.api.events.triggerEvent(
-            name,
-            'data:changed', this.getPubStart()
-        )
+        this.api.events.documentChanged(name, {
+            type: 'pubStart',
+            action: 'set',
+            data: pubStart
+        })
     }
 
 
     /**
      * Remove the node for the pubStart
      *
-     * Triggers a 'data:changed' event to all data:changed listeners except
-     * the plugin making the change.
-     *
      * @param name
+     *
+     * @fires event.DOCUMENT_CHANGED
      */
     removePubStart(name) {
         let pubStartNode = this._getItemMetaExtPropertyByType('imext:pubstart')
@@ -547,11 +569,11 @@ class NewsItem {
             pubStartNode.parentElement.removeChild(pubStartNode)
         }
 
-        // FIXME: Should we replace data:changed to document:changed?
-        this.api.events.triggerEvent(
-            name,
-            'data:changed', {}
-        )
+        this.api.events.documentChanged(name, {
+            type: 'pubStart',
+            action: 'delete',
+            data: {}
+        });
     }
 
 
@@ -579,13 +601,11 @@ class NewsItem {
 
     /**
      * Set pubStop.
-     * Triggers a 'data:changed' event to all data:changed listeners except
-     * the plugin making the change.
      *
      * @param {string} name Plugin name
      * @param {object} pubStop
      *
-     * @returns {object}
+     * @fires event.DOCUMENT_CHANGED
      */
     setPubStop(name, pubStop) {
         let pubStopNode = this._getItemMetaExtPropertyByType('imext:pubstop')
@@ -599,19 +619,16 @@ class NewsItem {
         pubStopNode.setAttribute('value', pubStop.value)
         pubStopNode.setAttribute('type', 'imext:pubstop')
 
-        // FIXME: Should we replace data:changed to document:changed?
-        this.api.events.triggerEvent(
-            name,
-            'data:changed',
-            this.getPubStop()
-        )
+        this.api.events.documentChanged(name, {
+            type: 'pubStop',
+            action: 'set',
+            data: pubStop
+        })
     }
 
 
     /**
      * Remove the node for pubStop.
-     * Triggers a 'data:changed' event to all data:changed listeners except
-     * the plugin making the change.
      *
      * @param {string} name Plugin name
      */
@@ -621,29 +638,30 @@ class NewsItem {
             pubStopNode.parentElement.removeChild(pubStopNode)
         }
 
-        // FIXME: Should we replace data:changed to document:changed?
-        this.api.events.triggerEvent(
-            name,
-            'data:changed', {}
-        )
+        this.api.events.documentChanged(name, {
+            type: 'pubStop',
+            action: 'delete',
+            data: {}
+        });
     }
 
 
     /**
      * Get all author links in itemMeta links
+     *
      * @returns {*}
      */
     getAuthors(/*name*/) {
 
         /*jshint validthis:true */
         function normalizeObject(object) {
-            Object.keys(object).forEach((key) => {
+            Object.keys(object).forEach(function (key) {
                 if (startsWith(key, '@')) {
                     var newKey = replace(key, '@', '');
                     object[newKey] = object[key];
                     delete object[key];
                 }
-            })
+            }.bind(this));
             return object;
         }
 
@@ -651,6 +669,7 @@ class NewsItem {
         if (!authorNodes) {
             return null;
         }
+
         var authors = [];
         var length = authorNodes.length;
         for (var i = 0; i < length; i++) {
@@ -660,27 +679,33 @@ class NewsItem {
 
             authors.push(normalizedAuthor);
         }
+
         return authors;
     }
 
 
     /**
      * Remove an author from newsItem.
-     * Triggers a 'data:changed' event to all data:changed listeners except
-     * the plugin making the change.
      *
      * @param {string} name Name of the plugin
      * @param {string} uuid The UUID of the author to be deleted
      *
+     * @fires event.DOCUMENT_CHANGED
      * @throws {NotFoundException}  When no node is found by provided UUID the NotFoundException is thrown
      */
     removeAuthorByUUID(name, uuid) {
         var authorNode = this.newsItem.querySelector(
             'itemMeta links link[type="x-im/author"][uuid="' + uuid + '"]');
+
         if (authorNode) {
             authorNode.parentElement.removeChild(authorNode);
-            this._triggerEvent(name, 'data:changed', {});
-        } else {
+            this.api.events.documentChanged(name, {
+                type: 'author',
+                action: 'delete',
+                data: authorNode
+            });
+        }
+        else {
             throw new this.NotFoundException('Could not find authorNode with UUID: ' + uuid);
         }
     }
@@ -688,49 +713,58 @@ class NewsItem {
 
     /**
      * Add an known author with a specified uuid to the newsItem
-     * Triggers a 'data:changed' event to all data:changed listeners except
-     * the plugin making the change.
      *
      * @param {string} name Plugin name
      * @param {object} author Author object with the properties name and uuid
+     *
+     * @fires event.DOCUMENT_CHANGED
      */
     addAuthor(name, author) {
         var newsItem = this.newsItem;
         var linksNode = newsItem.querySelector('itemMeta links');
         var authorLinkNode = newsItem.createElement('link');
+
         authorLinkNode.setAttribute('title', author.name);
         authorLinkNode.setAttribute('uuid', author.uuid);
         authorLinkNode.setAttribute('rel', 'author');
         authorLinkNode.setAttribute('type', 'x-im/author');
         linksNode.appendChild(authorLinkNode);
 
-        this._triggerEvent(name, 'data:changed', {});
+        this.api.events.documentChanged(name, {
+            type: 'author',
+            action: 'add',
+            data: author
+        });
     }
 
     /**
      * Add an simple/unknown author to the newsItem
-     * Triggers a 'data:changed' event to all data:changed listeners except
-     * the plugin making the change.
      *
      * @param {string} name Plugin name
      * @param {object} author Author object with the properties name and uuid
+     *
+     * @fires event.DOCUMENT_CHANGED
      */
     addSimpleAuthor(name, authorName) {
         var newsItem = this.newsItem;
         var linksNode = newsItem.querySelector('itemMeta links');
         var authorLinkNode = newsItem.createElement('link');
+
         authorLinkNode.setAttribute('title', authorName);
         authorLinkNode.setAttribute('uuid', '00000000-0000-0000-0000-000000000000');
         authorLinkNode.setAttribute('rel', 'author');
         authorLinkNode.setAttribute('type', 'x-im/author');
         linksNode.appendChild(authorLinkNode);
-        this._triggerEvent(name, 'data:changed', {});
+
+        this.api.events.documentChanged(name, {
+            type: 'author',
+            action: 'add',
+            data: authorName
+        });
     }
 
     /**
      * Remove an author from newsItem
-     * Triggers a 'data:changed' event to all data:changed listeners except
-     * the plugin making the change.
      *
      * @param {string} name Name of the plugin
      * @param {string} authorName The name of the author to be deleted
@@ -740,11 +774,17 @@ class NewsItem {
     removeAuthorByTitle(name, authorName) {
         var authorNode = this.newsItem.querySelector(
             'itemMeta links link[type="x-im/author"][title="' + authorName + '"]');
+
         if (authorNode) {
             authorNode.parentElement.removeChild(authorNode);
-            this._triggerEvent(name, 'data:changed', {});
-        } else {
-            throw new this.NotFoundException('Could not find authorNode with title: ' + authorName)
+            this.api.events.documentChanged(name, {
+                type: 'author',
+                action: 'delete',
+                data: authorName
+            });
+        }
+        else {
+            throw new this.NotFoundException('Could not find authorNode with title: ' + authorName);
         }
     }
 
@@ -764,8 +804,8 @@ class NewsItem {
                 object[newKey] = object[key];
                 delete object[key];
             }
-        })
-        return object
+        }.bind(this));
+        return object;
     }
 
 
@@ -792,9 +832,9 @@ class NewsItem {
         }
 
         var querySelectors = [];
-        types.forEach((type) => {
+        types.forEach(function (type) {
             querySelectors.push('itemMeta links link[type="' + type + '"][rel="' + subject + '"]');
-        })
+        }.bind(this));
 
         var querySelectorString = querySelectors.join(', ');
         var tagLinkNodes = this.newsItem.querySelectorAll(querySelectorString);
@@ -835,6 +875,7 @@ class NewsItem {
             'itemMeta links link[type="x-im/channel"][rel="subject"], ' +
             'itemMeta links link[type="x-im/category"][rel="subject"], ' +
             'itemMeta links link[type="x-im/category"][rel="subject"]');
+
         if (!tagLinkNodes) {
             return null;
         }
@@ -860,76 +901,106 @@ class NewsItem {
      * @param {string} name The name of the plugin
      * @param {object} tag Must containt title, type and uuid
      *
+     * @fires event.DOCUMENT_CHANGED
      */
     addTag(name, tag) {
         var newsItem = this.newsItem;
         var linksNode = newsItem.querySelector('itemMeta links');
         var tagLinkNode = newsItem.createElement('link');
+
         tagLinkNode.setAttribute('title', tag.name[0]);
         tagLinkNode.setAttribute('uuid', tag.uuid);
         tagLinkNode.setAttribute('rel', 'subject');
         tagLinkNode.setAttribute('type', tag.imType[0]);
         linksNode.appendChild(tagLinkNode);
 
-        this._triggerEvent(name, 'data:changed', {});
+        this.api.events.documentChanged(name, {
+            type: 'tag',
+            action: 'add',
+            data: tag
+        });
     }
 
 
     /**
-     * Update
+     * Update a tag in itemMeta > links section
+     *
      * @param {string} name The name of the plugin
      * @param {string} uuid The UUID of the link element
      * @param {object} tag The tag, same format as concept backend provides in search {"name": [ "2016 Eurovision Song Contest" ], "type": [ "story" ], "typeCatalog": [ "imnat" ], "imType": [ "x-im/story" ] }
+     *
+     * @fires event.DOCUMENT_CHANGED
      * @throws {NotFoundException}  When no node is found by provided UUID the NotFoundException is thrown
      */
     updateTag(name, uuid, tag) {
-
         var subject = tag.subject ? tag.subject : "subject";
-
         var newsItem = this.newsItem;
         var linkTagNode = newsItem.querySelector('itemMeta links link[uuid="' + uuid + '"]');
+
         if (!linkTagNode) {
             throw new this.NotFoundException('Could not find linkNode with UUID: ' + uuid);
         }
+
         linkTagNode.setAttribute('title', tag.name[0]);
         linkTagNode.setAttribute('rel', subject);
         linkTagNode.setAttribute('type', tag.imType[0]);
 
-        this.api.events.triggerEvent(name, 'data:changed', {})
-
+        this.api.events.documentChanged(name, {
+            type: 'tag',
+            action: 'update',
+            data: tag
+        });
     }
 
 
     /**
      * Removes a link in itemMeta links by providing an UUID
+     *
      * @param name The name of the plugin calling the method
      * @param uuid The uuid of the link to be removed
+     *
+     * @fires event.DOCUMENT_CHANGED
      */
     removeLinkByUUID(name, uuid) {
-        var linkNode = this.newsItem.querySelector('itemMeta links link[uuid="' + uuid + '"]');
+        var linkNode = this.newsItem.querySelector('itemMeta links link[uuid="' + uuid + '"]')
+
         if (linkNode) {
-            linkNode.parentElement.removeChild(linkNode);
-            this._triggerEvent(name, 'data:changed', {});
-        } else {
-            throw new this.NotFoundException('Could not find linkNode with UUID: ' + uuid);
+            linkNode.parentElement.removeChild(linkNode)
+            this.api.events.documentChanged(name, {
+                type: 'tag',
+                action: 'delete',
+                data: uuid
+            })
+        }
+        else {
+            throw new this.NotFoundException('Could not find linkNode with UUID: ' + uuid)
         }
     }
 
 
     /**
      * Remove a link from itemMeta links section by type and rel attributes
+     *
      * @param {string} name
      * @param {string} uuid
      * @param {string} rel
+     *
+     * @fires event.DOCUMENT_CHANGED
      */
     removeLinkByUUIDAndRel(name, uuid, rel) {
         var linkNode = this.newsItem.querySelector(
-            'itemMeta links link[uuid="' + uuid + '"][rel="' + rel + '"]');
+            'itemMeta links link[uuid="' + uuid + '"][rel="' + rel + '"]')
+
         if (linkNode) {
-            linkNode.parentElement.removeChild(linkNode);
-            this.api.events.triggerEvent(name, 'data:changed', {});
-        } else {
-            throw new this.NotFoundException('Could not find linkNode with UUID: ' + uuid);
+            linkNode.parentElement.removeChild(linkNode)
+            this.api.events.documentChanged(name, {
+                type: 'link',
+                action: 'delete',
+                data: rel
+            })
+        }
+        else {
+            throw new this.NotFoundException('Could not find linkNode with UUID: ' + uuid)
         }
     }
 
@@ -948,15 +1019,16 @@ class NewsItem {
      *  "uuid":"6599923a-d626-11e5-ab30-625662870761"
      * }
      *
-     * @fires data:changed A data:changed event is fired with added location
      * @param name Plugin name calling function
      * @param location The location in JSON containing
      *
+     * @fires event.DOCUMENT_CHANGED
      */
     addLocation(name, location) {
         var newsItem = this.newsItem;
         var linksNode = newsItem.querySelector('itemMeta links');
         var locationLinkNode = newsItem.createElement('link');
+
         locationLinkNode.setAttribute('title', location.title);
         locationLinkNode.setAttribute('uuid', location.uuid);
         locationLinkNode.setAttribute('rel', 'subject');
@@ -975,12 +1047,26 @@ class NewsItem {
 
         linksNode.appendChild(locationLinkNode);
 
-        this.api.events.triggerEvent(name, 'data:changed', location);
+        this.api.events.documentChanged(name, {
+            type: 'location',
+            action: 'add',
+            data: location
+        });
     }
 
+    /**
+     * Update a location
+     *
+     * @param {string} name Name of plugin
+     * @param {object} location The location in JSON
+     *
+     * @fires event.DOCUMENT_CHANGED
+     * @throws Error
+     */
     updateLocation(name, location) {
         var uuid = location.uuid;
         var linkNode = this.newsItem.querySelector('itemMeta links link[uuid="' + uuid + '"]');
+
         if (linkNode) {
             linkNode.setAttribute('title', location.title);
 
@@ -993,8 +1079,13 @@ class NewsItem {
             }
             positionNode.textContent = location.data.position;
 
-            this.api.events.triggerEvent(name, 'data:changed', {});
-        } else {
+            this.api.events.documentChanged(name, {
+                type: 'location',
+                action: 'update',
+                data: location
+            });
+        }
+        else {
             throw new this.NotFoundException('Could not find linkNode with UUID: ' + uuid);
         }
     }
@@ -1035,6 +1126,7 @@ class NewsItem {
                 locations.push(normalizedTag);
             }
         }
+
         return locations;
     }
 
@@ -1053,7 +1145,8 @@ class NewsItem {
      *
      * @param {string} name The name of the plugin adding the link
      * @param {object} link Uses jxon.unbuild to transform JSON to XML. Make sure to use @ property names for attributes.
-     * @fires data:changed Fires a data:changed event with added link
+     *
+     * @fires event.DOCUMENT_CHANGED Fires a documentChanged event with added link
      */
     addLink(name, link) {
         var itemMetaNode = this.newsItem.querySelector('itemMeta links');
@@ -1061,15 +1154,22 @@ class NewsItem {
         var linkXML = jxon.unbuild(link, null, 'link');
         itemMetaNode.appendChild(linkXML.documentElement);
 
-        this.api.events.triggerEvent(name, 'data:changed', link);
+        this.api.events.documentChanged(name, {
+            type: 'link',
+            action: 'add',
+            data: link
+        });
     }
 
 
     /**
      * Retrieve all links by specified type and rel
+     *
      * @param {string} name
      * @param {string} type
      * @param {string} rel
+     *
+     * @returns {array} Array of links
      */
     getLinkByTypeAndRel(name, type, rel) {
         var linkNodes = this.newsItem.querySelectorAll(
@@ -1089,8 +1189,10 @@ class NewsItem {
 
     /**
      * Get links in itemMeta links section by specified type
+     *
      * @param {string} name Name of the plugin
      * @param {string} type The link type
+     *
      * @returns {array} Return array of links transformed to JSON
      */
     getLinkByType(name, type) {
@@ -1108,11 +1210,17 @@ class NewsItem {
     }
 
 
+    /**
+     * Get stories
+     *
+     * @return {array} Array of stories found
+     */
     getStories() {
         var linkNodes = this._getLinksByType('x-im/story');
         if (!linkNodes) {
             return null;
         }
+
         var stories = [];
         var length = linkNodes.length;
         for (var i = 0; i < length; i++) {
@@ -1120,6 +1228,7 @@ class NewsItem {
             var normalizedTag = this.normalizeObject(link);
             stories.push(normalizedTag);
         }
+
         return stories;
     }
 
@@ -1134,19 +1243,25 @@ class NewsItem {
      * }
      * @param name
      * @param story
-     * @fires data:changed
+     *
+     * @fires event.DOCUMENT_CHANGED
      */
     addStory(name, story) {
         var newsItem = this.newsItem;
         var linksNode = newsItem.querySelector('itemMeta links');
         var linkNode = newsItem.createElement('link');
+
         linkNode.setAttribute('title', story.title);
         linkNode.setAttribute('uuid', story.uuid);
         linkNode.setAttribute('rel', 'subject');
         linkNode.setAttribute('type', 'x-im/story');
 
         linksNode.appendChild(linkNode);
-        this.api.events.triggerEvent(name, 'data:changed', story);
+        this.api.events.documentChanged(name, {
+            type: 'story',
+            action: 'add',
+            data: story
+        });
     }
 
 
@@ -1154,6 +1269,8 @@ class NewsItem {
      * Updates title on existing story
      * @param {string} name Plugin name
      * @param {object} story A story object that atleast contains title and uuid
+     *
+     * @fires event.DOCUMENT_CHANGED
      *
      * @example
      * {
@@ -1164,18 +1281,22 @@ class NewsItem {
     updateStory(name, story) {
         var uuid = story.uuid;
         var linkNode = this.newsItem.querySelector('itemMeta links link[uuid="' + uuid + '"]');
+
         if (linkNode) {
             linkNode.setAttribute('title', story.title);
-
-            this.api.events.triggerEvent(name, 'data:changed', {});
-        } else {
+            this.api.events.documentChanged(name, {
+                type: 'story',
+                action: 'update',
+                data: story
+            });
+        }
+        else {
             throw new this.NotFoundException('Could not find linkNode with UUID: ' + uuid);
         }
     }
 
 
     /**
-     *
      * Adds a content-profile link to NewsItem
      *
      * @example
@@ -1185,11 +1306,14 @@ class NewsItem {
      * }
      * @param {string} name Name of the plugin
      * @param {object} contentprofile A contentprofile object containing uuid and title
+     *
+     * @fires event.DOCUMENT_CHANGED
      */
     addConceptProfile(name, contentprofile) {
         var newsItem = this.newsItem;
         var linksNode = newsItem.querySelector('itemMeta links');
         var linkNode = newsItem.createElement('link');
+
         linkNode.setAttribute('title', contentprofile.title);
         linkNode.setAttribute('uuid', contentprofile.uuid);
         linkNode.setAttribute('rel', 'subject');
@@ -1197,12 +1321,15 @@ class NewsItem {
 
         linksNode.appendChild(linkNode);
 
-        this.api.events.triggerEvent(name, 'data:changed', contentprofile);
+        this.api.events.documentChanged(name, {
+            type: 'contentprofile',
+            action: 'add',
+            data: contentprofile
+        });
     }
 
 
     /**
-     *
      * Adds a category link to NewsItem
      *
      * @example
@@ -1212,11 +1339,14 @@ class NewsItem {
      * }
      * @param {string} name Name of the plugin
      * @param {object} category A category object containing uuid and title
+     *
+     * @fires event.DOCUMENT_CHANGED
      */
     addCategory(name, category) {
         var newsItem = this.newsItem;
         var linksNode = newsItem.querySelector('itemMeta links');
         var linkNode = newsItem.createElement('link');
+
         linkNode.setAttribute('title', category.title);
         linkNode.setAttribute('uuid', category.uuid);
         linkNode.setAttribute('rel', 'subject');
@@ -1224,14 +1354,21 @@ class NewsItem {
 
         linksNode.appendChild(linkNode);
 
-        this.api.events.triggerEvent(name, 'data:changed', category);
+        this.api.events.documentChanged(name, {
+            type: 'category',
+            action: 'add',
+            data: category
+        });
     }
 
 
     /**
      * Updates title on existing story
+     *
      * @param {string} name Plugin name
      * @param {object} story A concept profile object that atleast contains title and uuid
+     *
+     * @fires event.DOCUMENT_CHANGED
      *
      * @example
      * {
@@ -1242,11 +1379,16 @@ class NewsItem {
     updateConceptProfile(name, contentprofile) {
         var uuid = contentprofile.uuid;
         var linkNode = this.newsItem.querySelector('itemMeta links link[uuid="' + uuid + '"]');
+
         if (linkNode) {
             linkNode.setAttribute('title', contentprofile.title);
-
-            this.api.events.triggerEvent(name, 'data:changed', {});
-        } else {
+            this.api.events.documentChanged(name, {
+                type: 'contentprofile',
+                action: 'update',
+                data: contentprofile
+            });
+        }
+        else {
             throw new this.NotFoundException('Could not find linkNode with UUID: ' + uuid);
         }
     }
@@ -1256,13 +1398,14 @@ class NewsItem {
      *
      * Returns a list of all existing content-profiles in NewsItem
      *
-     * @returns {*}
+     * @returns {array | null}
      */
     getContentProfiles() {
         var linkNodes = this._getLinksByType('x-im/content-profile');
         if (!linkNodes) {
             return null;
         }
+
         var links = [];
         var length = linkNodes.length;
         for (var i = 0; i < length; i++) {
@@ -1270,21 +1413,22 @@ class NewsItem {
             var normalizedTag = this.normalizeObject(link);
             links.push(normalizedTag);
         }
+
         return links;
     }
 
 
     /**
-     *
      * Returns a list of all existing categories in NewsItem
      *
-     * @returns {*}
+     * @returns {array | null}
      */
     getCategories() {
         var linkNodes = this._getLinksByType('x-im/category');
         if (!linkNodes) {
             return null;
         }
+
         var links = [];
         var length = linkNodes.length;
         for (var i = 0; i < length; i++) {
@@ -1292,6 +1436,7 @@ class NewsItem {
             var normalizedTag = this.normalizeObject(link);
             links.push(normalizedTag);
         }
+
         return links;
     }
 
