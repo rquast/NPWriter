@@ -2,16 +2,7 @@
 var fs = require('fs')
 var path = require('path')
 var AWS = require('aws-sdk');
-var libhoney = require('libhoney').default
 const ConfigurationLoader = require('../models/ConfigurationLoader')
-
-
-var honey = new libhoney({
-    apiHost: "",
-    writeKey: process.env["HONEY_WRITE_KEY"],
-    dataset: process.env["HONEY_DATASET"]
-});
-honey._options.apiHost = "https://api.honeycomb.io"
 
 
 const ConfigRoutes = {}
