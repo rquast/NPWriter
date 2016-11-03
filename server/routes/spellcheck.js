@@ -12,7 +12,7 @@ var SpellChecker = require('../models/SpellChecker');
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
-var dataDir = path.resolve(path.join(__dirname, '..', '..', 'data', 'spellchecker'))
+var dataDir = path.resolve(path.join(__dirname, '..', 'spellchecker'))
 var spellchecker = new SpellChecker({
     dir: dataDir,
     defaultLang: 'en_US'

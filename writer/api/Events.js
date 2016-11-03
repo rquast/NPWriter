@@ -11,6 +11,7 @@ class Events {
     constructor() {
         this.eventListeners = []
     }
+
     /**
      * Writer controller fires keypressed:esc
      * name: keypressed:esc
@@ -26,9 +27,9 @@ class Events {
      * @param {Function} Function to call when event is triggered.
      */
     on(name, eventType, func) {
-        if (find(this.eventListeners, function (obj) {
-                return obj.name === name && obj.eventType === eventType;
-            })) {
+        if (find(this.eventListeners, (obj) => {
+            return obj.name === name && obj.eventType === eventType
+        })) {
             return;
         }
 

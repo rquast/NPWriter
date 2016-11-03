@@ -1,8 +1,8 @@
-import { Toolbox } from 'substance'
+import {Toolbox} from 'substance'
 
 /*
-  A default implementation to render the content for the overlay (aka popup) tools.
-*/
+ A default implementation to render the content for the overlay (aka popup) tools.
+ */
 class ContentMenu extends Toolbox {
 
     didMount() {
@@ -30,8 +30,8 @@ class ContentMenu extends Toolbox {
         var el = $$('div').addClass('sc-content-menu')
 
         el.css({
-            left: this._left+'px',
-            top: this._top+'px'
+            left: this._left + 'px',
+            top: this._top + 'px'
         })
 
         if (this.hasActiveTools()) {
@@ -43,17 +43,17 @@ class ContentMenu extends Toolbox {
 
             if (!this.state.open) {
                 toggleEl.append(
-                    $$(Button, {icon: 'content-menu-open' })
+                    $$(Button, {icon: 'content-menu-open'})
                 )
             }
             else {
                 toggleEl.append(
-                    $$(Button, {icon: 'content-menu-close' })
+                    $$(Button, {icon: 'content-menu-close'})
                 );
                 var availableToolsEl = $$('div').addClass('se-available-tools se-l-arrow-box');
 
                 el.addClass('sm-content-tools-open')
-                el.addClass('sm-theme-'+this.getTheme())
+                el.addClass('sm-theme-' + this.getTheme())
                 let activeToolGroups = this.state.activeToolGroups
 
                 activeToolGroups.forEach((toolGroup) => {
@@ -92,8 +92,8 @@ class ContentMenu extends Toolbox {
     }
 
     /*
-      Update and re-position
-    */
+     Update and re-position
+     */
     _position(hints) {
         if (this.hasActiveTools()) {
             this.el.removeClass('sm-hidden')
@@ -109,13 +109,13 @@ class ContentMenu extends Toolbox {
                 this.el.css('left', this._left)
             }
         } else {
-          this.el.addClass('sm-hidden')
+            this.el.addClass('sm-hidden')
         }
     }
 
     /*
-      Override if you just want to use a different style
-    */
+     Override if you just want to use a different style
+     */
     getToolStyle() {
         return 'outline-dark'
     }

@@ -18,7 +18,6 @@ import idGenerator from './utils/IdGenerator'
 import APIManager from './api/APIManager'
 import lodash from 'lodash'
 import SourceComponent from './packages/dialog/SourceComponent'
-import jxon from 'jxon'
 
 const STATUS_ISREADY = 'isReady',
     STATUS_LOADING = 'loading',
@@ -34,10 +33,10 @@ class App extends Component {
 
         this.handleActions({
             validate: () => {
-                console.log("Implement Validation")
+                // console.log("Implement Validation")
             }, //this.validate
             save: () => {
-                console.log("Implement save action")
+                // console.log("Implement save action")
             }, //this.save,
             replacedoc: this.replaceDoc
         });
@@ -251,6 +250,7 @@ class App extends Component {
     }
 }
 
+export default App
 
 window.onload = () => {
 

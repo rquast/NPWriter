@@ -13,6 +13,9 @@ const isProduction = environment === 'production';
 
 var port = isProduction ? process.env.PORT : 5000;
 var publicPath = path.resolve(__dirname, 'dist');
+if(isProduction) {
+    var publicPath = path.resolve(__dirname, 'writer');
+}
 
 const configurationLoader = new ConfigurationLoader(environment, environmentVariables)
 
@@ -20,6 +23,7 @@ configurationLoader.load().then((configurationManager) => {
 
     const host = configurationManager.get('server.host', '127.0.0.1'),
           protocol = configurationManager.get('server.protocol', 'http')
+          port = configurationManager.get('server.port', 'http')
 
     app.use('/', express.static(publicPath));
     app.use('/api', routes);
