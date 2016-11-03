@@ -89,6 +89,10 @@ module.exports = {
             {
                 from: 'server.js',
                 to: 'server.js'
+            },
+            {
+                from: 'data/assets',
+                to: 'data/assets'
             }
         ])
     ]
