@@ -27,6 +27,10 @@ class Ui {
         });
     }
 
+    // addSidebarTab(name) {
+    //     console.log("This", this.api.configurator.addSidebarTab({id: 'tester', name: 'hello'}));
+    // }
+
     /**
      * Display a dialog with the specified content.
      *
@@ -86,7 +90,6 @@ class Ui {
         const writer = this.api.refs.writer;
         writer.showDialog(contentComponent, props, options);
     }
-
 
     /**
      * Display a number of messages and different options depending on the
