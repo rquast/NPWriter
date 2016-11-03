@@ -98,7 +98,6 @@ class App extends Component {
     }
 
     didMount() {
-
         document.onkeydown = this.handleApplicationKeyCombos.bind(this)
 
         this.configurator = new NPWriterConfigurator().import(AppPackage)
