@@ -100,7 +100,7 @@ class Events {
             console.warn('Document changed event triggered without action', name);
         }
         else {
-            if (-1 === ['add', 'delete', 'update', 'edit'].indexOf(data.action)) {
+            if (-1 === ['set', 'add', 'delete', 'update', 'edit'].indexOf(data.action)) {
                 console.warn('Document change event has unknown action', data.action, name);
             }
         }
@@ -121,24 +121,23 @@ class Events {
     /**
      * Triggers a document saved event (document:saved)
      */
-    onDocumentSaved() {
+    documentSaved() {
         this.triggerEvent(null, Event.DOCUMENT_SAVED);
     }
-
-
-    /**
-     * Triggers a document start saving event (document:startsaving)
-     */
-    onDocumentStartSaving() {
-        this.triggerEvent(null, 'document:startsaving');
-    }
-
 
     /**
      * Triggers an event when the save process did not succeed (document:savefailed)
      */
-    onDocumentSaveFailed(error) {
-        this.triggerEvent(null, 'document:savefailed', error);
+    documentSaveFailed(error) {
+        this.triggerEvent(null, Event.DOCUMENT_SAVE_FAILED, error);
+    }
+
+    /**
+     * Triggers a document start saving event (document:startsaving)
+     * @fixme Should not be named onDocument... as it is a trigger, not an event handler
+     */
+    onDocumentStartSaving() {
+        this.triggerEvent(null, 'document:startsaving');
     }
 
 }

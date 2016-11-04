@@ -487,7 +487,7 @@ class NewsItem {
      *
      * @fires event.DOCUMENT_CHANGED
      */
-    setPubstatus(name, pubStatus) {
+    setPubStatus(name, pubStatus) {
         let newsItem = this.api.newsItemArticle,
             node = newsItem.querySelector('itemMeta pubStatus')
 
@@ -498,7 +498,7 @@ class NewsItem {
         }
 
         node.setAttribute('qcode', pubStatus.qcode)
-        this.api.documentChanged(name, {
+        this.api.events.documentChanged(name, {
             type: 'pubStatus',
             action: 'set',
             data: pubStatus
@@ -608,11 +608,12 @@ class NewsItem {
      * @fires event.DOCUMENT_CHANGED
      */
     setPubStop(name, pubStop) {
-        let pubStopNode = this._getItemMetaExtPropertyByType('imext:pubstop')
+        let newsItem = this.api.newsItemArticle,
+            pubStopNode = this._getItemMetaExtPropertyByType('imext:pubstop')
 
         if (!pubStopNode) {
-            let itemMetaNode = this.newsItem.querySelector('itemMeta')
-            pubStopNode = this.newsItem.createElement('itemMetaExtProperty')
+            let itemMetaNode = newsItem.querySelector('itemMeta')
+            pubStopNode = newsItem.createElement('itemMetaExtProperty')
             itemMetaNode.appendChild(pubStopNode)
         }
 
