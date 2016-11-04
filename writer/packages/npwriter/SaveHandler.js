@@ -38,20 +38,20 @@ class SaveHandler {
             .then(response => response.text())
             .then((uuid) => {
                 window.location.hash = uuid;
-                this.api.events.onDocumentSaved();
+                this.api.events.documentSaved();
             })
             .catch((error) => {
-                throw new Error(error)
+                this.api.events.documentSaveFailed(error)
             });
     }
 
     updateNewsItem(uuid, newsItemXmlString) {
         return this.api.router.put('/api/newsitem/' + uuid, newsItemXmlString)
             .then(() => {
-                this.api.events.onDocumentSaved();
+                this.api.events.documentSaved();
             })
             .catch((error) => {
-                throw new Error(error)
+                this.api.events.documentSaveFailed(error)
             })
     }
 
