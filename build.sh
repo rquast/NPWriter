@@ -9,6 +9,7 @@ echo Installing dependencies
 npm install
 
 echo Running tests
+npm run build-substance
 npm run test
 
 echo Running build for production
