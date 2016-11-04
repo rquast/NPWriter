@@ -123,7 +123,8 @@ class NPWriter extends AbstractEditor {
         let Overlay = this.getComponent('overlay')
 
         let contentPanel = $$(ScrollPane, {
-            scrollbarType: 'native'
+            scrollbarType: 'native',
+            contextMenu: 'custom'
         }).ref('contentPanel')
 
         let layout = $$('div').addClass('se-layout')
