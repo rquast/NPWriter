@@ -8,6 +8,9 @@ rm -rf node_modules
 echo Installing dependencies
 npm install
 
+echo Running tests
+npm run test
+
 echo Running build for production
 npm run build
 
