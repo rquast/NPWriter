@@ -35,6 +35,9 @@ class ConfigurationLoader {
     downloadServerConfigFromS3() {
 
         return new Promise((resolve, reject) => {
+
+            let s3KeyName = process.env.AWS_S3_SERVER_CONFIG_NAME ? process.env.AWS_S3_SERVER_CONFIG_NAME : 'server.json'
+
             s3.getObject({Bucket: awsS3BucketName, Key: 'server.json'}).on('success', function (response) {
                 const file = require('fs').createWriteStream('./server/config/server.external.json');
                 const stream = s3.getObject(response.request.params).createReadStream();
@@ -63,6 +66,9 @@ class ConfigurationLoader {
     downloadWriterConfigFromS3() {
 
         return new Promise((resolve, reject) => {
+
+            let s3KeyName = process.env.AWS_S3_CLIENT_CONFIG_NAME ? process.env.AWS_S3_CLIENT_CONFIG_NAME : 'writer.json'
+
             s3.getObject({Bucket: awsS3BucketName, Key: 'writer.json'}).on('success', function (response) {
                 const file = require('fs').createWriteStream('./server/config/writer.external.json');
                 const stream = s3.getObject(response.request.params).createReadStream();
