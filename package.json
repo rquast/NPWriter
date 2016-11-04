@@ -1,6 +1,6 @@
 {
   "name": "np-writer",
-  "description": "NewsPilot Writer",
+  "description": "Newspilot Writer",
   "dependencies": {
     "aws-sdk": "^2.6.12",
     "b64": "^3.0.2",

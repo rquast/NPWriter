@@ -22,15 +22,15 @@ export default {
             en: "3.0 alpha",
             sv: "3.0 alpha"
         })
-        
+
         config.addLabel('about-header', {
             en: "NP Writer 3.0 alpha",
             sv: "NP Writer 3.0 alpha"
         })
 
         config.addLabel('about-description', {
-            en: "NewsPilot Writer is brought to you by Infomaker Scandinavia AB and was first released in early 2016.",
-            sv: "NewsPilot Writer skapad av Infomaker Scandinavia AB och släpptes första gången våren 2016."
+            en: "Newspilot Writer is brought to you by Infomaker Scandinavia AB and was first released in early 2016.",
+            sv: "Newspilot Writer skapad av Infomaker Scandinavia AB och släpptes första gången våren 2016."
         })
 
         config.addLabel('about-credits', {
