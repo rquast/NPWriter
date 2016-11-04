@@ -93,7 +93,6 @@ class NewsMLExporter extends XMLExporter {
         // this.addTeaser(newsItem, groupContainer);
 
 
-        console.log("Export", newsItem.documentElement.outerHTML);
         return newsItem.documentElement.outerHTML;
     }
 }

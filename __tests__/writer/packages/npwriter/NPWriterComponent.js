@@ -24,7 +24,7 @@ class App extends Component {
         let api = new Api({}, this.props.configurator)
         api.init(Helper.getParsedExampleDocument(), {getDocument:()=>{}}, {}) // Mocking documentSession parameter
 
-        this.props.configurator.import(UnsupportedPackage)
+        // this.props.configurator.import(UnsupportedPackage)
         var importer = this.props.configurator.createImporter('newsml')
         const idfDocument = importer.importDocument(Helper.getContentFromExampleDocument())
 

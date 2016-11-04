@@ -1,7 +1,7 @@
 import Helper from '../../../helpers'
 import sinon from 'sinon'
 import {Component} from 'substance'
-
+import Api from '../../../../writer/api/Api'
 
 class DummyDialogContent extends Component {
 
@@ -10,9 +10,7 @@ class DummyDialogContent extends Component {
     }
 
     didMount() {
-
     }
-
 
     onClose(action) {
         return true
@@ -31,27 +29,31 @@ class DummyDialogContent extends Component {
 
 describe('Open a modal window', () => {
 
-    let xhr, requests, App, app
+    let xhr, requests, App, app, api
     beforeEach(() => {
         xhr = sinon.useFakeXMLHttpRequest();
         requests = [];
         xhr.onCreate = function (req) {
             requests.push(req);
         };
+        let configurator = Helper.getConfigurator()
+        api = new Api({}, configurator)
+        api.init(Helper.getParsedExampleDocument(), {getDocument:()=>{}}, {}) // Mocking documentSession parameter
 
-        App = Helper.getApp()
-        app = App.mount({configurator: Helper.getConfigurator()}, document.body)
+        App = Helper.getApp(api)
+        app = App.mount({configurator: configurator}, document.body)
     })
 
     afterEach(() => {
         document.body.innerHTML = '<div></div>';
+        app = null
+        App = null
         xhr.restore();
     })
 
 
     test('It can open a modal window through the API', () => {
-        console.log("app", app.api);
-        app.api.ui.showDialog(DummyDialogContent, {}, {})
+        api.ui.showDialog(DummyDialogContent, {}, {})
 
         const body = document.body
         expect(body.querySelectorAll('.modal').length).toBe(1)
@@ -62,7 +64,7 @@ describe('Open a modal window', () => {
 
 
     test('It can open modal with passed in props', () => {
-        app.api.ui.showDialog(DummyDialogContent, {foo: 'bar'}, {})
+        api.ui.showDialog(DummyDialogContent, {foo: 'bar'}, {})
         const body = document.body
         expect(body.querySelector('#bar').getAttribute('id')).toBe('bar')
     })
@@ -81,7 +83,7 @@ describe('Open a modal window', () => {
             }
         }
 
-        app.api.ui.showDialog(Dialog, {}, {primary: "Go"})
+        api.ui.showDialog(Dialog, {}, {primary: "Go"})
         const body = document.body
         const primaryButton = body.querySelectorAll('.btn-primary')[0]
 
@@ -107,7 +109,7 @@ describe('Open a modal window', () => {
             }
         }
 
-        app.api.ui.showDialog(Dialog, {}, {primary: "Go"})
+        api.ui.showDialog(Dialog, {}, {primary: "Go"})
         const body = document.body
 
         const primaryButton = body.querySelectorAll('.btn-primary')[0]
@@ -118,7 +120,7 @@ describe('Open a modal window', () => {
      * Test so we can set a custom label on primary button
      */
     test('It can add button with custom label', () => {
-        app.api.ui.showDialog(DummyDialogContent, {}, {primary: "TestString"})
+        api.ui.showDialog(DummyDialogContent, {}, {primary: "TestString"})
         const body = document.body
 
         const primaryButton = body.querySelectorAll('.btn-primary')[0]
@@ -127,7 +129,7 @@ describe('Open a modal window', () => {
 
 
     test('It adds a title if provided', () => {
-        app.api.ui.showDialog(DummyDialogContent, {}, {title: "My Title"})
+        api.ui.showDialog(DummyDialogContent, {}, {title: "My Title"})
         const body = document.body
 
         expect(body.querySelector('.modal-header').getAttribute('class')).toBe('modal-header')
@@ -136,7 +138,7 @@ describe('Open a modal window', () => {
 
 
     test('It does NOT add a title', () => {
-        app.api.ui.showDialog(DummyDialogContent, {}, {})
+        api.ui.showDialog(DummyDialogContent, {}, {})
         const body = document.body
 
         expect(body.querySelector('.modal-header')).toBe(null)
@@ -155,35 +157,36 @@ describe('Open a modal window', () => {
             }
         }
 
-        app.api.ui.showDialog(Dialog, {}, {secondary: "Cancel"})
+        api.ui.showDialog(Dialog, {}, {secondary: "Cancel"})
         const body = document.body
-        const primaryButton = body.querySelectorAll('.btn-secondary')[0]
 
-        expect(body.querySelectorAll('.btn-secondary').length).toBe(1)
+        const primaryButton = body.querySelectorAll('.modal-content .btn-secondary')[0]
+
+        expect(body.querySelectorAll('.modal-content .btn-secondary').length).toBe(1)
 
         var evt = document.createEvent('MouseEvents');
         evt.initEvent('click', true, false);
         primaryButton.dispatchEvent(evt);
 
         expect(callback.called).toBe(true)
-        expect(body.querySelectorAll('.btn-secondary').length).toBe(0)
+        expect(body.querySelectorAll('.modal-content .btn-secondary').length).toBe(0)
     })
 
 
     test('It can add a single tertiary button with callback', () => {
-        const sinonCallback = sinon.spy()
 
+        const callback = jest.fn()
         const button = [{
             caption: "Third",
             callback: () => {
-                sinonCallback()
+                callback()
                 return true;
             }
         }]
 
-        app.api.ui.showDialog(DummyDialogContent, {}, {tertiary: button})
+        api.ui.showDialog(DummyDialogContent, {}, {tertiary: button})
         const body = document.body
-        const tertiaryButton = body.querySelectorAll('.btn-tertiary')[0]
+        const tertiaryButton = body.querySelectorAll('.modal-content  .btn-tertiary')[0]
 
         var evt = document.createEvent('MouseEvents');
         evt.initEvent('click', true, false);
@@ -191,7 +194,7 @@ describe('Open a modal window', () => {
 
         expect(tertiaryButton.textContent).toBe('Third')
         expect(tertiaryButton).not.toBe(null)
-        expect(sinonCallback.called).toBe(true)
+        expect(callback).toHaveBeenCalled()
 
     })
 
@@ -215,7 +218,7 @@ describe('Open a modal window', () => {
                 }
             }]
 
-        app.api.ui.showDialog(DummyDialogContent, {}, {tertiary: buttons})
+        api.ui.showDialog(DummyDialogContent, {}, {tertiary: buttons})
         const body = document.body
         const tertiaryButtons = body.querySelectorAll('.btn-tertiary')
 
@@ -244,7 +247,7 @@ describe('Open a modal window', () => {
 
 describe('Open a dialog with messages', () => {
 
-    let xhr, requests, App, app
+    let xhr, requests, App, app, api
     beforeEach(() => {
         xhr = sinon.useFakeXMLHttpRequest();
         requests = [];
@@ -252,8 +255,12 @@ describe('Open a dialog with messages', () => {
             requests.push(req);
         };
 
-        App = Helper.getApp()
-        app = App.mount({configurator: Helper.getConfigurator()}, document.body)
+        let configurator = Helper.getConfigurator()
+        api = new Api({}, configurator)
+        api.init(Helper.getParsedExampleDocument(), {getDocument:()=>{}}, {}) // Mocking documentSession parameter
+
+        App = Helper.getApp(api)
+        app = App.mount({configurator: configurator}, document.body)
     })
 
     afterEach(() => {
@@ -262,7 +269,7 @@ describe('Open a dialog with messages', () => {
     })
 
     it('Opens a messageDialog', () => {
-        app.api.ui.showMessageDialog([], () => {
+        api.ui.showMessageDialog([], () => {
         }, () => {
         })
 
@@ -289,7 +296,7 @@ describe('Open a dialog with messages', () => {
             }
         ]
 
-        app.api.ui.showMessageDialog(messages, () => {
+        api.ui.showMessageDialog(messages, () => {
         }, () => {
         })
 
@@ -331,10 +338,10 @@ describe('Open a dialog with messages', () => {
             }
         ]
 
-        app.api.ui.showMessageDialog(messages, primaryCallback, cancelCallback)
+        api.ui.showMessageDialog(messages, primaryCallback, cancelCallback)
 
         const body = document.body
-        const button = body.querySelectorAll('.btn-primary')[0]
+        const button = body.querySelectorAll('.modal-content .btn-primary')[0]
 
         expect(body.querySelectorAll('.btn-primary').length).toBe(1)
         expect(button.textContent).toBe('Cancel')
@@ -364,14 +371,14 @@ describe('Open a dialog with messages', () => {
             }
         ]
 
-        app.api.ui.showMessageDialog(messages, primaryCallback, cancelCallback)
+        api.ui.showMessageDialog(messages, primaryCallback, cancelCallback)
 
         const body = document.body
-        const button = body.querySelectorAll('.btn-primary')[0]
-        const secondary = body.querySelectorAll('.btn-secondary')[0]
+        const button = body.querySelectorAll('.modal-content .btn-primary')[0]
+        const secondary = body.querySelectorAll('.modal-content .btn-secondary')[0]
 
-        expect(body.querySelectorAll('.btn-primary').length).toBe(1)
-        expect(body.querySelectorAll('.btn-secondary').length).toBe(1)
+        expect(body.querySelectorAll('.modal-content .btn-primary').length).toBe(1)
+        expect(body.querySelectorAll('.modal-content .btn-secondary').length).toBe(1)
 
         expect(button.textContent).toBe('Cancel')
         expect(secondary.textContent).toBe('Continue')
@@ -406,14 +413,14 @@ describe('Open a dialog with messages', () => {
             }
         ]
 
-        app.api.ui.showMessageDialog(messages, primaryCallback, cancelCallback)
+        api.ui.showMessageDialog(messages, primaryCallback, cancelCallback)
 
         const body = document.body
-        const button = body.querySelectorAll('.btn-primary')[0]
-        const secondary = body.querySelectorAll('.btn-secondary')[0]
+        const button = body.querySelectorAll('.modal-content .btn-primary')[0]
+        const secondary = body.querySelectorAll('.modal-content .btn-secondary')[0]
 
-        expect(body.querySelectorAll('.btn-primary').length).toBe(1)
-        expect(body.querySelectorAll('.btn-secondary').length).toBe(1)
+        expect(body.querySelectorAll('.modal-content .btn-primary').length).toBe(1)
+        expect(body.querySelectorAll('.modal-content .btn-secondary').length).toBe(1)
 
         expect(button.textContent).toBe('Continue')
         expect(secondary.textContent).toBe('Cancel')

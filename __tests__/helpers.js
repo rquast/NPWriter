@@ -23,24 +23,21 @@ class Helper {
 
     }
 
-    static getApp() {
+    static getApp(api) {
 
         class App extends Component {
 
             getChildContext() {
                 return Object.assign({}, {
                     configurator: this.props.configurator,
-                    api: this.api
+                    api: api
                 });
             }
-
 
             render($$) {
                 // MOCK
                 window.document.createRange = () => {}
 
-                this.api = new Api({}, this.props.configurator)
-                this.api.init(Helper.getParsedExampleDocument(), {getDocument:()=>{}}, {}) // Mocking documentSession parameter
 
                 // this.props.configurator.import(UnsupportedPackage)
                 var importer = this.props.configurator.createImporter('newsml')
@@ -50,14 +47,14 @@ class Helper {
                     configurator: this.props.configurator,
                     lang: "sv_SE",
                     context: {
-                        api: this.api
+                        api: api
                     }
                 })
 
                 let writer = $$(NPWriterCompontent, {
                     editorSession: editorSession,
                     configurator: this.props.configurator,
-                    api: this.api
+                    api: api
                 }).ref('writer')
 
                 return $$('div').attr('id', 'main').ref('app').append(writer)

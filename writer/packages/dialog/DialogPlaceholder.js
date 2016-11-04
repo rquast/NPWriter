@@ -10,7 +10,6 @@ class DialogPlaceholder extends Component {
     }
 
     render($$) {
-
         const el = $$('div')
         if (this.state.showModal) {
             var dialogComponent = this.getComponent('dialog')
