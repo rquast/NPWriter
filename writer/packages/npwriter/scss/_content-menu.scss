@@ -1,3 +1,5 @@
+@import '../../../styles/mixins/shadow';
+
 .sc-content-menu {
     position: absolute;
     top: -15px;
@@ -8,35 +10,57 @@
         float: left;
         width: 20px;
         text-align: center;
+        
+        button {
+            background-color: #fff;
+            padding:0;
+
+            .fa {
+                color: #565656;
+            }
+        }
+
+        &>button.se-tool {
+            display: table-cell;
+        }
     }
 
     .se-available-tools {
         float: left;
         background: #fff;
-        box-shadow: rgba(0, 0, 0, 0.298039) 2px 2px 8px -1px;
-        margin-left: 6px;
+        @include box-shadow;
+
         border-radius: 0.25rem;
-        padding: 0px;
+        padding: 2px;
         border-top: 1px solid rgb(221, 221, 221);
         border-left: 1px solid rgb(221, 221, 221);
+        //width: 300px;
+        min-width:200px;
+        margin-left: 15px;
 
         .sc-np-switch-text-type {
-            display: table;
-            font-size: 90%;
-
             button {
-                display: table-row;
+                background-color: #fff;
                 color: #222;
+                display: flex;
+                border-radius: 0;
 
-                div.se-label {
+                &.sm-active {
+                    .se-label {
+                        font-weight:700;
+                    }
+                }
+                &:hover {
+                    background-color: darken(#fff, 5%);
+                }
+                .se-label {
                     float: none;
-                    display: table-cell;
-                    font-weight: normal;
+                    flex: 3;
+                    font-weight:normal;
                 }
 
-                div.se-hint {
-                    float: none;
-                    display: table-cell;
+                .se-hint {
+                    flex: 2;
                     color: #bbb;
                     text-align: right;
                 }

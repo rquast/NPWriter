@@ -57,6 +57,18 @@ module.exports = {
     //     failOnError: true
     // },
     plugins: [
+        function()
+        {
+            this.plugin("done", function(stats)
+            {
+                if (stats.compilation.errors && stats.compilation.errors.length && process.argv.indexOf('--watch') == -1)
+                {
+                    console.log(stats.compilation.errors);
+                    process.exit(1); // or throw new Error('webpack build failed.');
+                }
+                // ...
+            });
+        },
         new ExtractTextPlugin("writer/styles/app.css"),
         new webpack.ProvidePlugin({
             'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'

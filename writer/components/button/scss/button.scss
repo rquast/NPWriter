@@ -1,14 +1,16 @@
 button {
     display: inline-block;
-
     background: #0098C7;
     padding: 0.5rem 1.6rem;
     font-size: 1rem;
     line-height: 20px;
     border-radius: 40px;
     transition: opacity ease-in-out 0.1s;
-
     color: #fff;
+
+    &:hover {
+        background-color: lighten(#0098C7, 5%);
+    }
     a.fa {
         color: #fff;
     }
@@ -20,8 +22,12 @@ button {
     &.btn-secondary {
         background: #fff;
         border: 1px solid #ddd;
-
         color: #666;
+        
+        &:hover {
+            background-color: darken(#fff, 5%);
+        }
+        
         a.fa {
             color: #666;
         }

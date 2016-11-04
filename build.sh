@@ -12,12 +12,18 @@ echo Running tests
 npm run build-substance
 npm run test
 
+
+if [[ $? -ne 0 ]]; then
+  echo "Tests failed"
+  exit 1
+fi
+
 echo Running build for production
 npm run build
 
 
 if [[ $? -ne 0 ]]; then
-  echo "Gulp failed"
+  echo "Build failed"
   exit 1
 fi
 

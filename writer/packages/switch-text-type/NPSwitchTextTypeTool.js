@@ -11,7 +11,6 @@ class NPSwitchTextTypeTool extends SwitchTextTypeTool {
     each(this.props.textTypes, function(textType) {
         var btn = $$(Button, {
           label: textType.name,
-          hint: 'ctrl+foo',
           active: textType.name === this.props.currentTextType.name,
           // disabled: this.props.disabled,
           style: 'plain-dark'

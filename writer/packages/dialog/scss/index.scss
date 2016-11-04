@@ -1,9 +1,11 @@
-@mixin box-shadow() {
-    box-shadow: 2px 2px 8px -1px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 2px 2px 8px -1px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 2px 2px 8px -1px rgba(0, 0, 0, 0.3);
+//@mixin box-shadow() {
+//    box-shadow: 2px 2px 8px -1px rgba(0, 0, 0, 0.3);
+//    -moz-box-shadow: 2px 2px 8px -1px rgba(0, 0, 0, 0.3);
+//    -webkit-box-shadow: 2px 2px 8px -1px rgba(0, 0, 0, 0.3);
+//
+//}
 
-}
+@import '../../../styles/mixins/shadow';
 
 .modal {
     position: absolute;
@@ -27,12 +29,13 @@
     background: rgba(255, 255, 255, 0.7);
 
     .modal-content {
-        @include box-shadow();
+        @include box-shadow;
 
         border: 1px solid #ddd;
         overflow-y: scroll;
         margin: 100px auto;
         background-color: #fff;
+        border-radius: 0.3rem;
         &.small-screen {
             margin: 20px auto;
         }
@@ -47,7 +50,7 @@
             font-size: 1.1rem;
             font-weight: normal;
             text-align: center;
-            padding:0;
+            padding:0.2rem;
             color: rgba(0, 0, 0, 0.74902);
         }
 

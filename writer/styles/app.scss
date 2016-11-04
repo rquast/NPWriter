@@ -18,7 +18,11 @@
 @import '~/../font-awesome/css/font-awesome.min.css';
 @import '~/../substance/substance-pagestyle.css';
 
+@import './box-with-arrow';
 
+html {
+    font-size: 90%;
+}
 
 // Bootstrap override {
 .btn-primary {
