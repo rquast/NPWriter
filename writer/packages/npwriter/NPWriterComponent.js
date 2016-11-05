@@ -7,6 +7,7 @@ import DialogMessageComponent from '../dialog/DialogMessageComponent'
 import BarComponent from './../../components/bar/BarComponent'
 import DialogPlaceholder from '../dialog/DialogPlaceholder'
 import Event from '../../utils/Event'
+import OverlayMenu from './OverlayMenu'
 
 class NPWriter extends AbstractEditor {
 
@@ -120,7 +121,6 @@ class NPWriter extends AbstractEditor {
         const body = doc.get('body')
         let configurator = this.props.configurator
         let ContextMenu = this.getComponent('context-menu')
-        let Overlay = this.getComponent('overlay')
 
         let contentPanel = $$(ScrollPane, {
             scrollbarType: 'native',
@@ -142,7 +142,7 @@ class NPWriter extends AbstractEditor {
         contentPanel.append([
             layout,
             $$(ContextMenu),
-            $$(Overlay),
+            $$(OverlayMenu),
             $$(ContentMenu)
         ])
         return contentPanel

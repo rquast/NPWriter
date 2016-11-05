@@ -1,9 +1,30 @@
 @import '../../../styles/mixins/shadow';
 
+.context-menu {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    li {
+        font-size: 1rem;
+        background-color: #fff;
+        color: rgba(0, 0, 0, 0.75);
+        padding: 5px 0 5px 10px;
+        cursor: pointer;
+        &:hover {
+            background-color: darken(#fff, 5%);
+        }
+        &.active {
+            font-weight: 700;
+        }
+    }
+}
+
 .sc-content-menu {
     position: absolute;
     top: -15px;
     left: 40px;
+    z-index: 10;
 
     .se-toggle {
         cursor: pointer;
@@ -31,41 +52,10 @@
         @include box-shadow;
 
         border-radius: 0.25rem;
-        padding: 2px;
         border-top: 1px solid rgb(221, 221, 221);
         border-left: 1px solid rgb(221, 221, 221);
-        //width: 300px;
         min-width:200px;
         margin-left: 15px;
-
-        .sc-np-switch-text-type {
-            button {
-                background-color: #fff;
-                color: #222;
-                display: flex;
-                border-radius: 0;
-
-                &.sm-active {
-                    .se-label {
-                        font-weight:700;
-                    }
-                }
-                &:hover {
-                    background-color: darken(#fff, 5%);
-                }
-                .se-label {
-                    float: none;
-                    flex: 3;
-                    font-weight:normal;
-                }
-
-                .se-hint {
-                    flex: 2;
-                    color: #bbb;
-                    text-align: right;
-                }
-            }
-        }
     }
 
     .sc-button.sm-style-outline {

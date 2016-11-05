@@ -1,0 +1,127 @@
+@import '../../../styles/mixins/shadow';
+
+/*
+  This just serves as a container for positioning overlay content
+*/
+.sc-overlay { z-index: 200; position: absolute; }
+.sc-overlay.sm-hidden { visibility: hidden; }
+
+
+.sc-overlay.sm-theme-dark {}
+
+.sc-overlay.sm-theme-dark::before {
+    content: '';
+    display: block;
+    margin: 0 auto;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 4px 8px 4px;
+    border-color: transparent transparent #2E2E2C transparent;
+}
+
+.sc-overlay.sm-theme-dark > .se-active-tools {
+    border-radius: 5px;
+    background: #2E2E2C;
+    padding: 5px;
+}
+
+.sc-overlay {
+    // top: 20px; // should be line-height + some extra spacing
+
+    .sc-tool-group {
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+
+        background: #fff;
+        //@include border-radius(0.25rem);
+        padding: 3px 5px;
+        @include box-shadow;
+
+        border: 1px solid #ddd;
+        .sc-tool {
+            -webkit-flex: 1 1 auto;
+            flex: 1 1 auto;
+
+            &:first-child {
+                button,
+                .sc-link-tool__button {
+                    margin-left: 5px;
+                }
+            }
+            &:last-child {
+                button,
+                .sc-link-tool__button {
+                    margin-right: 5px;
+                }
+            }
+            button,
+            .sc-link-tool__button {
+                background-color: #fff;
+                padding: 3px 4px;
+                margin: 5px 3px;
+                //@include border-radius(0.25rem);
+                max-width: 25px;
+                max-height:25px;
+                outline: none;
+                text-align: center;
+
+                &:focus {
+                    background: rgba(0, 0, 0, 0.1);
+                }
+            }
+
+            // This is so commonly used that we decided
+            // to put this into main toolbar styles
+            &.expand button::before, &.truncate button::before {
+                content: " \f07e";
+                font-family: FontAwesome;
+                position: absolute;
+                top: 3px;
+                right: 3px;
+                font-size: 7px;
+            }
+
+            &.edit button::before {
+                content: " \f013";
+                font-family: FontAwesome;
+                position: absolute;
+                top: 3px;
+                right: 3px;
+                font-size: 7px;
+            }
+
+            &.sm-active button {
+                //@include dark-fill(0.1);
+            }
+
+            button:hover {
+                //@include dark-fill(0.1);
+            }
+
+            &.sm-disabled {
+                opacity: 0.2;
+                cursor: default;
+
+                button:hover {
+                    background: none;
+                }
+            }
+
+        }
+    }
+}
+
+.sc-overlay.sm-theme-dark > .se-active-tools > .sc-tool-group {
+    display: inline-block;
+}
+
+.sc-overlay.sm-theme-dark > .se-active-tools > .sc-tool-group > .se-tool {
+    display: inline-block;
+}

@@ -1,4 +1,5 @@
 import './scss/_content-menu.scss'
+import './scss/_overlay-menu.scss'
 
 // Base packages
 import {BasePackage,
