@@ -64,7 +64,7 @@ class OverlayMenu extends Toolbox {
             let selectionMaxWidth = selRect.width
 
             // By default, Overlays are aligned center/bottom to the selection
-            this.el.css('top', selRect.top - 45)
+            this.el.css('top', selRect.top - 45 )
             let leftPos = selRect.left + selectionMaxWidth/2 - contentWidth/2
             // Must not exceed left bound
             leftPos = Math.max(leftPos, 0)

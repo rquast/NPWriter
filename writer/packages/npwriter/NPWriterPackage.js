@@ -1,5 +1,6 @@
 import './scss/_content-menu.scss'
 import './scss/_overlay-menu.scss'
+import './scss/_context-menu.scss'
 
 // Base packages
 import {BasePackage,
@@ -21,7 +22,7 @@ import SwitchTextTypePackage from '../switch-text-type/SwitchTextTypePackage'
 import ConfigEditorPackage from '../config-editor/ConfigEditorPackage'
 import DialogPackage from '../dialog/DialogPackage'
 import AboutPackage from '../about/AboutPackage'
-
+import LabelPackage from '../label/LabelPackage'
 
 export default {
     name: 'npwriter',
@@ -35,6 +36,7 @@ export default {
         // basics
         config.import(BasePackage)
         config.addToolGroup('content-menu')
+        config.addToolGroup('content-top-menu')
 
         // core nodes
         config.import(StrongPackage, {toolGroup: 'overlay'})
@@ -66,5 +68,8 @@ export default {
         config.import(SpellCheckPackage)
 
         config.addDragAndDrop(NPWriterDragAndDropHandler)
+
+        // Add a label package overriding and adding swedish translation to substance
+        config.import(LabelPackage)
     }
 }

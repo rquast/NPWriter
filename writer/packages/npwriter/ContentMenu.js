@@ -125,7 +125,7 @@ class ContentMenu extends Toolbox {
     }
 
     getActiveToolGroupNames() {
-        return ['content-menu']
+        return ['content-menu', 'content-top-menu']
     }
 
 }

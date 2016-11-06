@@ -1,4 +1,5 @@
 import {Configurator, Component} from 'substance'
+import LabelProvider from './LabelProvider'
 import 'whatwg-fetch'
 
 class NPWriterConfigurator extends Configurator {
@@ -12,10 +13,18 @@ class NPWriterConfigurator extends Configurator {
         this.config.sidebarTabs = []
         this.config.sidebarPanels = []
         this.config.uis = new Map()
+
         // HACK: workaround when there is not overlay tool registered
         this.config.tools.set('overlay', new Map());
     }
 
+    /**
+     * @Todo Handle how to configure writer.json
+     * @returns {LabelProvider}
+     */
+    getLabelProvider() {
+        return new LabelProvider(this.config.labels, 'sv')
+    }
 
     /**
      * Add a substance Component in a popover that is triggered by an

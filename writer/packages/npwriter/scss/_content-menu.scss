@@ -1,4 +1,5 @@
 @import '../../../styles/mixins/shadow';
+@import '../../../styles/mixins/popup-tools';
 
 .context-menu {
     padding: 0;
@@ -7,7 +8,6 @@
 
     li {
         font-size: 1rem;
-        background-color: #fff;
         color: rgba(0, 0, 0, 0.75);
         padding: 5px 0 5px 10px;
         cursor: pointer;
@@ -47,13 +47,8 @@
     }
 
     .se-available-tools {
+        @include popup-container();
         float: left;
-        background: #fff;
-        @include box-shadow;
-
-        border-radius: 0.25rem;
-        border-top: 1px solid rgb(221, 221, 221);
-        border-left: 1px solid rgb(221, 221, 221);
         min-width:200px;
         margin-left: 15px;
     }
