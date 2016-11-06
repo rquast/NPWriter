@@ -6,7 +6,7 @@ export default {
     configure: function(config) {
         config.addCommand('switch-text-type', SwitchTextTypeCommand)
         config.addTool('switch-text-type', NPSwitchTextTypeTool, {
-            toolGroup: 'content-menu'
+            toolGroup: 'context-menu-primary'
         })
     }
 }

@@ -120,7 +120,7 @@ class NPWriter extends AbstractEditor {
         const doc = this.editorSession.getDocument()
         const body = doc.get('body')
         let configurator = this.props.configurator
-        let ContextMenu = this.getComponent('context-menu')
+        let ContextMenu = this.getComponent('npw-context-menu')
 
         let contentPanel = $$(ScrollPane, {
             scrollbarType: 'native',
