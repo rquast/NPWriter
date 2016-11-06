@@ -1,4 +1,5 @@
 @import '../../../styles/mixins/shadow';
+@import '../../../styles/mixins/border-radius';
 
 /*
   This just serves as a container for positioning overlay content
@@ -27,8 +28,17 @@
 }
 
 .sc-overlay {
-    // top: 20px; // should be line-height + some extra spacing
 
+    // top: 20px; // should be line-height + some extra spacing
+    .se-active-tools {
+        background: #fff;
+        @include border-radius(0.25rem);
+        padding: 3px 5px;
+        @include box-shadow;
+
+        border: 1px solid #ddd;
+
+    }
     .sc-tool-group {
         display: -webkit-flex;
         display: flex;
@@ -39,41 +49,40 @@
         -webkit-justify-content: center;
         justify-content: center;
 
-        background: #fff;
-        //@include border-radius(0.25rem);
-        padding: 3px 5px;
-        @include box-shadow;
-
-        border: 1px solid #ddd;
-        .sc-tool {
+        .se-tool {
             -webkit-flex: 1 1 auto;
             flex: 1 1 auto;
 
             &:first-child {
-                button,
-                .sc-link-tool__button {
-                    margin-left: 5px;
+                button {
+                    margin-left:0;
                 }
             }
             &:last-child {
-                button,
-                .sc-link-tool__button {
-                    margin-right: 5px;
+                button {
                 }
             }
-            button,
-            .sc-link-tool__button {
+            button {
                 background-color: #fff;
-                padding: 3px 4px;
-                margin: 5px 3px;
-                //@include border-radius(0.25rem);
+                padding: 1px 0px;
+                margin: 3px 3px;
+                color: #333;
+                @include border-radius(0.25rem);
                 max-width: 25px;
                 max-height:25px;
                 outline: none;
                 text-align: center;
+                font-size: 1.2rem;
 
                 &:focus {
                     background: rgba(0, 0, 0, 0.1);
+                }
+
+                &.sm-active {
+                    background-color: #efefef;
+                }
+                &:hover {
+                    background-color: darken(#efefef, 5%);
                 }
             }
 

@@ -20,7 +20,7 @@ class OverlayMenu extends Toolbox {
         let el = $$('div').addClass(this.getClassNames())
         el.addClass('sm-hidden')
         let activeToolGroups = this.state.activeToolGroups
-        let activeToolsEl = $$('div').addClass('se-active-tools')
+        let activeToolsEl = $$('div').addClass('se-active-tools').addClass('se-b-arrow-box')
 
         activeToolGroups.forEach((toolGroup) => {
             let toolGroupProps = Object.assign({}, toolGroup, {
@@ -64,7 +64,7 @@ class OverlayMenu extends Toolbox {
             let selectionMaxWidth = selRect.width
 
             // By default, Overlays are aligned center/bottom to the selection
-            this.el.css('top', selRect.top)
+            this.el.css('top', selRect.top - 45)
             let leftPos = selRect.left + selectionMaxWidth/2 - contentWidth/2
             // Must not exceed left bound
             leftPos = Math.max(leftPos, 0)
@@ -82,7 +82,8 @@ class OverlayMenu extends Toolbox {
         return 'sc-overlay'
     }
     getActiveToolGroupNames() {
-        return ['overlay', 'annotations']
+        // If we have more toolgroups just add to this array
+        return ['overlay']
     }
 
 }
