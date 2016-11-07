@@ -1,6 +1,7 @@
 import './scss/_content-menu.scss'
 import './scss/_overlay-menu.scss'
 import './scss/_context-menu.scss'
+import './scss/_isolated-node.scss'
 
 // Base packages
 import {BasePackage,
