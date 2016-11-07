@@ -17,6 +17,7 @@ $enable-flex: true;
 @import "../../node_modules/bootstrap/scss/custom";
 @import "../../node_modules/bootstrap/scss/variables";
 @import "../../node_modules/bootstrap/scss/mixins";
+@import "../../node_modules/bootstrap/scss/buttons";
 @import "../../node_modules/bootstrap/scss/grid";
 
 
@@ -108,7 +109,7 @@ p {
 
         .se-content {
             width: 100%;
-            height: 100%;
+            height: 90%;
             padding: 0;
 
             .sc-layout {

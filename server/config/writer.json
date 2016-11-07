@@ -5,7 +5,7 @@
         {
             "id": "se.infomaker.publishflow",
             "name": "publishflow",
-            "url": "http://localhost:5001/index.js",
+            "url": "http://writer-dev-plugins.s3-website-eu-west-1.amazonaws.com/",
             "style": "http://localhost:5001/style.css",
             "enabled": true,
             "mandatory": true
@@ -13,7 +13,7 @@
         {
             "id": "se.infomaker.preamble",
             "name": "preamble",
-            "url": "http://localhost:5001/index.js",
+            "url": "http://writer-dev-plugins.s3-website-eu-west-1.amazonaws.com/",
             "style": "http://localhost:5001/style.css",
             "enabled": true,
             "mandatory": true
@@ -21,7 +21,7 @@
         {
             "id": "se.infomaker.textanalyzer",
             "name": "textanalyzer",
-            "url": "http://localhost:5001/index.js",
+            "url": "http://writer-dev-plugins.s3-website-eu-west-1.amazonaws.com/",
             "mandatory": false,
             "enabled": true,
             "data": {
@@ -31,9 +31,9 @@
         {
             "id": "se.infomaker.skeleton",
             "name": "skeleton",
-            "url": "http://localhost:5001/index.js",
+            "url": "http://writer-dev-plugins.s3-website-eu-west-1.amazonaws.com/",
             "mandatory": false,
-            "enabled": false,
+            "enabled": true,
             "data": {
                 "foo": "bar"
             }
@@ -41,27 +41,7 @@
         {
             "id": "se.infomaker.socialembed",
             "name": "socialembed",
-            "url": "http://localhost:5001/index.js",
-            "mandatory": false,
-            "enabled": true,
-            "data": {
-                "foo": "bar"
-            }
-        },
-        {
-            "id": "se.infomaker.ximimage",
-            "name": "ximimage",
-            "url": "http://localhost:5001/index.js",
-            "mandatory": false,
-            "enabled": true,
-            "data": {
-                "foo": "bar"
-            }
-        },
-        {
-            "id": "se.infomaker.ximteaser",
-            "name": "ximteaser",
-            "url": "http://localhost:5001/index.js",
+            "url": "http://writer-dev-plugins.s3-website-eu-west-1.amazonaws.com/",
             "mandatory": false,
             "enabled": true,
             "data": {
@@ -81,7 +61,7 @@
         {
             "id": "se.infomaker.newspriority",
             "name": "newspriority",
-            "url": "http://localhost:5001/index.js",
+            "url": "http://writer-dev-plugins.s3-website-eu-west-1.amazonaws.com/",
             "mandatory": false,
             "enabled": true,
             "data": {

@@ -15,6 +15,9 @@ ConfigRoutes.getFilenameForConfig = (isProduction) => {
     if(isProduction) {
         return path.join(__dirname, '/..', 'config', 'writer.external.json')
     }
+    if(process.env.CONFIG_FILE) {
+        return path.join(__dirname, '/..', 'config', process.env.CONFIG_FILE)
+    }
     return path.join(__dirname, '/..', 'config', 'writer.json')
 
 }
@@ -44,21 +47,10 @@ ConfigRoutes.getConfig = (req, res) => {
         })
     } else {
 
-
-
         fs.readFile(ConfigRoutes.getFilenameForConfig(false), 'utf8', function (err, data) {
             if (err) {
                 console.error("Error loading writer.json", err)
             }
-
-        /*    let map = new Map();
-            map.set("action", "fetching config file");
-            map.set("httpStatusCode", 200);
-            map.set("configData", data);
-            honey.add(map);
-            honey.sendNow()*/
-
-
             let plugins = JSON.parse(data);
             res.contentType('application/json').status(200).send(plugins);
         });
@@ -74,7 +66,7 @@ ConfigRoutes.setConfig = (req, res) => {
 
     const body = JSON.stringify(req.body, null, 4)
 
-    fs.writeFile(ConfigRoutes.getFilenameForConfig(), body, function(err) {
+    fs.writeFile(ConfigRoutes.getFilenameForConfig(false), body, function(err) {
         if(err) {
             res.contentType('application/json').status(400).send({status:'Bad request'});
             return console.log(err);

@@ -14,6 +14,7 @@
     border-radius: 40px;
     transition: opacity ease-in-out 0.1s;
     color: #fff;
+    border: 1px solid #ddd;
 
     &:hover {
         background-color: lighten(#0098C7, 5%);

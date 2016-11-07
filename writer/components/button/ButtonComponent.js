@@ -32,7 +32,7 @@ class ButtonComponent extends Component {
             .addClass('sc-np-btn-group')
             .append([
                 buttonEl,
-                $$('button').append(
+                $$('button').addClass('sc-np-btn').append(
                     $$('i')
                         .addClass('fa ' + this.props.contextIcon)
                 )

@@ -1,5 +1,3 @@
-
-
 class SaveHandler {
 
     constructor({editorSession, api, configurator}) {
@@ -19,14 +17,18 @@ class SaveHandler {
         return exportedArticle
     }
 
+
+    /**
+     * Saves the current document after run through the NewsML Exporter
+     * The UUID is selected from the NewsItem DOM
+     * @returns {*}
+     */
     saveDocument() {
-
-        let uuid = this.api.newsItemArticle.documentElement.getAttribute('guid');
-
-        var exporter = this.configurator.createExporter('newsml')
+        const uuid = this.api.newsItemArticle.documentElement.getAttribute('guid');
+        const exporter = this.configurator.createExporter('newsml')
         const exportedArticle = exporter.exportDocument(this.editorSession.getDocument(), this.api.newsItemArticle)
 
-        if(uuid) {
+        if (uuid) {
             return this.updateNewsItem(uuid, exportedArticle)
         } else {
             this.createNewsItem(exportedArticle)
@@ -38,17 +40,19 @@ class SaveHandler {
             .then(response => response.text())
             .then((uuid) => {
 
-                this.api.router.get('/api/newsitem/' + uuid, {imType: 'x-im/article'}).then((response) => {
-                    return response.text()
-                }).then((xmlString) => {
-                    const result = this.api.newsItem.setSource(xmlString, {})
-                    this.api.browser.ignoreNextHashChange = true
-                    this.api.browser.setHash(uuid)
-                    this.api.refs.writer.parent.replaceDoc(result) //@TODO Fix this so we dont use parent
-                    this.api.events.documentSaved();
-                })
-                // window.location.hash = uuid;
+                // When creating a new article, fetch the newly created article from the
+                // backend and replace the document
 
+                this.api.router.get('/api/newsitem/' + uuid, {imType: 'x-im/article'})
+                    .then(response => this.api.router.checkForOKStatus(response))
+                    .then(response => response.text())
+                    .then((xmlString) => {
+                        const result = this.api.newsItem.setSource(xmlString, {})
+                        this.api.browser.ignoreNextHashChange = true
+                        this.api.browser.setHash(uuid)
+                        this.api.refs.writer.parent.replaceDoc(result) //@TODO Fix this so we dont use parent
+                        this.api.events.documentSaved();
+                    })
             })
             .catch((error) => {
                 this.api.events.documentSaveFailed(error)

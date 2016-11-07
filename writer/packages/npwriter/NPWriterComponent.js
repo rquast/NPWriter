@@ -86,6 +86,12 @@ class NPWriter extends AbstractEditor {
         return el
     }
 
+    /**
+     * This renders a placeholder for the modal window that's always available
+     * @param $$
+     * @returns {*}
+     * @private
+     */
     _renderModalContainer($$) {
         return $$(DialogPlaceholder, {}).addClass('modal-placeholder').ref('modalPlaceholder')
 

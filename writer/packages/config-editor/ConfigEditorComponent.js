@@ -22,19 +22,18 @@ class ConfigEditorComponent extends Component {
 
     render($$) {
 
-        const el = $$('div')
+        const el = $$('div').addClass('config-editor')
 
         const textarea = $$('textarea')
             .addClass('config-editor__textarea')
             .val(JSON.stringify(this.state.configJSON, null, 4))
             .ref('config')
 
-        const save = $$('button').on('click', this.save).append('Save')
+        const save = $$('button').addClass('sc-np-btn btn-primary').on('click', this.save).append('Save')
+        const validate = $$('button').addClass('sc-np-btn btn-secondary float-xs-right').on('click', this.validateJSON).append('Validate')
 
-        const validate = $$('button').on('click', this.validateJSON).append('Validate')
 
-
-        el.append([textarea, save, validate])
+        el.append([textarea, validate, save])
         return el
     }
 
