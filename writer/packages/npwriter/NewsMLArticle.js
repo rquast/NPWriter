@@ -10,7 +10,6 @@ class NewsMLArticle extends Document {
 
         this.pluginManager = null
         this.xmlDocument = null
-
     }
 
 }

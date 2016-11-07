@@ -12,6 +12,8 @@ import NewsMLArticle from './NewsMLArticle'
 import NewsMLImporter from './NewsMLImporter'
 import NewsMLExporter from './NewsMLExporter'
 import NPWriterDragAndDropHandler from './NPWriterDragAndDropHandler'
+import NPFileNode from './NPFileNode'
+import NPImageProxy from './NPImageProxy'
 
 import BodyPackage from '../body/BodyPackage'
 import HeadlinePackage from '../headline/HeadlinePackage'
@@ -68,6 +70,10 @@ export default {
         // Override Importer/Exporter
         config.addImporter('newsml', NewsMLImporter)
         config.addExporter('newsml', NewsMLExporter)
+
+        // File store extensions
+        config.addNode(NPFileNode)
+        config.addFileProxy(NPImageProxy)
 
         config.import(SpellCheckPackage)
 

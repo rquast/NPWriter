@@ -63,7 +63,7 @@ class NPWriter extends AbstractEditor {
     dispose() {
         super.dispose()
 
-        this.spellCheckManager.dispose()
+        // this.spellCheckManager.dispose()
     }
 
 
@@ -136,7 +136,8 @@ class NPWriter extends AbstractEditor {
             $$(BodyComponent, {
                 node: body,
                 commands: configurator.getSurfaceCommandNames(),
-                textTypes: configurator.getTextTypes()
+                textTypes: configurator.getTextTypes(),
+                // spellcheck: 'native'
             })
         )
 
