@@ -12,10 +12,16 @@ export default {
             name: 'subheadline',
             data: {type: 'subheadline'}
         })
+
+        config.addLabel('subheadline', {
+            en: 'Subheadline',
+            de: 'Subheadline',
+            sv: 'Underrubrik'
+        })
         config.addLabel('subheadline.content', {
             en: 'Subheadline',
             de: 'Subheadline',
-            sv: 'Rubrik'
+            sv: 'Underrubrikrik'
         })
     }
 }

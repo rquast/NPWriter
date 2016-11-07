@@ -23,6 +23,9 @@ import ConfigEditorPackage from '../config-editor/ConfigEditorPackage'
 import DialogPackage from '../dialog/DialogPackage'
 import AboutPackage from '../about/AboutPackage'
 import LabelPackage from '../label/LabelPackage'
+import NPWContextMenuPackage from '../npw-context-menu/NPWContextMenuPackage'
+import NPWContentMenuPackage from '../npw-content-menu/NPWContentMenuPackage'
+import NPWOverlayMenuPackage from '../npw-overlay-menu/NPWOverlayMenuPackage'
 
 export default {
     name: 'npwriter',
@@ -35,6 +38,8 @@ export default {
 
         // basics
         config.import(BasePackage)
+
+        //Content menu, context menu, overlay
         config.addToolGroup('content-menu')
         config.addToolGroup('content-top-menu')
 
@@ -63,7 +68,6 @@ export default {
         // Override Importer/Exporter
         config.addImporter('newsml', NewsMLImporter)
         config.addExporter('newsml', NewsMLExporter)
-        // config.addExporter('jats', AuthorExporter);
 
         config.import(SpellCheckPackage)
 
@@ -71,5 +75,11 @@ export default {
 
         // Add a label package overriding and adding swedish translation to substance
         config.import(LabelPackage)
+
+
+        config.import(NPWContentMenuPackage)
+        config.import(NPWContextMenuPackage)
+        config.import(NPWOverlayMenuPackage)
+
     }
 }
