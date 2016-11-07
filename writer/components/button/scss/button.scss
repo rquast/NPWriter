@@ -1,4 +1,11 @@
-button {
+/*
+    Using a global button style is dangerous, as it will conflict with the Substance
+    Button component and other button elements
+
+    ATTENTION: I changed `button {` to `.sc-np-btn {`
+*/
+
+.sc-np-btn {
     display: inline-block;
     background: #0098C7;
     padding: 0.5rem 1.6rem;
@@ -61,7 +68,7 @@ button {
         &.btn-secondary {
             border-color: #ddd;
             border-left: none;
-            
+
             &:first-child {
                 border-left: 1px solid #ddd;
             }
