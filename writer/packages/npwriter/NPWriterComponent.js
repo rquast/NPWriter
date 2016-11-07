@@ -1,13 +1,11 @@
 import {SplitPane, ScrollPane, SpellCheckManager} from 'substance'
 import {AbstractEditor} from 'substance'
 
-import ContentMenu from './ContentMenu'
 import SidebarComponent from './components/SidebarComponent'
 import DialogMessageComponent from '../dialog/DialogMessageComponent'
 import BarComponent from './../../components/bar/BarComponent'
 import DialogPlaceholder from '../dialog/DialogPlaceholder'
 import Event from '../../utils/Event'
-import OverlayMenu from './OverlayMenu'
 
 class NPWriter extends AbstractEditor {
 
@@ -121,6 +119,9 @@ class NPWriter extends AbstractEditor {
         const body = doc.get('body')
         let configurator = this.props.configurator
         let ContextMenu = this.getComponent('npw-context-menu')
+        const OverlayMenu = this.getComponent('npw-overlay-menu')
+        const ContentMenu = this.getComponent('npw-content-menu')
+        const BodyComponent = this.getComponent('body')
 
         let contentPanel = $$(ScrollPane, {
             scrollbarType: 'native',
@@ -129,7 +130,7 @@ class NPWriter extends AbstractEditor {
 
         let layout = $$('div').addClass('se-layout')
 
-        var BodyComponent = this.componentRegistry.get('body')
+
 
         layout.append(
             $$(BodyComponent, {

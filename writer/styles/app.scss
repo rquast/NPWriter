@@ -13,6 +13,12 @@
 //@import './writer/packages/paragraph/css/index.css';
 //@import './writer/packages/blockquote/css/index.css';
 
+$enable-flex: true;
+@import "../../node_modules/bootstrap/scss/custom";
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+@import "../../node_modules/bootstrap/scss/grid";
+
 
 @import '~/../substance/substance-reset.css';
 @import '~/../font-awesome/css/font-awesome.min.css';

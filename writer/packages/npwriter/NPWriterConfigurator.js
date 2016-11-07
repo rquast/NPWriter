@@ -14,8 +14,6 @@ class NPWriterConfigurator extends Configurator {
         this.config.sidebarPanels = []
         this.config.uis = new Map()
 
-        // HACK: workaround when there is not overlay tool registered
-        this.config.tools.set('overlay', new Map());
     }
 
     /**
@@ -23,7 +21,7 @@ class NPWriterConfigurator extends Configurator {
      * @returns {LabelProvider}
      */
     getLabelProvider() {
-        return new LabelProvider(this.config.labels, 'sv')
+        return new LabelProvider(this.config.labels, 'en')
     }
 
     /**
@@ -153,7 +151,44 @@ class NPWriterConfigurator extends Configurator {
      * @returns {*}
      */
     getNewsItemTemplateId() {
-        return this.config.writerConfigFile.newsItemTemplateId
+        try {
+            return this.config.writerConfigFile.newsItemTemplateId
+        }
+        catch(_) {
+            throw new Error('Could not find newsItemTemplateId in configuration')
+        }
+
+    }
+
+    // Custom tools registration
+
+    /**
+     * Adds a tool component to the content menu, aka. pen icon
+     * @param toolName
+     * @param ToolClass
+     */
+    addContentMenuTool(toolName, ToolClass) {
+        const options = {
+            toolGroup: 'content-menu'
+        }
+
+        super.addTool(toolName, ToolClass, options)
+    }
+
+    addContextMenuTool(toolName, ToolClass) {
+        const options = {
+            toolGroup: 'context-menu-primary'
+        }
+
+        super.addTool(toolName, ToolClass, options)
+    }
+
+    addOverlayTool(toolName, ToolClass) {
+        const options = {
+            toolGroup: 'overlay'
+        }
+
+        super.addTool(toolName, ToolClass, options)
     }
 }
 

@@ -24,6 +24,8 @@ import DialogPackage from '../dialog/DialogPackage'
 import AboutPackage from '../about/AboutPackage'
 import LabelPackage from '../label/LabelPackage'
 import NPWContextMenuPackage from '../npw-context-menu/NPWContextMenuPackage'
+import NPWContentMenuPackage from '../npw-content-menu/NPWContentMenuPackage'
+import NPWOverlayMenuPackage from '../npw-overlay-menu/NPWOverlayMenuPackage'
 
 export default {
     name: 'npwriter',
@@ -75,7 +77,9 @@ export default {
         config.import(LabelPackage)
 
 
+        config.import(NPWContentMenuPackage)
         config.import(NPWContextMenuPackage)
+        config.import(NPWOverlayMenuPackage)
 
     }
 }
