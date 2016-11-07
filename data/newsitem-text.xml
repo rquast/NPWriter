@@ -46,7 +46,7 @@
                                 </crop>
                             </crops>
                             <links>
-                                <link rel="image" type="x-im/image" uri="http://foo.bar/a.jpg" uuid="some-uuid-24523" url="http://substance.io/images/texture.png"></link>
+                                <link rel="image" type="x-im/image" uri="http://foo.bar/a.jpg" uuid="some-uuid-24523" url="http://efdreams.com/data_images/dreams/lion/lion-03.jpg"></link>
                             </links>
                         </data>
                     </object>
@@ -57,7 +57,7 @@
                     <object id="ximimage-1" uuid="8bd5c257-2ffb-5494-9c83-195efd0cee9b" type="x-im/image">
                         <links>
                             <link rel="self" type="x-im/image" uri="im://image/S8y0oXcdEwXEqHl8YpVp1XFZo6w.png"
-                                  uuid="8bd5c257-2ffb-5494-9c83-195efd0cee9b" url="http://substance.io/images/texture.png">
+                                  uuid="8bd5c257-2ffb-5494-9c83-195efd0cee9b" url="http://efdreams.com/data_images/dreams/lion/lion-03.jpg">
                                 <data>
                                     <width>683</width>
                                     <height>320</height>
@@ -74,7 +74,7 @@
                     <object id="ximimage-2" uuid="8bd5c257-2ffb-5494-9c83-195efd0cee9b" type="x-im/image">
                         <links>
                             <link rel="self" type="x-im/image" uri="im://image/S8y0oXcdEwXEqHl8YpVp1XFZo6w.png"
-                                  uuid="8bd5c257-2ffb-5494-9c83-195efd0cee9b" url="http://substance.io/images/texture.png">
+                                  uuid="8bd5c257-2ffb-5494-9c83-195efd0cee9b" url="http://efdreams.com/data_images/dreams/lion/lion-03.jpg">
                                 <data>
                                     <width>683</width>
                                     <height>320</height>
