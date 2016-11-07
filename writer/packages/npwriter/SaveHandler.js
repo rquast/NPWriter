@@ -37,8 +37,18 @@ class SaveHandler {
         return this.api.router.post('/api/newsitem', newsItemXmlString)
             .then(response => response.text())
             .then((uuid) => {
-                window.location.hash = uuid;
-                this.api.events.documentSaved();
+
+                this.api.router.get('/api/newsitem/' + uuid, {imType: 'x-im/article'}).then((response) => {
+                    return response.text()
+                }).then((xmlString) => {
+                    const result = this.api.newsItem.setSource(xmlString, {})
+                    this.api.browser.ignoreNextHashChange = true
+                    this.api.browser.setHash(uuid)
+                    this.api.refs.writer.parent.replaceDoc(result) //@TODO Fix this so we dont use parent
+                    this.api.events.documentSaved();
+                })
+                // window.location.hash = uuid;
+
             })
             .catch((error) => {
                 this.api.events.documentSaveFailed(error)
