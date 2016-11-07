@@ -9,7 +9,7 @@ import AppPackage from '../writer/AppPackage'
 class Helper {
 
     static getContentFromExampleDocument() {
-        return fs.readFileSync('data/newsitem-text.xml', {encoding: 'UTF-8'})
+        return fs.readFileSync('data/newsitem-test.xml', {encoding: 'UTF-8'})
     }
 
     static getParsedExampleDocument() {
