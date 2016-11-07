@@ -140,7 +140,9 @@ class NewsItem {
         // var newsMLImporter = new NewsMLImporter(
         //     writerConfig || this.refs.writer.props.config
         // );
-        var newsMLImporter = this.api.configurator.createImporter('newsml')
+        var newsMLImporter = this.api.configurator.createImporter('newsml', {
+            api: this.api
+        })
 
         var parser = new DOMParser();
         var newsItemArticle = parser.parseFromString(newsML, "application/xml"),

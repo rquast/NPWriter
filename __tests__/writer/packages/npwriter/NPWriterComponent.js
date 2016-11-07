@@ -16,7 +16,6 @@ class App extends Component {
         });
     }
 
-
     render($$) {
 
         // MOCK
@@ -25,16 +24,18 @@ class App extends Component {
         this.api = new Api({}, this.props.configurator)
         this.api.init(Helper.getParsedExampleDocument(), {getDocument:()=>{}}, {}) // Mocking documentSession parameter
 
+        let context = {
+            api: api
+        }
+
         // this.props.configurator.import(UnsupportedPackage)
-        var importer = this.props.configurator.createImporter('newsml')
+        var importer = this.props.configurator.createImporter('newsml', context)
         const idfDocument = importer.importDocument(Helper.getContentFromExampleDocument())
 
         let editorSession = new EditorSession(idfDocument, {
             configurator: this.props.configurator,
             lang: "sv_SE",
-            context: {
-                api: this.api
-            }
+            context: context
         })
 
         let writer = $$(NPWriterCompontent, {

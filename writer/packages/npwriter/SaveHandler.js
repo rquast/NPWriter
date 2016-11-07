@@ -11,7 +11,7 @@ class SaveHandler {
      * @returns {*|String}
      */
     getExportedDocument() {
-        var exporter = this.configurator.createExporter('newsml')
+        const exporter = this.configurator.createExporter('newsml', { api: this.api })
         const exportedArticle = exporter.exportDocument(this.editorSession.getDocument(), this.api.newsItemArticle)
 
         return exportedArticle
@@ -24,7 +24,7 @@ class SaveHandler {
      */
     saveDocument() {
         const uuid = this.api.newsItemArticle.documentElement.getAttribute('guid');
-        const exporter = this.configurator.createExporter('newsml')
+        const exporter = this.configurator.createExporter('newsml', { api: this.api })
         const exportedArticle = exporter.exportDocument(this.editorSession.getDocument(), this.api.newsItemArticle)
 
         this.editorSession.fileManager.sync()
