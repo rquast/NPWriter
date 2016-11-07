@@ -33,7 +33,7 @@
             "name": "skeleton",
             "url": "http://writer-dev-plugins.s3-website-eu-west-1.amazonaws.com/",
             "mandatory": false,
-            "enabled": true,
+            "enabled": false,
             "data": {
                 "foo": "bar"
             }
@@ -63,7 +63,7 @@
             "name": "newspriority",
             "url": "http://writer-dev-plugins.s3-website-eu-west-1.amazonaws.com/",
             "mandatory": false,
-            "enabled": true,
+            "enabled": false,
             "data": {
                 "durationKey": "duration",
                 "defaultLifetimesIndex": "1",
