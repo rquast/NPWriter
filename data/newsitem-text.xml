@@ -33,10 +33,62 @@
             <idf xmlns="http://www.infomaker.se/idf/1.0" xml:lang="sv">
 
                 <group type="body">
-                    <element id="headline-87a9b7bdb0c33f76a923331ffd93a7fc" type="headline">Demo article</element>
-                    <element id="paragraph-e095c1e1a87200d36376f9ceda8e68c0" type="body">This is regular text</element>
-                    <element id="paragraph-6a6269533ea482fdd0821ecea728939d" type="body"/>
-                    <element id="paragraph-166584f0f81502fb14bf3939e8e53a8b" type="body"/>
+                    <object type="x-im/teaser" id="teaser1" title="Hello world">
+                        <data>
+                            <text>some annotated text</text>
+                            <subject>This is a subject</subject>
+                            <crops>
+                                <crop name="crop1">
+                                    <x>50</x>
+                                    <y>50</y>
+                                    <width>500</width>
+                                    <height>500</height>
+                                </crop>
+                            </crops>
+                            <links>
+                                <link rel="image" type="x-im/image" uri="http://foo.bar/a.jpg" uuid="some-uuid-24523" url="http://substance.io/images/texture.png"></link>
+                            </links>
+                        </data>
+                    </object>
+
+                    <element id="headline-1" type="headline">Demo article</element>
+                    <element id="paragraph-1" type="body">This is regular text</element>
+                    <element id="paragraph-2" type="body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et semper justo, ut vestibulum orci. Cras iaculis lectus vitae nunc placerat bibendum. Duis nisi magna, lobortis et magna ut, molestie consequat justo. Vestibulum in tellus varius, consectetur risus sed, accumsan ante. Fusce blandit bibendum augue, quis scelerisque orci auctor et.</element>
+                    <object id="ximimage-1" uuid="8bd5c257-2ffb-5494-9c83-195efd0cee9b" type="x-im/image">
+                        <links>
+                            <link rel="self" type="x-im/image" uri="im://image/S8y0oXcdEwXEqHl8YpVp1XFZo6w.png"
+                                  uuid="8bd5c257-2ffb-5494-9c83-195efd0cee9b" url="http://substance.io/images/texture.png">
+                                <data>
+                                    <width>683</width>
+                                    <height>320</height>
+                                    <text>My caption</text>
+                                </data>
+                                <links>
+                                    <link rel="author" uuid="5f9b8064-d54f-11e5-ab30-625662870761" title="Jeremy Spencer"
+                                          type="x-im/author"/>
+                                </links>
+                            </link>
+                        </links>
+                    </object>
+                    <element id="paragraph-3" type="body">Morbi volutpat sapien at dolor elementum, ut pulvinar dolor elementum. Donec nisi velit, semper sit amet consectetur quis, aliquet ut mauris. Vestibulum euismod enim arcu, ut rhoncus nibh hendrerit sit amet. Donec gravida sem vel tellus faucibus dapibus.</element>
+                    <object id="ximimage-2" uuid="8bd5c257-2ffb-5494-9c83-195efd0cee9b" type="x-im/image">
+                        <links>
+                            <link rel="self" type="x-im/image" uri="im://image/S8y0oXcdEwXEqHl8YpVp1XFZo6w.png"
+                                  uuid="8bd5c257-2ffb-5494-9c83-195efd0cee9b" url="http://substance.io/images/texture.png">
+                                <data>
+                                    <width>683</width>
+                                    <height>320</height>
+                                    <text>My caption</text>
+                                </data>
+                                <links>
+                                    <link rel="author" uuid="5f9b8064-d54f-11e5-ab30-625662870761" title="Jeremy Spencer"
+                                          type="x-im/author"/>
+                                </links>
+                            </link>
+                        </links>
+                    </object>
+                    <element id="paragraph-4" type="body"></element>
+                    <element id="paragraph-5" type="body"></element>
                 </group>
             </idf>
         </inlineXML>

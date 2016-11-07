@@ -1,8 +1,6 @@
+import './styles/app.scss'
+
 import {Component, EditorSession} from 'substance'
-
-import './styles/app.scss';
-
-
 import NPWriterComponent from './packages/npwriter/NPWriterComponent'
 import NPWriterConfigurator from './packages/npwriter/NPWriterConfigurator'
 import AppPackage from './AppPackage'
@@ -13,6 +11,7 @@ import Start from './packages/load-screens/Start'
 import Error from './packages/load-screens/Error'
 import SaveHandler from './packages/npwriter/SaveHandler'
 import Event from './utils/Event'
+import NilUUID from './utils/NilUUID'
 import moment from 'moment'
 import idGenerator from './utils/IdGenerator'
 import APIManager from './api/APIManager'
@@ -33,10 +32,10 @@ class App extends Component {
 
         this.handleActions({
             validate: () => {
-                // console.log("Implement Validation")
+                console.warn("Implement Validation")
             }, //this.validate
             save: () => {
-                // console.log("Implement save action")
+                console.warn("Implement save action")
             }, //this.save,
             replacedoc: this.replaceDoc
         });
@@ -111,18 +110,18 @@ class App extends Component {
 
         // Expose classes and endpoint on window.writer
         api.apiManager.expose('api', this.api)
+        api.apiManager.expose('niluuid', NilUUID)
         api.apiManager.expose('event', Event) // Expose the API on the window
         api.apiManager.expose('moment', moment) // Expose moment.js on window
         api.apiManager.expose('idGenerator', idGenerator) // Expose the ID Generator helper method
         api.apiManager.expose('lodash', lodash) // Expose the ID Generator helper method
 
 
-        this.configurator.loadConfigJSON('/api/config')                     // Load config file and store it in configurator
+        var promise = this.configurator.loadConfigJSON('/api/config')                     // Load config file and store it in configurator
             .then(() => this.configurator.config.writerConfigFile.plugins)  // Get the plugins section from config (stored in the configurator)
             .then(plugins => this.pluginManager.load(plugins))              // Let the pluginManger load and append the plugins
             .then(() => {
-
-                api.router.get('/api/newsitem/' + this.getHash(), {imType: 'x-im/article'}) // Make request to fetch article
+                var promise = api.router.get('/api/newsitem/' + this.getHash(), {imType: 'x-im/article'}) // Make request to fetch article
                     .then(response => api.router.checkForOKStatus(response))                // Check if the status is between 200 and 300
                     .then(response => response.text())                                      // Gets the text/xml in the response
                     .then((xmlStr) => {
@@ -155,9 +154,18 @@ class App extends Component {
                             status: STATUS_ISREADY
                         })
                     })
-                    // .catch(this.handleError.bind(this));
+
+                // Don't catch errors during development as we loose the stacktrace
+                if (window.PRODUCTION) {
+                    promise.catch(this.handleError.bind(this));
+                }
             })
-            .catch(this.handleError.bind(this));
+
+        // Don't catch errors during development as we loose the stacktrace
+        if (window.PRODUCTION) {
+            promise.catch(this.handleError.bind(this));
+        }
+
     }
 
 
@@ -166,6 +174,7 @@ class App extends Component {
      * @param error
      */
     handleError(error) {
+        console.error(error)
         this.setState({
             status: STATUS_HAS_ERROR,
             statusMessage: error
