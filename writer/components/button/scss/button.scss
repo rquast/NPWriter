@@ -5,6 +5,11 @@
     ATTENTION: I changed `button {` to `.sc-np-btn {`
 */
 
+.sc-np-bar {
+    .sc-np-btn {
+        border: none;
+    }
+}
 .sc-np-btn {
     display: inline-block;
     background: #0098C7;

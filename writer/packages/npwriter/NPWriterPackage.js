@@ -29,6 +29,8 @@ import LabelPackage from '../label/LabelPackage'
 import NPWContextMenuPackage from '../npw-context-menu/NPWContextMenuPackage'
 import NPWContentMenuPackage from '../npw-content-menu/NPWContentMenuPackage'
 import NPWOverlayMenuPackage from '../npw-overlay-menu/NPWOverlayMenuPackage'
+import NotificationPackage from '../notification/NotificationPackage'
+
 
 export default {
     name: 'npwriter',
@@ -83,6 +85,8 @@ export default {
         // Add a label package overriding and adding swedish translation to substance
         config.import(LabelPackage)
 
+        //Notification
+        config.import(NotificationPackage)
 
         config.import(NPWContentMenuPackage)
         config.import(NPWContextMenuPackage)

@@ -17,6 +17,7 @@ import idGenerator from './utils/IdGenerator'
 import APIManager from './api/APIManager'
 import lodash from 'lodash'
 import SourceComponent from './packages/dialog/SourceComponent'
+import jxon from 'jxon'
 
 const STATUS_ISREADY = 'isReady',
     STATUS_LOADING = 'loading',
@@ -115,6 +116,7 @@ class App extends Component {
         api.apiManager.expose('moment', moment) // Expose moment.js on window
         api.apiManager.expose('idGenerator', idGenerator) // Expose the ID Generator helper method
         api.apiManager.expose('lodash', lodash) // Expose the ID Generator helper method
+        api.apiManager.expose('jxon', jxon) // Expose JXON library
 
 
         var promise = this.configurator.loadConfigJSON('/api/config')                     // Load config file and store it in configurator

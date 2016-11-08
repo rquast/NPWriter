@@ -68,8 +68,6 @@ class NPWriter extends AbstractEditor {
 
 
     render($$) {
-        this.$$ = $$
-
         const el = $$('div')
             .addClass('sc-np-writer').ref('npwriter')
 
@@ -80,8 +78,11 @@ class NPWriter extends AbstractEditor {
                 this._renderMainSection($$),
                 this._renderSidebarPanel($$)
             ),
-            this._renderModalContainer($$)
+            this._renderModalContainer($$),
+            this._renderNotificationArea($$)
         )
+
+
 
         return el
     }
@@ -95,6 +96,12 @@ class NPWriter extends AbstractEditor {
     _renderModalContainer($$) {
         return $$(DialogPlaceholder, {}).addClass('modal-placeholder').ref('modalPlaceholder')
 
+    }
+
+    _renderNotificationArea($$) {
+        const NotificationList = this.getComponent('notification-list')
+
+        return $$(NotificationList).ref('notification-area')
     }
 
     _renderMainbarPanel($$) {
