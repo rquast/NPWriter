@@ -1,3 +1,4 @@
+import Event from '../utils/Event'
 class Ui {
 
     /**
@@ -16,7 +17,7 @@ class Ui {
      * @param message
      */
     showNotification(name, title, message) {
-        this.api.triggerEvent('name', 'notification:add', {
+        this.api.events.triggerEvent(name, Event.NOTIFICATION_ADD, {
             plugin: name,
             title: title,
             message: message
