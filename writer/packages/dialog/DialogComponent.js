@@ -182,7 +182,7 @@ class DialogComponent extends Component {
     renderPrimaryButton($$, options) {
         var caption = (options.primary) ? options.primary : this.getLabel('ok');
         let button = $$('button').attr('type', 'button')
-            .addClass('btn sc-np-btn ntn-primary')
+            .addClass('btn sc-np-btn btn-primary')
             .append(caption)
             .on('click', this.save);
 
