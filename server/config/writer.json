@@ -14,7 +14,6 @@
             "id": "se.infomaker.preamble",
             "name": "preamble",
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
-            "style": "http://localhost:5001/style.css",
             "enabled": true,
             "mandatory": true
         },
