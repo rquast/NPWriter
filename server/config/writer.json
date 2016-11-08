@@ -5,15 +5,15 @@
         {
             "id": "se.infomaker.publishflow",
             "name": "publishflow",
-            "url": "http://writer-dev-plugins.s3-website-eu-west-1.amazonaws.com/",
-            "style": "http://localhost:5001/style.css",
+            "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
+            "style": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/style.css",
             "enabled": true,
             "mandatory": true
         },
         {
             "id": "se.infomaker.preamble",
             "name": "preamble",
-            "url": "http://writer-dev-plugins.s3-website-eu-west-1.amazonaws.com/",
+            "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
             "style": "http://localhost:5001/style.css",
             "enabled": true,
             "mandatory": true
@@ -21,7 +21,7 @@
         {
             "id": "se.infomaker.textanalyzer",
             "name": "textanalyzer",
-            "url": "http://writer-dev-plugins.s3-website-eu-west-1.amazonaws.com/",
+            "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
             "mandatory": false,
             "enabled": true,
             "data": {
@@ -31,7 +31,7 @@
         {
             "id": "se.infomaker.skeleton",
             "name": "skeleton",
-            "url": "http://writer-dev-plugins.s3-website-eu-west-1.amazonaws.com/",
+            "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
             "mandatory": false,
             "enabled": false,
             "data": {
@@ -41,7 +41,7 @@
         {
             "id": "se.infomaker.socialembed",
             "name": "socialembed",
-            "url": "http://writer-dev-plugins.s3-website-eu-west-1.amazonaws.com/",
+            "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
             "mandatory": false,
             "enabled": true,
             "data": {
@@ -61,7 +61,7 @@
         {
             "id": "se.infomaker.newspriority",
             "name": "newspriority",
-            "url": "http://writer-dev-plugins.s3-website-eu-west-1.amazonaws.com/",
+            "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
             "mandatory": false,
             "enabled": false,
             "data": {
