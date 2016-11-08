@@ -22,30 +22,21 @@
             "name": "textanalyzer",
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
             "mandatory": false,
-            "enabled": true,
-            "data": {
-                "foo": "bar"
-            }
+            "enabled": true
         },
         {
             "id": "se.infomaker.skeleton",
             "name": "skeleton",
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
             "mandatory": false,
-            "enabled": false,
-            "data": {
-                "foo": "bar"
-            }
+            "enabled": false
         },
         {
             "id": "se.infomaker.socialembed",
             "name": "socialembed",
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
             "mandatory": false,
-            "enabled": true,
-            "data": {
-                "foo": "bar"
-            }
+            "enabled": true
         },
         {
             "id": "se.infomaker.npwriterdevkit",
@@ -53,9 +44,7 @@
             "url": "http://localhost:3000/index.js",
             "mandatory": false,
             "enabled": false,
-            "data": {
-                "foo": "bar"
-            }
+            "data": {}
         },
         {
             "id": "se.infomaker.newspriority",
