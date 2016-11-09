@@ -1479,10 +1479,10 @@ class NewsItem {
             });
 
             var query = queryArr.join();
-            return this.newsItem.querySelectorAll(query);
+            return this.api.newsItemArticle.querySelectorAll(query);
         }
         else {
-            return this.newsItem.querySelectorAll('itemMeta links link[type="' + type + '"]');
+            return this.api.newsItemArticle.querySelectorAll('itemMeta links link[type="' + type + '"]');
         }
     }
 

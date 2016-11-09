@@ -242,7 +242,7 @@ router.get('/image/url/:uuid/:height?', function (req, res) {
     var params = req.query;
     params.id = req.params.uuid;
     params.w = "800";
-
+    var imType = req.query.imType;
 
     if (!isNaN(parseInt(req.params.height))) {
         params.h = req.params.height.toString();
@@ -256,9 +256,20 @@ router.get('/image/url/:uuid/:height?', function (req, res) {
 
     log.info({id: req.params.uuid}, "Getting image url");
 
+    console.log("Getting imType", imType);
+
+    var command = {
+        action: "render_binary",
+        data: {
+            id: req.params.uuid,
+            imType: 'x-im/image',
+            params: params
+        }
+
+    }
+
     Backend.exec(
-        '{"action": "get_imgix_url", "data": {"id": "' + req.params.uuid + '", "params": ' + JSON.stringify(
-            params) + '}}',
+        JSON.stringify(command),
         config.get('external.contentrepository'),
         (error, response, body) => {
             Backend.defaultHandling(res, error, response, body, null, req, req.params.uuid);

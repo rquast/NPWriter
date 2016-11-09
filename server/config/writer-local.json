@@ -11,6 +11,14 @@
             "mandatory": true
         },
         {
+            "id": "se.infomaker.ximauthor",
+            "name": "ximauthor",
+            "url": "http://localhost:5001/index.js",
+            "style": "http://localhost:5001/style.css",
+            "enabled": true,
+            "mandatory": true
+        },
+        {
             "id": "se.infomaker.preamble",
             "name": "preamble",
             "url": "http://localhost:5001/index.js",
@@ -23,7 +31,7 @@
             "name": "textanalyzer",
             "url": "http://localhost:5001/index.js",
             "mandatory": false,
-            "enabled": false
+            "enabled": true
         },
         {
             "id": "se.infomaker.skeleton",

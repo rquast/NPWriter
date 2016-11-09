@@ -111,7 +111,7 @@ class App extends Component {
 
         // Expose classes and endpoint on window.writer
         api.apiManager.expose('api', this.api)
-        api.apiManager.expose('niluuid', NilUUID)
+        api.apiManager.expose('NilUUID', NilUUID)
         api.apiManager.expose('event', Event) // Expose the API on the window
         api.apiManager.expose('moment', moment) // Expose moment.js on window
         api.apiManager.expose('idGenerator', idGenerator) // Expose the ID Generator helper method

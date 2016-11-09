@@ -15,7 +15,8 @@ class NPImageProxy extends FileProxy {
     }
 
     fetchUrl() {
-        this.context.api.router.get('/api/image/url/' + this.uuid)
+        this.context.api.router.get('/api/image/url/' + this.uuid+'?imType=x-im/image')
+            .then(response => response.text())
             .then((url) => {
                 this.url = url
                 this.triggerUpdate()
@@ -32,6 +33,8 @@ class NPImageProxy extends FileProxy {
         } else if (this.file) {
             return URL.createObjectURL(this.file)
         } else {
+            console.log("Get url for", this.uuid);
+            this.fetchUrl()
             return ""
         }
     }
