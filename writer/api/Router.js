@@ -73,7 +73,7 @@ class Router {
      */
     get(path, parameters) {
 
-        let url =  this.getEndpoint() + path,
+        let url = this.getEndpoint() + path,
             query = []
 
         if (isObject(parameters)) {
@@ -193,7 +193,8 @@ class Router {
      * * @example
      * fetch(...)
      *  .then(response => checkForOKStatus(response)
-     *  .then(response => response.json())
+     *  .then(response => toJson(response)
+     *  .then(json => ...)
      *  .catch((error) => {
      *
      *  }
@@ -206,10 +207,52 @@ class Router {
         if (response.status >= 200 && response.status < 300) {
             return response
         } else {
-            var error = new Error(response.statusText)
-            error.response = response
-            throw error
+            console.log("Not OK status: " + response.status)
+            return new Promise((resolve, reject) => {
+                response.text()
+                    .then(text => {
+                        if (text.startsWith("{")) {
+                            try {
+                                reject(JSON.parse(text))
+                            } catch (e) {
+                                console.log("Unparseable json in error message")
+                                reject(text)
+                            }
+                        } else {
+                            return (reject(text));
+                        }
+                    })
+                    .then(message => reject(message))
+                    .catch(e => reject(response.statusText))
+            })
         }
     }
+
+
+    /**
+     * Tries to convert response to json and logs the result to console if it fails and throws
+     * original exception.
+     *
+     *
+     * @param response The response to convert to Json
+     * @return {*}
+     */
+    toJson(response) {
+        return new Promise((resolve, reject) => {
+            response.json()
+                .then(json => resolve(json))
+                .catch(e => {
+                        response.text()
+                            .then(text => {
+                                console.log(text)
+                                return text
+                            })
+                            .then(reject(e))
+                            .catch(e2 => reject(e))
+                    }
+                )
+        })
+    }
 }
+
 export default Router
