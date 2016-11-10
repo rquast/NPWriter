@@ -27,6 +27,8 @@ $enable-flex: true;
 
 @import './box-with-arrow';
 
+@import '_tag-list';
+
 html {
   font-size: 90%;
 }
