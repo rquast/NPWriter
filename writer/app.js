@@ -123,6 +123,12 @@ class App extends Component {
             .then(() => this.configurator.config.writerConfigFile.plugins)  // Get the plugins section from config (stored in the configurator)
             .then(plugins => this.pluginManager.load(plugins))              // Let the pluginManger load and append the plugins
             .then(() => {
+
+                this.pluginManager.getPluginPackagesSortedByIndex().forEach((pluginPackage) => {
+                    this.configurator.import(pluginPackage)
+                })
+
+
                 var promise = api.router.get('/api/newsitem/' + this.getHash(), {imType: 'x-im/article'}) // Make request to fetch article
                     .then(response => api.router.checkForOKStatus(response))                // Check if the status is between 200 and 300
                     .then(response => response.text())                                      // Gets the text/xml in the response

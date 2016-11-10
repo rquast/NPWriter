@@ -83,12 +83,14 @@ class PluginManager {
             return plugin.enabled
         })
 
+        this.pluginPackages = []
         const pluginRegistered = enabledPlugins.map(plugin => {
             return new Promise((resolve, reject) => {
                 let resolved = false;
 
                 this.registerPluginList.set(plugin.id, (pluginPackage) => {
-                    this.configurator.import(pluginPackage)
+                    this.pluginPackages.push(pluginPackage)
+                    // this.configurator.import(pluginPackage)
                     resolved = true;
                     this.plugins.set(plugin.id, plugin)
                     this.registerPluginList.delete(plugin.id)
@@ -116,6 +118,18 @@ class PluginManager {
         const pluginsAppendPromise = this.appendPluginScripts(enabledPlugins)
         const allPromises = [...pluginsAppendPromise, ...pluginRegistered]
         return Promise.all(allPromises)
+    }
+
+    getPluginPackagesSortedByIndex() {
+        return this.pluginPackages.sort((a, b) => {
+            if(a.index < b.index) {
+                return -1
+            } else if(a.index > b.index) {
+                return 1
+            } else {
+                return 0
+            }
+        }).reverse()
     }
 
 
