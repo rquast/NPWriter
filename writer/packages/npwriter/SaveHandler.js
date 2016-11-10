@@ -61,10 +61,12 @@ class SaveHandler {
 
     updateNewsItem(uuid, newsItemXmlString) {
         return this.api.router.put('/api/newsitem/' + uuid, newsItemXmlString)
+            .then((response) => this.api.router.checkForOKStatus(response))
             .then(() => {
                 this.api.events.documentSaved();
             })
             .catch((error) => {
+                console.log("Failing save due to", error)
                 this.api.events.documentSaveFailed(error)
             })
     }

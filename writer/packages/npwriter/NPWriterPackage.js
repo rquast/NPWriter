@@ -30,7 +30,7 @@ import NPWContextMenuPackage from '../npw-context-menu/NPWContextMenuPackage'
 import NPWContentMenuPackage from '../npw-content-menu/NPWContentMenuPackage'
 import NPWOverlayMenuPackage from '../npw-overlay-menu/NPWOverlayMenuPackage'
 import NotificationPackage from '../notification/NotificationPackage'
-
+import FormSearchPackage from '../form-search/FormSearchPackage'
 
 export default {
     name: 'npwriter',
@@ -87,6 +87,9 @@ export default {
 
         //Notification
         config.import(NotificationPackage)
+
+        // Form search
+        config.import(FormSearchPackage)
 
         config.import(NPWContentMenuPackage)
         config.import(NPWContextMenuPackage)
