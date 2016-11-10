@@ -12,7 +12,9 @@ jxon.config({
     autoDate: false,
     parseValues: false,
     lowerCaseTags: false,
-    trueIsEmpty: false
+    trueIsEmpty: false,
+    valueKey: 'keyValue',
+    attrPrefix: '@'
 })
 
 /**
@@ -471,8 +473,8 @@ class NewsItem {
         }
 
         var pubStatusNode = jxon.build(node)
-        pubStatusNode.qcode = pubStatusNode['$qcode']
-        delete pubStatusNode['$qcode']
+        pubStatusNode.qcode = pubStatusNode['@qcode']
+        delete pubStatusNode['@qcode']
 
         return pubStatusNode
     }
@@ -518,9 +520,9 @@ class NewsItem {
         }
 
         let pubStartJson = jxon.build(pubStartNode)
-        pubStartJson.value = pubStartJson['$value']
-        pubStartJson.type = pubStartJson['$type']
-        pubStartJson = omit(pubStartJson, ['$type', '$value'])
+        pubStartJson.value = pubStartJson['@value']
+        pubStartJson.type = pubStartJson['@type']
+        pubStartJson = omit(pubStartJson, ['@type', '@value'])
 
         return pubStartJson
     }
@@ -590,10 +592,10 @@ class NewsItem {
         }
 
         let pubStartJson = jxon.build(pubStopNode)
-        pubStartJson.type = pubStartJson['$type']
-        pubStartJson.value = pubStartJson['$value']
-        delete pubStartJson['$type']
-        delete pubStartJson['$value']
+        pubStartJson.type = pubStartJson['@type']
+        pubStartJson.value = pubStartJson['@value']
+        delete pubStartJson['@type']
+        delete pubStartJson['@value']
 
         return pubStartJson
     }
@@ -657,8 +659,8 @@ class NewsItem {
         /*jshint validthis:true */
         function normalizeObject(object) {
             Object.keys(object).forEach(function (key) {
-                if (startsWith(key, '$')) {
-                    var newKey = replace(key, '$', '');
+                if (startsWith(key, '@')) {
+                    var newKey = replace(key, '@', '');
                     object[newKey] = object[key];
                     delete object[key];
                 }
@@ -791,7 +793,7 @@ class NewsItem {
 
 
     /**
-     * Helper function to remove all $ on properties
+     * Helper function to remove all @ on properties
      * @private
      *
      * @param {object} object
@@ -800,8 +802,8 @@ class NewsItem {
      */
     normalizeObject(object) {
         Object.keys(object).forEach(function (key) {
-            if (startsWith(key, '$')) {
-                var newKey = replace(key, '$', '');
+            if (startsWith(key, '@')) {
+                var newKey = replace(key, '@', '');
                 object[newKey] = object[key];
                 delete object[key];
             }
