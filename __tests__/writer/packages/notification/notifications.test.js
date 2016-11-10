@@ -1,7 +1,6 @@
 import Helper from '../../../helpers'
 import sinon from 'sinon'
 import Api from '../../../../writer/api/Api'
-import Event from '../../../../writer/utils/Event'
 
 describe('Add notifications', () => {
 
