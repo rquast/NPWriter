@@ -124,7 +124,7 @@ class NewsItem {
 
     getSource() {
         var exporter = new NewsMLExporter(this.refs.writer.props.config);
-        return exporter.convert(this.refs.writer.props.doc, {}, this.newsItem);
+        return exporter.convert(this.refs.writer.props.doc, {}, this.api.newsItemArticle);
     }
 
     /**
@@ -253,12 +253,12 @@ class NewsItem {
      */
     createNewsPriority(name, newsPriority) {
 
-        var metaDataNode = this.newsItem.querySelector('contentMeta metadata'),
+        var metaDataNode = this.api.newsItemArticle.querySelector('contentMeta metadata'),
             newsValueNode = jxon.unbuild(newsPriority, null, 'object');
 
         if (!metaDataNode) {
-            var contentMetaNode = this.newsItem.querySelector('contentMeta');
-            metaDataNode = this.newsItem.createElement('metadata');
+            var contentMetaNode = this.api.newsItemArticle.querySelector('contentMeta');
+            metaDataNode = this.api.newsItemArticle.createElement('metadata');
             contentMetaNode.appendChild(metaDataNode);
         }
 
@@ -326,7 +326,7 @@ class NewsItem {
      */
     getMainChannel() {
         var obj = null,
-            node = this.newsItem.querySelector('itemMeta service[why="imext:main"]');
+            node = this.api.newsItemArticle.querySelector('itemMeta service[why="imext:main"]');
 
         if (node) {
             obj = jxon.build(node);
@@ -347,7 +347,7 @@ class NewsItem {
      */
     getChannels() {
 
-        var nodes = this.newsItem.querySelectorAll('itemMeta service[qcode]');
+        var nodes = this.api.newsItemArticle.querySelectorAll('itemMeta service[qcode]');
         if (!nodes) {
             console.warn('No services with qcode found');
             return [{}];
@@ -389,7 +389,7 @@ class NewsItem {
         }
 
         var currentChannels = this.getChannels(),
-            itemMetaNode = this.newsItem.querySelector('itemMeta'),
+            itemMetaNode = this.api.newsItemArticle.querySelector('itemMeta'),
             service = {};
 
         if (currentChannels.some(currentChannel => channel.qcode === currentChannel['qcode'])) {
@@ -398,7 +398,7 @@ class NewsItem {
 
         service['@qcode'] = channel.qcode;
 
-        var mainNodes = this.newsItem.querySelectorAll('itemMeta > service[why="imext:main"]');
+        var mainNodes = this.api.newsItemArticle.querySelectorAll('itemMeta > service[why="imext:main"]');
         if (setAsMainChannel) {
             service['@why'] = 'imext:main';
 
@@ -433,7 +433,7 @@ class NewsItem {
      */
     removeChannel(name, channel, muteEvent) {
         var query = 'itemMeta service[qcode="' + channel['qcode'] + '"]';
-        var service = this.newsItem.querySelector(query);
+        var service = this.api.newsItemArticle.querySelector(query);
 
         if (!service) {
             // Silently ignore request
@@ -838,7 +838,7 @@ class NewsItem {
         }.bind(this));
 
         var querySelectorString = querySelectors.join(', ');
-        var tagLinkNodes = this.newsItem.querySelectorAll(querySelectorString);
+        var tagLinkNodes = this.api.newsItemArticle.querySelectorAll(querySelectorString);
         if (!tagLinkNodes) {
             return null;
         }
@@ -869,7 +869,7 @@ class NewsItem {
      * @returns {*} Return array of tags in JSON or null if no links was found
      */
     getTags() {
-        var tagLinkNodes = this.newsItem.querySelectorAll(
+        var tagLinkNodes = this.api.newsItemArticle.querySelectorAll(
             'itemMeta links link[type="x-im/person"][rel="subject"], ' +
             'itemMeta links link[type="x-im/organisation"][rel="subject"], ' +
             'itemMeta links link[type="x-cmbr/channel"][rel="subject"], ' +
@@ -905,7 +905,7 @@ class NewsItem {
      * @fires event.DOCUMENT_CHANGED
      */
     addTag(name, tag) {
-        var newsItem = this.newsItem;
+        var newsItem = this.api.newsItemArticle;
         var linksNode = newsItem.querySelector('itemMeta links');
         var tagLinkNode = newsItem.createElement('link');
 
@@ -935,7 +935,7 @@ class NewsItem {
      */
     updateTag(name, uuid, tag) {
         var subject = tag.subject ? tag.subject : "subject";
-        var newsItem = this.newsItem;
+        var newsItem = this.api.newsItemArticle;
         var linkTagNode = newsItem.querySelector('itemMeta links link[uuid="' + uuid + '"]');
 
         if (!linkTagNode) {
@@ -963,7 +963,7 @@ class NewsItem {
      * @fires event.DOCUMENT_CHANGED
      */
     removeLinkByUUID(name, uuid) {
-        var linkNode = this.newsItem.querySelector('itemMeta links link[uuid="' + uuid + '"]')
+        var linkNode = this.api.newsItemArticle.querySelector('itemMeta links link[uuid="' + uuid + '"]')
 
         if (linkNode) {
             linkNode.parentElement.removeChild(linkNode)
@@ -989,7 +989,7 @@ class NewsItem {
      * @fires event.DOCUMENT_CHANGED
      */
     removeLinkByUUIDAndRel(name, uuid, rel) {
-        var linkNode = this.newsItem.querySelector(
+        var linkNode = this.api.newsItemArticle.querySelector(
             'itemMeta links link[uuid="' + uuid + '"][rel="' + rel + '"]')
 
         if (linkNode) {
@@ -1066,15 +1066,15 @@ class NewsItem {
      */
     updateLocation(name, location) {
         var uuid = location.uuid;
-        var linkNode = this.newsItem.querySelector('itemMeta links link[uuid="' + uuid + '"]');
+        var linkNode = this.api.newsItemArticle.querySelector('itemMeta links link[uuid="' + uuid + '"]');
 
         if (linkNode) {
             linkNode.setAttribute('title', location.title);
 
             var positionNode = linkNode.querySelector('geometry');
             if (!positionNode) {
-                var dataNode = this.newsItem.createElement('data');
-                positionNode = this.newsItem.createElement('geometry');
+                var dataNode = this.api.newsItemArticle.createElement('data');
+                positionNode = this.api.newsItemArticle.createElement('geometry');
                 dataNode.appendChild(positionNode);
                 linkNode.appendChild(dataNode);
             }
@@ -1150,7 +1150,7 @@ class NewsItem {
      * @fires event.DOCUMENT_CHANGED Fires a documentChanged event with added link
      */
     addLink(name, link) {
-        var itemMetaNode = this.newsItem.querySelector('itemMeta links');
+        var itemMetaNode = this.api.newsItemArticle.querySelector('itemMeta links');
 
         var linkXML = jxon.unbuild(link, null, 'link');
         itemMetaNode.appendChild(linkXML.documentElement);
@@ -1173,7 +1173,7 @@ class NewsItem {
      * @returns {array} Array of links
      */
     getLinkByTypeAndRel(name, type, rel) {
-        var linkNodes = this.newsItem.querySelectorAll(
+        var linkNodes = this.api.newsItemArticle.querySelectorAll(
             'itemMeta links link[type="' + type + '"][rel="' + rel + '"]');
         if (!linkNodes) {
             return null;
@@ -1197,7 +1197,7 @@ class NewsItem {
      * @returns {array} Return array of links transformed to JSON
      */
     getLinkByType(name, type) {
-        var linkNodes = this.newsItem.querySelectorAll('itemMeta links link[type="' + type + '"]');
+        var linkNodes = this.api.newsItemArticle.querySelectorAll('itemMeta links link[type="' + type + '"]');
         if (!linkNodes) {
             return null;
         }
@@ -1248,7 +1248,7 @@ class NewsItem {
      * @fires event.DOCUMENT_CHANGED
      */
     addStory(name, story) {
-        var newsItem = this.newsItem;
+        var newsItem = this.api.newsItemArticle;
         var linksNode = newsItem.querySelector('itemMeta links');
         var linkNode = newsItem.createElement('link');
 
@@ -1281,7 +1281,7 @@ class NewsItem {
      */
     updateStory(name, story) {
         var uuid = story.uuid;
-        var linkNode = this.newsItem.querySelector('itemMeta links link[uuid="' + uuid + '"]');
+        var linkNode = this.api.newsItemArticle.querySelector('itemMeta links link[uuid="' + uuid + '"]');
 
         if (linkNode) {
             linkNode.setAttribute('title', story.title);
@@ -1311,7 +1311,7 @@ class NewsItem {
      * @fires event.DOCUMENT_CHANGED
      */
     addConceptProfile(name, contentprofile) {
-        var newsItem = this.newsItem;
+        var newsItem = this.api.newsItemArticle;
         var linksNode = newsItem.querySelector('itemMeta links');
         var linkNode = newsItem.createElement('link');
 
@@ -1344,7 +1344,7 @@ class NewsItem {
      * @fires event.DOCUMENT_CHANGED
      */
     addCategory(name, category) {
-        var newsItem = this.newsItem;
+        var newsItem = this.api.newsItemArticle;
         var linksNode = newsItem.querySelector('itemMeta links');
         var linkNode = newsItem.createElement('link');
 
@@ -1379,7 +1379,7 @@ class NewsItem {
      */
     updateConceptProfile(name, contentprofile) {
         var uuid = contentprofile.uuid;
-        var linkNode = this.newsItem.querySelector('itemMeta links link[uuid="' + uuid + '"]');
+        var linkNode = this.api.newsItemArticle.querySelector('itemMeta links link[uuid="' + uuid + '"]');
 
         if (linkNode) {
             linkNode.setAttribute('title', contentprofile.title);
@@ -1462,7 +1462,7 @@ class NewsItem {
      * @private
      */
     _getSignalNodeByQcode(qcode) {
-        return this.newsItem.querySelector('itemMeta signal[qcode="' + qcode + '"]');
+        return this.api.newsItemArticle.querySelector('itemMeta signal[qcode="' + qcode + '"]');
     }
 
 
