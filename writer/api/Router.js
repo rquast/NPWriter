@@ -189,7 +189,10 @@ class Router {
         return this.ajax('GET', 'xml', '/api/newsitem/' + uuid, {imType: imType}, null)
             .then(response => this.checkForOKStatus(response))
             .then(response => response.text())
-            .then(text => DefaultDOMElement.parseXML(text))
+            .then(text => {
+                const parser = new DOMParser()
+                return parser.parseFromString(text, 'text/xml')
+            })
     }
 
     /**
