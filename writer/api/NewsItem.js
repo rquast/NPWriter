@@ -721,7 +721,7 @@ class NewsItem {
      * @fires event.DOCUMENT_CHANGED
      */
     addAuthor(name, author) {
-        var newsItem = this.newsItem;
+        var newsItem = this.api.newsItemArticle;
         var linksNode = newsItem.querySelector('itemMeta links');
         var authorLinkNode = newsItem.createElement('link');
 
@@ -747,7 +747,7 @@ class NewsItem {
      * @fires event.DOCUMENT_CHANGED
      */
     addSimpleAuthor(name, authorName) {
-        var newsItem = this.newsItem;
+        var newsItem = this.api.newsItemArticle;
         var linksNode = newsItem.querySelector('itemMeta links');
         var authorLinkNode = newsItem.createElement('link');
 
@@ -773,7 +773,7 @@ class NewsItem {
      *
      */
     removeAuthorByTitle(name, authorName) {
-        var authorNode = this.newsItem.querySelector(
+        var authorNode = this.api.newsItemArticle.querySelector(
             'itemMeta links link[type="x-im/author"][title="' + authorName + '"]');
 
         if (authorNode) {

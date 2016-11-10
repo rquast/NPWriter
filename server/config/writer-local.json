@@ -15,7 +15,7 @@
             "name": "ximauthor",
             "url": "http://localhost:5001/index.js",
             "style": "http://localhost:5001/style.css",
-            "enabled": false,
+            "enabled": true,
             "mandatory": true
         },
         {
