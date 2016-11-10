@@ -173,7 +173,7 @@ class NewsItem {
         for (var n in this.api.newsItemArticle.childNodes) {
             if (this.api.newsItemArticle.childNodes[n].nodeName === 'newsItem') {
                 const guid = this.api.newsItemArticle.childNodes[n].getAttribute('guid')
-                if(guid) {
+                if (guid) {
                     return guid
                 }
                 return null
@@ -657,8 +657,8 @@ class NewsItem {
         /*jshint validthis:true */
         function normalizeObject(object) {
             Object.keys(object).forEach(function (key) {
-                if (startsWith(key, '@')) {
-                    var newKey = replace(key, '@', '');
+                if (startsWith(key, '$')) {
+                    var newKey = replace(key, '$', '');
                     object[newKey] = object[key];
                     delete object[key];
                 }
@@ -695,7 +695,7 @@ class NewsItem {
      * @throws {NotFoundException}  When no node is found by provided UUID the NotFoundException is thrown
      */
     removeAuthorByUUID(name, uuid) {
-        var authorNode = this.newsItem.querySelector(
+        var authorNode = this.api.newsItemArticle.querySelector(
             'itemMeta links link[type="x-im/author"][uuid="' + uuid + '"]');
 
         if (authorNode) {
@@ -791,7 +791,7 @@ class NewsItem {
 
 
     /**
-     * Helper function to remove all @ on properties
+     * Helper function to remove all $ on properties
      * @private
      *
      * @param {object} object
@@ -800,8 +800,8 @@ class NewsItem {
      */
     normalizeObject(object) {
         Object.keys(object).forEach(function (key) {
-            if (startsWith(key, '@')) {
-                var newKey = replace(key, '@', '');
+            if (startsWith(key, '$')) {
+                var newKey = replace(key, '$', '');
                 object[newKey] = object[key];
                 delete object[key];
             }
