@@ -30,49 +30,62 @@ class FormSearchComponent extends Component {
     }
 
     next() {
-        var searchResultElement = this.refs.searchResult.el,
-            selectedItem = $('#item-' + this.currentSelectedItem.uuid)[0],
-            items = this.state.items;
+        //noinspection JSJQueryEfficiency
+        let currentSelectedItem = this.currentSelectedItem && $('#item-' + this.currentSelectedItem.uuid)[0]
 
-        if (this.state.currentSelectedIndex >= 0) {
-            var idx = parseInt(this.state.currentSelectedIndex);
-            idx++;
-            searchResultElement.scrollTop = selectedItem.offsetTop;
-            this.extendState({
-                currentSelectedIndex: idx
-            });
+        if (currentSelectedItem) {
+            let searchResultElement = this.refs.searchResult.el;
+            let selectedItem = $('#item-' + this.currentSelectedItem.uuid)[0]
+            let items = this.state.items
 
-            if (idx === items.length) {
+            if (this.state.currentSelectedIndex >= 0) {
+                let idx = parseInt(this.state.currentSelectedIndex)
+                idx++;
+
+                searchResultElement.scrollTop = selectedItem.offsetTop;
                 this.extendState({
-                    currentSelectedIndex: 0
+                    currentSelectedIndex: idx
                 });
-                searchResultElement.scrollTop = 0;
+
+                if (idx === items.length) {
+                    this.extendState({
+                        currentSelectedIndex: 0
+                    });
+                    searchResultElement.scrollTop = 0
+                }
             }
         }
     }
 
     prev() {
+        //noinspection JSJQueryEfficiency
+        let currentSelectedItem = this.currentSelectedItem && $('#item-' + this.currentSelectedItem.uuid)[0]
 
-        var searchResultElement = this.refs.searchResult.el,
-            selectedItemPrevSibling = $(
-                '#item-' + this.currentSelectedItem.uuid)[0].previousSibling;
+        if (currentSelectedItem) {
+            let searchResultElement = this.refs.searchResult.el
+            let selectedItemPrevSibling = $('#item-' + this.currentSelectedItem.uuid)[0].previousSibling
 
-        var items = this.state.items;
-        if (this.state.currentSelectedIndex >= 0) {
-            var idx = parseInt(this.state.currentSelectedIndex);
+            let items = this.state.items;
+            if (this.state.currentSelectedIndex >= 0) {
+                var idx = parseInt(this.state.currentSelectedIndex)
 
-            if (selectedItemPrevSibling === null) {
-                searchResultElement.scrollTop = searchResultElement.lastChild.offsetTop;
-                this.extendState({
-                    currentSelectedIndex: items.length - 1
-                });
+                if (selectedItemPrevSibling === null) {
+                    searchResultElement.scrollTop = searchResultElement.lastChild.offsetTop
+                    this.extendState({
+                        currentSelectedIndex: items.length - 1
+                    });
 
-            } else {
-                searchResultElement.scrollTop = selectedItemPrevSibling.offsetTop - selectedItemPrevSibling.offsetHeight;
-                idx--;
-                this.extendState({
-                    currentSelectedIndex: idx
-                });
+                } else {
+                    let offsetTop = selectedItemPrevSibling.offsetTop
+                    let offsetHeight = selectedItemPrevSibling.offsetHeight
+
+                    searchResultElement.scrollTop = offsetTop - offsetHeight
+                    idx--;
+
+                    this.extendState({
+                        currentSelectedIndex: idx
+                    });
+                }
             }
         }
     }
@@ -105,10 +118,6 @@ class FormSearchComponent extends Component {
             default:
                 this.lookup();
         }
-
-        //e.preventDefault();
-
-
     }
 
     hide() {
