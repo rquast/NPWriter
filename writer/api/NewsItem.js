@@ -1026,7 +1026,7 @@ class NewsItem {
      * @fires event.DOCUMENT_CHANGED
      */
     addLocation(name, location) {
-        var newsItem = this.newsItem;
+        var newsItem = this.api.newsItemArticle;
         var linksNode = newsItem.querySelector('itemMeta links');
         var locationLinkNode = newsItem.createElement('link');
 
