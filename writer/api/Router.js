@@ -1,5 +1,7 @@
 import 'whatwg-fetch'
 import isObject from 'lodash/isObject'
+import {DefaultDOMElement} from 'substance'
+
 /**
  * @class Api.Router
  *
@@ -181,6 +183,33 @@ class Router {
             },
             data: JSON.stringify(op)
         });
+    }
+
+    _getItem(uuid, imType) {
+        return this.ajax('GET', 'xml', '/api/newsitem/' + uuid, {imType: imType}, null)
+            .then(response => this.checkForOKStatus(response))
+            .then(response => response.text())
+            .then(text => DefaultDOMElement.parseXML(text))
+    }
+
+    /**
+     * Fetch a ConceptItem from the backend
+     * @param id The id of the concept
+     * @param imType The x-im/type
+     * @return {*}
+     */
+    getConceptItem(id, imType) {
+        return this._getItem(id, imType)
+    }
+
+    /**
+     * Fetch a NewsItem from the backend
+     * @param id The id of the news item
+     * @param imType The x-im/type
+     * @return {*}
+     */
+    getNewsItem(id, imType) {
+        return this._getItem(id, imType)
     }
 
 
