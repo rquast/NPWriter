@@ -23,7 +23,7 @@
             "name": "ximplace",
             "url": "http://localhost:5001/index.js",
             "style": "http://localhost:5001/style.css",
-            "enabled": true,
+            "enabled": false,
             "mandatory": true,
             "data": {
                 "googleMapAPIKey": "AIzaSyB0pmf9RAml2HL3AgiB_yYTwIeMILqQ_1w"

@@ -1,3 +1,4 @@
+import './scss/sidebar.scss'
 import {Component, ScrollPane, TabbedPane} from 'substance'
 
 class SidebarComponent extends Component {
@@ -49,7 +50,7 @@ class SidebarComponent extends Component {
     getTopBarComponents($$) {
         return this.context.configurator.config.sidebarTopBar.map((plugin) => {
             return $$('div')
-                .addClass('plugin plugin-'+plugin.getCSSFriendlyName())
+                .addClass('plugin plugin-' + plugin.getCSSFriendlyName())
                 .append($$(plugin.component, {panel: plugin}))
         })
     }
@@ -59,7 +60,7 @@ class SidebarComponent extends Component {
             return panel.tabId === tabId
         }).map((panel) => {
             return $$('div')
-                .addClass('plugin plugin-'+panel.getCSSFriendlyName())
+                .addClass('plugin plugin-' + panel.getCSSFriendlyName())
                 .append($$(panel.component, {panel: panel}))
         })
     }
