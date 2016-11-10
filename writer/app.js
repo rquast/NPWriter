@@ -124,9 +124,7 @@ class App extends Component {
             .then(plugins => this.pluginManager.load(plugins))              // Let the pluginManger load and append the plugins
             .then(() => {
 
-                this.pluginManager.getPluginPackagesSortedByIndex().forEach((pluginPackage) => {
-                    this.configurator.import(pluginPackage)
-                })
+                this.pluginManager.importPluginPackagesSortedByIndex()
 
 
                 var promise = api.router.get('/api/newsitem/' + this.getHash(), {imType: 'x-im/article'}) // Make request to fetch article

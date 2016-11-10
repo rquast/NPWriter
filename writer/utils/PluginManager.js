@@ -1,5 +1,6 @@
 import ResourceLoader from './ResourceLoader'
 import isString from 'lodash/isString'
+import sortBy from 'lodash/sortBy'
 import 'whatwg-fetch'
 
 class PluginManager {
@@ -120,16 +121,19 @@ class PluginManager {
         return Promise.all(allPromises)
     }
 
-    getPluginPackagesSortedByIndex() {
-        return this.pluginPackages.sort((a, b) => {
-            if(a.index < b.index) {
-                return -1
-            } else if(a.index > b.index) {
-                return 1
-            } else {
-                return 0
+    importPluginPackagesSortedByIndex() {
+
+        let packages = sortBy(this.pluginPackages, [(pluginPackage) => {
+            if(pluginPackage.index === undefined) { // Undefined is a higher number than zero
+                pluginPackage.index = 0
             }
-        }).reverse()
+            return pluginPackage.index;
+        }]).reverse()
+
+        packages.forEach((pluginPackage) => {
+            console.log("Importing", pluginPackage.id, ' with idnex', pluginPackage.index);
+            this.configurator.import(pluginPackage)
+        })
     }
 
 
