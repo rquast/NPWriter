@@ -147,6 +147,7 @@ class NPWriter extends AbstractEditor {
         const OverlayMenu = this.getComponent('npw-overlay-menu')
         const ContentMenu = this.getComponent('npw-content-menu')
         const BodyComponent = this.getComponent('body')
+        const DropTeaser = this.getComponent('drop-teaser')
 
         let contentPanel = $$(ScrollPane, {
             scrollbarType: 'native',
@@ -154,8 +155,6 @@ class NPWriter extends AbstractEditor {
         }).ref('contentPanel')
 
         let layout = $$('div').addClass('se-layout')
-
-
 
         layout.append(
             $$(BodyComponent, {
@@ -170,7 +169,9 @@ class NPWriter extends AbstractEditor {
             layout,
             $$(ContextMenu),
             $$(OverlayMenu),
-            $$(ContentMenu)
+            $$(ContentMenu),
+            $$(DropTeaser)
+
         ])
         return contentPanel
     }
