@@ -57,7 +57,7 @@ class NPImageProxy extends FileProxy {
 
     sync() {
         if (!this.uuid && this.file) {
-            new Promise((resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 // console.log('Uploading file', this.fileNode.id)
                 let upload = fileService.uploadFile(this.file, (err, result) => {
                     if (err) return reject(err)
