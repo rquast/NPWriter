@@ -34,9 +34,11 @@ class SaveHandler {
             } else {
                 return this.createNewsItem(exportedArticle)
             }
-        }).catch(function(error) {
-            console.error(error)
         })
+        // TODO: catching here reduces ease of debugging
+        // .catch(function(error) {
+        //     console.error(error)
+        // })
     }
 
     createNewsItem(newsItemXmlString) {
