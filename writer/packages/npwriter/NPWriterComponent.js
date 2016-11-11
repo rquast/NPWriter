@@ -12,6 +12,8 @@ class NPWriter extends AbstractEditor {
     _initialize(...args) {
         super._initialize(...args)
 
+        this.props.api.setWriterReference(this);
+
         this.exporter = this._getExporter();
         this.spellCheckManager = new SpellCheckManager(this.editorSession, {
             wait: 400,
@@ -30,6 +32,16 @@ class NPWriter extends AbstractEditor {
         }
 
         this.handleActions(actionHandlers)
+
+        this.props.api.events.on('__internal', Event.DOCUMENT_SAVE_FAILED, (e) => {
+            let errorMessages = e.data.errors.map((error) => {
+                return {
+                    type: 'error',
+                    message: error.error
+                }
+            })
+            this.props.api.ui.showMessageDialog(errorMessages)
+        })
     }
 
     didMount() {
@@ -38,7 +50,7 @@ class NPWriter extends AbstractEditor {
         this.spellCheckManager.runGlobalCheck()
         this.editorSession.onUpdate(this.editorSessionUpdated, this)
 
-        this.props.api.setWriterReference(this);
+
     }
 
 

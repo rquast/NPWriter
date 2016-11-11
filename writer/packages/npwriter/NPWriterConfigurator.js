@@ -65,7 +65,7 @@ class NPWriterConfigurator extends Configurator {
      * @param id
      * @param name
      */
-    addSidebarTab({id, name}) {
+    addSidebarTab(id, name) {
         this.config.sidebarTabs.push({
             id: id,
             name: name
@@ -170,6 +170,14 @@ class NPWriterConfigurator extends Configurator {
     addContentMenuTool(toolName, ToolClass) {
         const options = {
             toolGroup: 'content-menu'
+        }
+
+        super.addTool(toolName, ToolClass, options)
+    }
+
+    addContentMenuTopTool(toolName, ToolClass) {
+        const options = {
+            toolGroup: 'content-top-menu'
         }
 
         super.addTool(toolName, ToolClass, options)

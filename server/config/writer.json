@@ -3,6 +3,32 @@
     "language": "en_US",
     "plugins": [
         {
+            "id": "se.infomaker.youtubeembed",
+            "name": "youtubeembed",
+            "url": "http://localhost:3000/index.js",
+            "enabled": true,
+            "mandatory": false
+        },
+        {
+            "id": "se.infomaker.ximauthor",
+            "name": "ximauthor",
+            "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
+            "style": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/style.css",
+            "enabled": true,
+            "mandatory": true
+        },
+        {
+            "id": "se.infomaker.ximplace",
+            "name": "ximplace",
+            "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
+            "style": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/style.css",
+            "enabled": true,
+            "mandatory": true,
+            "data": {
+                "googleMapAPIKey": "AIzaSyB0pmf9RAml2HL3AgiB_yYTwIeMILqQ_1w"
+            }
+        },
+        {
             "id": "se.infomaker.publishflow",
             "name": "publishflow",
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
@@ -22,21 +48,30 @@
             "name": "textanalyzer",
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
             "mandatory": false,
-            "enabled": true
+            "enabled": true,
+            "data": {
+                "foo": "bar"
+            }
         },
         {
             "id": "se.infomaker.skeleton",
             "name": "skeleton",
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
             "mandatory": false,
-            "enabled": false
+            "enabled": false,
+            "data": {
+                "foo": "bar"
+            }
         },
         {
             "id": "se.infomaker.socialembed",
             "name": "socialembed",
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
             "mandatory": false,
-            "enabled": true
+            "enabled": true,
+            "data": {
+                "foo": "bar"
+            }
         },
         {
             "id": "se.infomaker.npwriterdevkit",
@@ -44,7 +79,9 @@
             "url": "http://localhost:3000/index.js",
             "mandatory": false,
             "enabled": false,
-            "data": {}
+            "data": {
+                "foo": "bar"
+            }
         },
         {
             "id": "se.infomaker.newspriority",

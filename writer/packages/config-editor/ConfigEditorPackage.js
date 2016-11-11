@@ -4,7 +4,7 @@ export default {
     name: 'config-editor',
     configure: function(config) {
 
-        config.addSidebarTab({id: 'config', name: 'Konfigurera'})
+        config.addSidebarTab('config', 'Konfigurera')
 
         config.addComponentToSidebarWithTabId('config-editor', 'config', ConfigEditorComponent)
     }

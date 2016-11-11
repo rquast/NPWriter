@@ -13,6 +13,12 @@ class Document {
         this.api = api
     }
 
+
+    triggerFetchResourceNode(node) {
+
+        this.api.writer.ResourceManageranager.triggerFetch(node)
+    }
+
     /**
      * Insert an inline node at current selection
      * @param {string} name The plugin which inserts inline node

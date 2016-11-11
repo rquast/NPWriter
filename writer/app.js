@@ -260,7 +260,7 @@ class App extends Component {
         // Adds package for unsupported elements in document
         this.configurator.import(UnsupportedPackage)
 
-        this.configurator.addSidebarTab({id: 'main', name: 'Meta'})
+        this.configurator.addSidebarTab('main', 'Meta')
 
     }
 }

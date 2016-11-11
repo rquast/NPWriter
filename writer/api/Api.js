@@ -57,9 +57,9 @@ class Api {
     }
 
     setWriterReference(writer) {
-        this.refs.writer = writer
+        this.refs.writer = writer //TODO: Check if we can remove this and just use Writer
+        this.writer = writer
     }
-
 
     /**
      * Get configuration value in a plugins local configuration data section.
