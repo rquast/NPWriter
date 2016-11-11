@@ -17,7 +17,6 @@ class SaveHandler {
         return exportedArticle
     }
 
-
     /**
      * Saves the current document after run through the NewsML Exporter
      * The UUID is selected from the NewsItem DOM
@@ -28,11 +27,16 @@ class SaveHandler {
         const exporter = this.configurator.createExporter('newsml')
         const exportedArticle = exporter.exportDocument(this.editorSession.getDocument(), this.api.newsItemArticle)
 
-        if (uuid) {
-            return this.updateNewsItem(uuid, exportedArticle)
-        } else {
-            this.createNewsItem(exportedArticle)
-        }
+        this.editorSession.fileManager.sync()
+        .then(() => {
+            if(uuid) {
+                return this.updateNewsItem(uuid, exportedArticle)
+            } else {
+                return this.createNewsItem(exportedArticle)
+            }
+        }).catch(function(error) {
+            console.error(error)
+        })
     }
 
     createNewsItem(newsItemXmlString) {
