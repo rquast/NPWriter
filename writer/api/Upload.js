@@ -15,7 +15,7 @@ class Upload {
             return new Promise((resolve, reject) => {
 
                 this.api.router.postBinary(
-                    '/api/binary?imType='+params.imType,
+                    '/api/binary',
                     file,
                     function (evt) {
                         var progress = (evt.loaded / evt.total) * 100;
@@ -85,7 +85,8 @@ class Upload {
                     },
                     function (e) {
                         reject(e)
-                    }
+                    },
+                    params
                 );
             })
 

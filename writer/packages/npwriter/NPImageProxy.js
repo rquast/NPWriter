@@ -13,7 +13,7 @@ class NPImageProxy extends FileProxy {
         //    thus it is a volatile property
 
         this.fileService = new FileService(this.context.api)
-
+        this.fileNode = fileNode
         // used locally e.g. after drop or file dialog
         this.file = fileNode.data
         if (this.file) {
@@ -45,6 +45,7 @@ class NPImageProxy extends FileProxy {
         //     .then(response => response.text())
         //     .then((url) => {
         //         this.url = url
+        debugger;
         this.fileService.getUrl(this.uuid, (err, result) => {
             if (err) {
                 console.error(err)
@@ -66,7 +67,26 @@ class NPImageProxy extends FileProxy {
 
                 this.fileService.uploadFile(this.file, params)
                     .then((xmlString) => {
-                        this.fileNode.uuid = result.uuid
+
+                        const parser = new DOMParser()
+                        let newsItemDOM = parser.parseFromString(xmlString, 'text/xml')
+                        let documentElement = newsItemDOM.documentElement
+                        let uuid = documentElement.getAttribute('guid')
+
+                        const document = this.context.api.editorSession.document
+
+                        const ximimageNode = document.get(this.fileNode.parentNodeId)
+
+                        try {
+                            document.set([ximimageNode.id, 'uuid'], uuid);
+                        } catch(e) {
+
+                        }
+
+
+                        this.fileNode.uuid = uuid
+                        this.fileNode.uri = documentElement.querySelector('itemMeta > itemMetaExtProperty[type="imext:uri"]').getAttribute('value')
+
                         console.log('Finished uploading file', this.fileNode.id)
                         resolve()
                     })
