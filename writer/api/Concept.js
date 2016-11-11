@@ -1,9 +1,9 @@
-'use strict';
+import lodash from 'lodash'
 
-import {isArray} from 'lodash'
-import {isObject} from 'lodash/isObject'
-import {find} from 'lodash/find'
-import {clone} from 'lodash/clone'
+var isArray = lodash.isArray
+var isObject = lodash.isObject
+var find = lodash.find
+var clone = lodash.clone
 
 // TODO Add tests
 /**
@@ -39,7 +39,7 @@ class Concept {
      * @param {*} definition An array or object
      * @param {object} description object
      */
-    static setDefinitionDependingOnArrayOrObject = function (definition, description) {
+    static setDefinitionDependingOnArrayOrObject(definition, description) {
 
         if (isArray(definition)) {
             definition.push(description);

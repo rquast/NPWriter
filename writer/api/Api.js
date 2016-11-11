@@ -11,6 +11,7 @@ import Upload from './Upload'
 import Article from './Article'
 import Browser from './Browser'
 import Router from './Router'
+import Concept from './Concept'
 import Ui from './Ui'
 
 jxon.config({
@@ -38,6 +39,7 @@ class Api {
         this.upload = new Upload()
         this.exceptions = Exceptions
         this.configurator = configurator
+        this.concept = Concept
         this.apiManager = apiManager
     }
 
