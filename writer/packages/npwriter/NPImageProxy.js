@@ -1,7 +1,6 @@
-import { FileProxy } from 'substance'
-import StubFileService from './StubFileService'
+import {FileProxy} from 'substance'
+import FileService from './FileService'
 
-let fileService = new StubFileService()
 
 class NPImageProxy extends FileProxy {
 
@@ -12,6 +11,8 @@ class NPImageProxy extends FileProxy {
         // 2. If no uuid but a local file is present, the file needs to be sync'd
         // 3. Due to permission reasons 'url' needs to be retrieved from the server everytime
         //    thus it is a volatile property
+
+        this.fileService = new FileService(this.context.api)
 
         // used locally e.g. after drop or file dialog
         this.file = fileNode.data
@@ -44,7 +45,7 @@ class NPImageProxy extends FileProxy {
         //     .then(response => response.text())
         //     .then((url) => {
         //         this.url = url
-        fileService.getUrl(this.uuid, (err, result) => {
+        this.fileService.getUrl(this.uuid, (err, result) => {
             if (err) {
                 console.error(err)
             } else {
@@ -57,16 +58,22 @@ class NPImageProxy extends FileProxy {
     sync() {
         if (!this.uuid && this.file) {
             return new Promise((resolve, reject) => {
+
                 // console.log('Uploading file', this.fileNode.id)
-                let upload = fileService.uploadFile(this.file, (err, result) => {
-                    if (err) return reject(err)
-                    this.fileNode.uuid = result.uuid
-                    // console.log('Finished uploading file', this.fileNode.id)
-                    resolve()
-                })
-                upload.on('progress', (progress) => {
-                    // console.log('... progress', this.fileNode.id, progress)
-                })
+                const params = {
+                    imType: 'x-im/image'
+                }
+
+                this.fileService.uploadFile(this.file, params)
+                    .then((xmlString) => {
+                        this.fileNode.uuid = result.uuid
+                        console.log('Finished uploading file', this.fileNode.id)
+                        resolve()
+                    })
+                    .catch((e) => {
+                        console.log("Error uploading", e);
+                        reject(e)
+                    })
             })
         } else {
             // console.log("Get url for", this.uuid);
@@ -78,7 +85,7 @@ class NPImageProxy extends FileProxy {
 }
 
 // to detect that this class should take responsibility for a fileNode
-NPImageProxy.match = function(fileNode) {
+NPImageProxy.match = function (fileNode) {
     return fileNode.fileType === 'image'
 }
 

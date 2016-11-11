@@ -36,7 +36,7 @@ class Api {
         this.browser = new Browser(this)
         this.ui = new Ui(this)
         this.drop = new Drop()
-        this.upload = new Upload()
+        this.upload = new Upload(this)
         this.exceptions = Exceptions
         this.configurator = configurator
         this.concept = Concept
