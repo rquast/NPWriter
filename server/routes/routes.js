@@ -3,7 +3,12 @@ const router = express.Router()
 const bodyParser = require('body-parser');
 const ConfigRoutes = require('./config')
 const NewsItemRoutes = require('./newsitem')
-const SpellCheckRoutes = require('./spellcheck')
+let SpellCheckRoutes = null
+try {
+  SpellCheckRoutes = require('./spellcheck')
+} catch (err) {
+  // nodehun does not work under Windows :/
+}
 
 var log = require('../utils/logger').child({api: 'Router'});
 
@@ -23,6 +28,8 @@ router.route('/config').post(ConfigRoutes.setConfig);
 
 // router.route('/newsitem/:uuid').get(PluginRoutes.getPlugins);
 router.use(NewsItemRoutes)
-router.use(SpellCheckRoutes)
+if (SpellCheckRoutes) {
+  router.use(SpellCheckRoutes)
+}
 
 module.exports = router;
