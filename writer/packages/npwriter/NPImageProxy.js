@@ -3,16 +3,18 @@ import StubFileService from './StubFileService'
 
 let fileService = new StubFileService()
 
+/*
+    Assuming a life-cycle which should be consolidated:
+    1. A file is considered upstream if it has a uuid set
+    2. If no uuid but a local file is present, the file needs to be sync'd
+    3. Due to permission reasons 'url' needs to be retrieved from the server everytime
+        thus it is a volatile property
+    4. FileProxy.sync can only be triggered once at a time
+*/
 class NPImageProxy extends FileProxy {
 
     constructor(fileNode, context) {
         super(fileNode, context)
-
-        // TODO: assuming a life-cycle which would need discussion
-        // 1. A file is considered upstream if it has a uuid set
-        // 2. If no uuid but a local file is present, the file needs to be sync'd
-        // 3. Due to permission reasons 'url' needs to be retrieved from the server everytime
-        //    thus it is a volatile property
 
         // used locally e.g. after drop or file dialog
         this.file = fileNode.data
@@ -45,7 +47,7 @@ class NPImageProxy extends FileProxy {
         //     .then(response => response.text())
         //     .then((url) => {
         //         this.url = url
-        fileService.getUrl(this.uuid, (err, result) => {
+        fileService.getUrl(this.fileNode.uuid, (err, result) => {
             if (err) {
                 console.error(err)
             } else {
@@ -56,17 +58,23 @@ class NPImageProxy extends FileProxy {
     }
 
     sync() {
-        if (!this.uuid && this.file) {
+        // For the sake of this example, assuming that an upstream file
+        // has a remote uuid, thus if there is not uuid, but a file,
+        // it needs to uploaded
+        if (!this._isSyncing && !this.fileNode.uuid && this.file) {
+            // don't allow to sync multiple times at once
+            this._isSyncing = true
             return new Promise((resolve, reject) => {
                 // console.log('Uploading file', this.fileNode.id)
-                let upload = fileService.uploadFile(this.file, (err, result) => {
+                fileService.uploadFile(this.file, (err, result) => {
+                    this._isSyncing = false
                     if (err) return reject(err)
-                    this.fileNode.uuid = result.uuid
                     // console.log('Finished uploading file', this.fileNode.id)
+                    // Note: storing the uuid into the fileNode
+                    // XML exported can later use this to export valid
+                    // links
+                    this.fileNode.uuid = result.uuid
                     resolve()
-                })
-                upload.on('progress', (progress) => {
-                    // console.log('... progress', this.fileNode.id, progress)
                 })
             })
         } else {
