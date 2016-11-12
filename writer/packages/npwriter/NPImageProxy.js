@@ -41,26 +41,17 @@ class NPImageProxy extends FileProxy {
 
     fetchUrl() {
         // TODO: this should access the real endpoint
-        // this.context.api.router.get('/api/image/url/' + this.uuid+'?imType=x-im/image')
-        //     .then(response => response.text())
-        //     .then((url) => {
-        //         this.url = url
-        debugger;
-        this.fileService.getUrl(this.uuid, (err, result) => {
-            if (err) {
-                console.error(err)
-            } else {
-                this.url = result.url
+        this.fileService.getUrl(this.fileNode.uuid, 'x-im/image')
+            .then((url) => {
+                this.url = url
                 this.triggerUpdate()
-            }
-        })
+            })
     }
 
     sync() {
         if (!this.uuid && this.file) {
             return new Promise((resolve, reject) => {
 
-                // console.log('Uploading file', this.fileNode.id)
                 const params = {
                     imType: 'x-im/image'
                 }
@@ -75,14 +66,14 @@ class NPImageProxy extends FileProxy {
 
                         const document = this.context.api.editorSession.document
 
-                        const ximimageNode = document.get(this.fileNode.parentNodeId)
+                        // Do we really need to set uuid on ximimage node? Enough to do in converter?
 
-                        try {
-                            document.set([ximimageNode.id, 'uuid'], uuid);
-                        } catch(e) {
-
-                        }
-
+                        // const ximimageNode = document.get(this.fileNode.parentNodeId)
+                        // try {
+                        // document.set([ximimageNode.id, 'uuid'], uuid);
+                        // } catch(e) {
+                        //
+                        // }
 
                         this.fileNode.uuid = uuid
                         this.fileNode.uri = documentElement.querySelector('itemMeta > itemMetaExtProperty[type="imext:uri"]').getAttribute('value')
