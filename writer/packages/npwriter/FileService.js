@@ -8,6 +8,7 @@ class FileService {
     getUrl(uuid, imType) {
 
         return this.api.router.get('/api/image/url/' + uuid+'?imType='+imType)
+
             .then(response => response.text())
 
             .catch(function (error, xhr, text) {
