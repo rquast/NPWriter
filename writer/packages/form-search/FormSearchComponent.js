@@ -31,11 +31,11 @@ class FormSearchComponent extends Component {
 
     next() {
         //noinspection JSJQueryEfficiency
-        let currentSelectedItem = this.currentSelectedItem && $('#item-' + this.currentSelectedItem.uuid)[0]
-
+        const selectedDomItem = document.getElementById('item-' + this.currentSelectedItem.uuid)
+        let currentSelectedItem = this.currentSelectedItem && selectedDomItem
         if (currentSelectedItem) {
-            let searchResultElement = this.refs.searchResult.el;
-            let selectedItem = $('#item-' + this.currentSelectedItem.uuid)[0]
+            let searchResultElement = this.refs.searchResult.el.el;
+            let selectedItem = selectedDomItem
             let items = this.state.items
 
             if (this.state.currentSelectedIndex >= 0) {
@@ -59,11 +59,11 @@ class FormSearchComponent extends Component {
 
     prev() {
         //noinspection JSJQueryEfficiency
-        let currentSelectedItem = this.currentSelectedItem && $('#item-' + this.currentSelectedItem.uuid)[0]
-
+        const selectedDomItem = document.getElementById('item-' + this.currentSelectedItem.uuid)
+        let currentSelectedItem = this.currentSelectedItem && selectedDomItem
         if (currentSelectedItem) {
-            let searchResultElement = this.refs.searchResult.el
-            let selectedItemPrevSibling = $('#item-' + this.currentSelectedItem.uuid)[0].previousSibling
+            let searchResultElement = this.refs.searchResult.el.el
+            let selectedItemPrevSibling = selectedDomItem.previousSibling
 
             let items = this.state.items;
             if (this.state.currentSelectedIndex >= 0) {
