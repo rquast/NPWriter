@@ -131,7 +131,6 @@ class PluginManager {
         }]).reverse()
 
         packages.forEach((pluginPackage) => {
-            console.log("Importing", pluginPackage.id, ' with idnex', pluginPackage.index);
             this.configurator.import(pluginPackage)
         })
     }
