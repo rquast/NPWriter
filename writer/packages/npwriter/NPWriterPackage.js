@@ -12,7 +12,7 @@ import {BasePackage,
 import NewsMLArticle from './NewsMLArticle'
 import NewsMLImporter from './NewsMLImporter'
 import NewsMLExporter from './NewsMLExporter'
-import NPWriterDragAndDropHandler from './NPWriterDragAndDropHandler'
+import NPFileNode from './NPFileNode'
 import NPImageProxy from './NPImageProxy'
 
 import BodyPackage from '../body/BodyPackage'
@@ -78,8 +78,6 @@ export default {
         config.addFileProxy(NPImageProxy)
 
         config.import(SpellCheckPackage)
-
-        config.addDragAndDrop(NPWriterDragAndDropHandler)
 
         // Add a label package overriding and adding swedish translation to substance
         config.import(LabelPackage)
