@@ -6,15 +6,19 @@
         display: inline-block;
         height: 22px;
         width: 22px;
-        padding: 6px;
         color: #888;
         border-radius: 4px;
 
         font-size: 18px;
 
-        &.img {
+        &.fa {
+            display: block;
             text-align: center;
+        }
+
+        &.img {
             vertical-align: middle;
+            text-align: center;
             background-repeat: no-repeat;
             opacity: 0.8;
         }

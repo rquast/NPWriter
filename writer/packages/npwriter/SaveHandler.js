@@ -11,12 +11,11 @@ class SaveHandler {
      * @returns {*|String}
      */
     getExportedDocument() {
-        var exporter = this.configurator.createExporter('newsml')
+        const exporter = this.configurator.createExporter('newsml', { api: this.api })
         const exportedArticle = exporter.exportDocument(this.editorSession.getDocument(), this.api.newsItemArticle)
 
         return exportedArticle
     }
-
 
     /**
      * Saves the current document after run through the NewsML Exporter
@@ -25,14 +24,19 @@ class SaveHandler {
      */
     saveDocument() {
         const uuid = this.api.newsItemArticle.documentElement.getAttribute('guid');
-        const exporter = this.configurator.createExporter('newsml')
+        const exporter = this.configurator.createExporter('newsml', { api: this.api })
         const exportedArticle = exporter.exportDocument(this.editorSession.getDocument(), this.api.newsItemArticle)
 
-        if (uuid) {
-            return this.updateNewsItem(uuid, exportedArticle)
-        } else {
-            this.createNewsItem(exportedArticle)
-        }
+        this.editorSession.fileManager.sync()
+        .then(() => {
+            if(uuid) {
+                return this.updateNewsItem(uuid, exportedArticle)
+            } else {
+                return this.createNewsItem(exportedArticle)
+            }
+        }).catch(function(error) {
+            console.error(error)
+        })
     }
 
     createNewsItem(newsItemXmlString) {

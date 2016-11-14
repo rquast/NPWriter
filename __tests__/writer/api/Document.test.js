@@ -41,7 +41,7 @@ describe('Loads newsItem', () => {
 
         configurator.import(UnsupportedPackage)
 
-        var importer = configurator.createImporter('newsml')
+        var importer = configurator.createImporter('newsml', { api: api })
         let idfDocument = importer.importDocument(Helper.getContentFromExampleDocument())
         let editorSession = new EditorSession(idfDocument, {
             configurator: configurator,

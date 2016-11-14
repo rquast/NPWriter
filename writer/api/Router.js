@@ -18,7 +18,7 @@ class Router {
      * @param {Function} onProgress Callback function for progress event
      * @param {Function} onLoad Callback function for onload event
      */
-    postBinary(path, file, onProgress, onLoad, onError) {
+    postBinary(path, file, onProgress, onLoad, onError, params) {
         var xhr = new XMLHttpRequest(); //jshint ignore:line
 
         xhr.onload = onLoad;
@@ -27,6 +27,7 @@ class Router {
 
         xhr.open('POST', path, true);
 
+        xhr.setRequestHeader("x-infomaker-type", params.imType);
         xhr.setRequestHeader("content-type", file.type);
         xhr.setRequestHeader("x-filename", encodeURIComponent(file.name));
         xhr.send(file);
