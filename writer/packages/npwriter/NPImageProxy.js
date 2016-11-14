@@ -41,7 +41,7 @@ class NPImageProxy extends FileProxy {
 
     fetchUrl() {
         // TODO: this should access the real endpoint
-        this.fileService.getUrl(this.fileNode.uuid, 'x-im/image')
+        this.fileService.getUrl(this.fileNode.uuid, this.fileNode.getImType())
             .then((url) => {
                 this.url = url
                 this.triggerUpdate()
@@ -53,18 +53,12 @@ class NPImageProxy extends FileProxy {
             return new Promise((resolve, reject) => {
 
                 const params = {
-                    imType: 'x-im/image'
+                    imType: this.fileNode.getImType()
                 }
 
                 this.fileService.uploadFile(this.file, params)
                     .then((xmlString) => {
 
-                        const parser = new DOMParser()
-                        let newsItemDOM = parser.parseFromString(xmlString, 'text/xml')
-                        let documentElement = newsItemDOM.documentElement
-                        let uuid = documentElement.getAttribute('guid')
-
-                        const document = this.context.api.editorSession.document
 
                         // Do we really need to set uuid on ximimage node? Enough to do in converter?
 
@@ -74,10 +68,7 @@ class NPImageProxy extends FileProxy {
                         // } catch(e) {
                         //
                         // }
-
-                        this.fileNode.uuid = uuid
-                        this.fileNode.uri = documentElement.querySelector('itemMeta > itemMetaExtProperty[type="imext:uri"]').getAttribute('value')
-
+                        this.fileNode.handleDocument(xmlString);
                         console.log('Finished uploading file', this.fileNode.id)
                         resolve()
                     })
