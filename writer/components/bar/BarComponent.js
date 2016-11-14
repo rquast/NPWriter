@@ -149,12 +149,20 @@ class BarComponent extends Component {
     }
 
     openPopover(evt, id) {
-        if (evt.target.nodeName !== 'A' && evt.currentTarget.nodeName !== 'BUTTON') {
-            return false
+        let triggerElement = null
+
+        if (evt.target.nodeName === 'A') {
+            triggerElement = evt.target
+        }
+        else if (evt.currentTarget.nodeName === 'BUTTON') {
+            triggerElement = evt.currentTarget
+        }
+        else {
+            return
         }
 
         this.refs[id].extendProps({
-            triggerElement: evt.currentTarget
+            triggerElement: triggerElement
         })
     }
 

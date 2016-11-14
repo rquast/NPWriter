@@ -62,13 +62,12 @@ class PopoverComponent extends Component {
      */
     getOffsets() {
         let triggerElement = this.state.triggerElement,
-            left = triggerElement.offsetLeft - (this.el.width / 2) + triggerElement.offsetWidth / 2 + 1,
+            left = triggerElement.offsetLeft - (this.el.width / 2) + triggerElement.offsetWidth / 2,
             margin = 0
 
         if (left < 10) {
             left = 10
-            //margin = -triggerElement.offsetLeft - triggerElement.offsetWidth * 2 - left
-            margin = triggerElement.offsetLeft + (triggerElement.offsetWidth / 2) - (this.el.el.offsetWidth / 2) - 5
+            margin = triggerElement.offsetLeft + (triggerElement.offsetWidth / 2) - (this.el.el.offsetWidth / 2) - 10
         }
         else if (left + this.el.width > document.body.clientWidth) {
             let oldLeft = left

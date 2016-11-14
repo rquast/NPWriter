@@ -70,7 +70,13 @@
             "mandatory": false,
             "enabled": false,
             "data": {
-                "foo": "bar"
+                "fields":[
+                    {
+                        "name": "caption",
+                        "label": "Caption",
+                        "type": "text"
+                    }
+                ]
             }
         },
         {
