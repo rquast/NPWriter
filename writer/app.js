@@ -98,6 +98,9 @@ class App extends Component {
     }
 
     didMount() {
+
+        console.info('Welcome to a local hack. You can find documentation, guides and examples at: https://infomaker.github.io/NPWriterDevelopers/')
+
         document.onkeydown = this.handleApplicationKeyCombos.bind(this)
 
         this.configurator = new NPWriterConfigurator().import(AppPackage)
