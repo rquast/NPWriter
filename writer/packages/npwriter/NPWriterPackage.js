@@ -75,7 +75,7 @@ export default {
         config.addExporter('newsml', NewsMLExporter)
 
         // File store extensions
-        config.addNode(NPFileNode)
+//        config.addNode(NPFileNode)
         config.addFileProxy(NPImageProxy)
 
         config.import(SpellCheckPackage)

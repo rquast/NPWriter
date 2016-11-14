@@ -88,6 +88,8 @@ class Document {
         return result;
     }
 
+
+
     /**
      * Deletes a node from the document.
      * Triggers a 'document:changed' event to all document:changed listeners except
