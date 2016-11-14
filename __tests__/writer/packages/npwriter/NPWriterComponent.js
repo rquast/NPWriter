@@ -25,7 +25,7 @@ class App extends Component {
         this.api.init(Helper.getParsedExampleDocument(), {getDocument:()=>{}}, {}) // Mocking documentSession parameter
 
         let context = {
-            api: api
+            api: this.api
         }
 
         // this.props.configurator.import(UnsupportedPackage)
