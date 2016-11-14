@@ -154,8 +154,6 @@ class Router {
             sendData['body'] = data
         }
 
-        console.log("SendData", sendData);
-
         return fetch(url, sendData)
     }
 

@@ -21,7 +21,6 @@ class APIManager {
             throw new Error('Error, Already registered')
         }
 
-        console.info(`Registering window.writer.${name}`)
         this.endpoints.set(name, apiClass)
         window.writer[name] = apiClass
     }

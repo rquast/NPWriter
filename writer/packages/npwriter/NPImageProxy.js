@@ -33,7 +33,6 @@ class NPImageProxy extends FileProxy {
         } else if (this.file) {
             return URL.createObjectURL(this.file)
         } else {
-            console.log("Get url for", this.uuid);
             this.fetchUrl()
             return ""
         }
