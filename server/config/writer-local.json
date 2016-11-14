@@ -11,12 +11,11 @@
             "mandatory": true
         },
         {
-            "id": "se.infomaker.ximauthor",
-            "name": "ximauthor",
-            "url": "http://localhost:5001/index.js",
-            "style": "http://localhost:5001/style.css",
-            "enabled": true,
-            "mandatory": true
+            "id": "se.infomaker.youtubeembed",
+            "name": "youtubeembed",
+            "url": "http://localhost:5002/youtubeembed.build.js",
+            "enabled": false,
+            "mandatory": false
         },
         {
             "id": "se.infomaker.ximplace",
@@ -89,7 +88,7 @@
             "name": "skeleton",
             "url": "http://localhost:5001/index.js",
             "mandatory": false,
-            "enabled": false,
+            "enabled": true,
             "data": {
                 "foo": "bar"
             }
@@ -109,7 +108,7 @@
             "name": "ximimage",
             "url": "http://localhost:5001/index.js",
             "mandatory": false,
-            "enabled": true,
+            "enabled": false,
             "data": {
                 "fields":[
                     {

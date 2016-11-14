@@ -3,13 +3,6 @@
     "language": "en_US",
     "plugins": [
         {
-            "id": "se.infomaker.youtubeembed",
-            "name": "youtubeembed",
-            "url": "http://localhost:3000/index.js",
-            "enabled": true,
-            "mandatory": false
-        },
-        {
             "id": "se.infomaker.ximauthor",
             "name": "ximauthor",
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
@@ -27,6 +20,13 @@
             "data": {
                 "googleMapAPIKey": "AIzaSyB0pmf9RAml2HL3AgiB_yYTwIeMILqQ_1w"
             }
+        },
+        {
+            "id": "se.infomaker.ximimage",
+            "name": "ximimage",
+            "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
+            "enabled": true,
+            "mandatory": false
         },
         {
             "id": "se.infomaker.publishflow",
