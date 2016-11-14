@@ -37,6 +37,46 @@
             "mandatory": true
         },
         {
+            "id": "se.infomaker.madmansrow",
+            "name": "madmansrow",
+            "url": "http://localhost:5001/index.js",
+            "style": "http://localhost:5001/style.css",
+            "enabled": true,
+            "mandatory": true
+        },
+        {
+            "id": "se.infomaker.drophead",
+            "name": "drophead",
+            "url": "http://localhost:5001/index.js",
+            "style": "http://localhost:5001/style.css",
+            "enabled": true,
+            "mandatory": true
+        },
+        {
+            "id": "se.infomaker.pagedateline",
+            "name": "pagedateline",
+            "url": "http://localhost:5001/index.js",
+            "style": "http://localhost:5001/style.css",
+            "enabled": true,
+            "mandatory": true
+        },
+        {
+            "id": "se.infomaker.dateline",
+            "name": "dateline",
+            "url": "http://localhost:5001/index.js",
+            "style": "http://localhost:5001/style.css",
+            "enabled": true,
+            "mandatory": true
+        },
+        {
+            "id": "se.infomaker.preleadin",
+            "name": "preleadin",
+            "url": "http://localhost:5001/index.js",
+            "style": "http://localhost:5001/style.css",
+            "enabled": true,
+            "mandatory": true
+        },
+        {
             "id": "se.infomaker.textanalyzer",
             "name": "textanalyzer",
             "url": "http://localhost:5001/index.js",
