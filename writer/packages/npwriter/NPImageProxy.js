@@ -1,6 +1,6 @@
 import {FileProxy} from 'substance'
 import FileService from './FileService'
-
+import isString from 'lodash/isString'
 
 class NPImageProxy extends FileProxy {
 
@@ -15,10 +15,17 @@ class NPImageProxy extends FileProxy {
         this.fileService = new FileService(this.context.api)
         this.fileNode = fileNode
         // used locally e.g. after drop or file dialog
-        this.file = fileNode.data
-        if (this.file) {
-            this._fileUrl = URL.createObjectURL(this.file)
+
+        // When an url (String) is given as the data an uri needs to be 'uploaded'
+        if (isString(fileNode.data)) {
+            this.uri = fileNode.data
+        } else {
+            this.file = fileNode.data
+            if (this.file) {
+                this._fileUrl = URL.createObjectURL(this.file)
+            }
         }
+
         // TODO: this should be consistent: either always fetch the url or never
         this.url = fileNode.url
         if (!this.url && fileNode.uuid) {
@@ -49,7 +56,8 @@ class NPImageProxy extends FileProxy {
     }
 
     sync() {
-        if (!this.uuid && this.file) {
+
+        if (!this.uuid && this.file) { // regular file upload
             return new Promise((resolve, reject) => {
 
                 const params = {
@@ -58,8 +66,6 @@ class NPImageProxy extends FileProxy {
 
                 this.fileService.uploadFile(this.file, params)
                     .then((xmlString) => {
-
-
                         // Do we really need to set uuid on ximimage node? Enough to do in converter?
 
                         // const ximimageNode = document.get(this.fileNode.parentNodeId)
@@ -77,6 +83,8 @@ class NPImageProxy extends FileProxy {
                         reject(e)
                     })
             })
+        } else if (!this.uuid && this.uri) { // uri-based upload
+            console.info('TODO: implement upload based on URI instead of file')
         } else {
             // console.log("Get url for", this.uuid);
             // this.fetchUrl()
