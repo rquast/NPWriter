@@ -34,12 +34,7 @@ class Api {
         this.article = new Article(this)
         this.browser = new Browser(this)
         this.ui = new Ui(this)
-<<<<<<< HEAD
-        this.drop = new Drop()
         this.upload = new Upload(this)
-=======
-        this.upload = new Upload()
->>>>>>> Remove legacy code.
         this.exceptions = Exceptions
         this.configurator = configurator
         this.concept = Concept
