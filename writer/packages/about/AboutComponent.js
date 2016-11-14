@@ -11,7 +11,7 @@ class AboutComponent extends Component {
             this.getLabel('version')
         )
     }
-    
+
     render($$) {
         return $$('div')
             .addClass('sc-np-about-popover')
@@ -38,7 +38,7 @@ class AboutComponent extends Component {
                 ]).css('text-align', 'right'),
                 $$('div').append(
                     $$('button')
-                        .addClass('btn-secondary')
+                        .addClass('sc-np-btn btn-secondary')
                         .append(
                             this.getLabel('Ok')
                         )
