@@ -6,7 +6,7 @@
             "id": "se.infomaker.youtubeembed",
             "name": "youtubeembed",
             "url": "http://localhost:3000/index.js",
-            "enabled": true,
+            "enabled": false,
             "mandatory": false
         },
         {
@@ -15,7 +15,7 @@
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
             "style": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/style.css",
             "enabled": true,
-            "mandatory": true
+            "mandatory": false
         },
         {
             "id": "se.infomaker.ximplace",
@@ -23,10 +23,17 @@
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
             "style": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/style.css",
             "enabled": true,
-            "mandatory": true,
+            "mandatory": false,
             "data": {
                 "googleMapAPIKey": "AIzaSyB0pmf9RAml2HL3AgiB_yYTwIeMILqQ_1w"
             }
+        },
+        {
+            "id": "se.infomaker.ximimage",
+            "name": "ximimage",
+            "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
+            "mandatory": false,
+            "enabled": true
         },
         {
             "id": "se.infomaker.publishflow",
@@ -48,40 +55,28 @@
             "name": "textanalyzer",
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
             "mandatory": false,
-            "enabled": true,
-            "data": {
-                "foo": "bar"
-            }
+            "enabled": true
         },
         {
             "id": "se.infomaker.skeleton",
             "name": "skeleton",
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
             "mandatory": false,
-            "enabled": false,
-            "data": {
-                "foo": "bar"
-            }
+            "enabled": false
         },
         {
             "id": "se.infomaker.socialembed",
             "name": "socialembed",
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
             "mandatory": false,
-            "enabled": true,
-            "data": {
-                "foo": "bar"
-            }
+            "enabled": true
         },
         {
             "id": "se.infomaker.npwriterdevkit",
             "name": "npwriterdevkit",
             "url": "http://localhost:3000/index.js",
             "mandatory": false,
-            "enabled": false,
-            "data": {
-                "foo": "bar"
-            }
+            "enabled": false
         },
         {
             "id": "se.infomaker.newspriority",
