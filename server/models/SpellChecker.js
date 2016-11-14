@@ -1,6 +1,13 @@
-var Nodehun = require('nodehun');
 var fs = require('fs');
 var path = require('path');
+
+var Nodehun;
+
+try {
+    Nodehun = require('nodehun');
+} catch (e) {
+    Nodehun = function() {};
+}
 
 /**
  *  @param {String|ByteArray} dict loaded dict file
