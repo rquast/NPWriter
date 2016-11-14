@@ -11,9 +11,14 @@
 
         font-size: 18px;
 
-        &.img {
+        &.fa {
+            display: block;
             text-align: center;
+        }
+
+        &.img {
             vertical-align: middle;
+            text-align: center;
             background-repeat: no-repeat;
             opacity: 0.8;
         }
