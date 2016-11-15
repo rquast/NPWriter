@@ -38,7 +38,7 @@ class ContextMenu extends Toolbox {
     }
 
     getActiveToolGroupNames() {
-        return ['context-menu-primary', 'context-menu-document']
+        return ['context-menu-primary']
     }
 
     showDisabled() {
