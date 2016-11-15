@@ -103,8 +103,8 @@ module.exports = {
                 to: 'server.js'
             },
             {
-                from: 'data/assets',
-                to: 'data/assets'
+                from: 'writer/assets',
+                to: 'writer/assets'
             }
         ])
     ]
