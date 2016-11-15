@@ -1,6 +1,5 @@
 import {FileProxy} from 'substance'
 import FileService from './FileService'
-import isString from 'lodash/isString'
 
 class NPImageProxy extends FileProxy {
 
@@ -16,15 +15,12 @@ class NPImageProxy extends FileProxy {
         this.fileNode = fileNode
         // used locally e.g. after drop or file dialog
 
-        // When an url (String) is given as the data an uri needs to be 'uploaded'
-        if (isString(fileNode.data)) {
-            this.uri = fileNode.data
-        } else {
-            this.file = fileNode.data
-            if (this.file) {
-                this._fileUrl = URL.createObjectURL(this.file)
-            }
+        this.file = fileNode.data
+        if (this.file) {
+            this._fileUrl = URL.createObjectURL(this.file)
         }
+
+        this.sourceUrl = fileNode.sourceUrl
 
         // TODO: this should be consistent: either always fetch the url or never
         this.url = fileNode.url
@@ -38,12 +34,13 @@ class NPImageProxy extends FileProxy {
         if (this.url) {
             return this.url
         }
-        if (this.uri) {
-            return this.uri
-        }
         // if we have a local file, use it's data URL
         if (this._fileUrl) {
             return this._fileUrl
+        }
+        // If we have an url, but not uploaded yet
+        if (this.sourceUrl) {
+            return this.sourceUrl
         }
         // no URL available
         return ""
@@ -73,20 +70,20 @@ class NPImageProxy extends FileProxy {
                         resolve()
                     })
                     .catch((e) => {
-                        console.log("Error uploading", e);
+                        console.error("Error uploading", e);
                         reject(e)
                     })
             })
-        } else if (!this.uuid && this.uri) { // uri-based upload
+        } else if (!this.uuid && this.sourceUrl) { // url-based upload
 
             return new Promise((resolve, reject) => {
-                this.fileService.uploadURL(this.uri, this.fileNode.getImType())
+                this.fileService.uploadURL(this.sourceUrl, this.fileNode.getImType())
                     .then((xmlString) => {
                         this.fileNode.handleDocument(xmlString);
                         resolve()
                     })
                     .catch((e) => {
-                        console.log("Error uploading", e);
+                        console.error("Error uploading", e);
                         reject(e)
                     })
             })
