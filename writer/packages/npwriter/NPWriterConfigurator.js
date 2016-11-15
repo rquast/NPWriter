@@ -21,7 +21,11 @@ class NPWriterConfigurator extends Configurator {
      * @returns {LabelProvider}
      */
     getLabelProvider() {
-        return new LabelProvider(this.config.labels, this.config.writerConfigFile.labelLanguage)
+        let labelLanguage = 'en'
+        if(this.config.writerConfigFile && this.config.writerConfigFile.labelLanguage) {
+            labelLanguage = this.config.writerConfigFile.labelLanguage
+        }
+        return new LabelProvider(this.config.labels, labelLanguage)
     }
 
     /**
