@@ -6,8 +6,19 @@ var Nodehun;
 try {
     Nodehun = require('nodehun');
 } catch (e) {
-    Nodehun = function() {};
+    console.log("Did not find 'nodehun', using dummy implementation");
+    Nodehun = NodehunDummy
 }
+
+function NodehunDummy() {
+
+}
+
+NodehunDummy.prototype.isCorrect = function() {
+    return true;
+}
+
+
 
 /**
  *  @param {String|ByteArray} dict loaded dict file
