@@ -11,6 +11,7 @@ import {BasePackage,
 
 import StrongXmlConverter from '../strong/StrongXMLConverter'
 import EmphasisXmlConverter from '../emphasis/EmphasisXMLConverter'
+import LinkXMLConverter from '../link/LinkXMLConverter'
 
 import NewsMLArticle from './NewsMLArticle'
 import NewsMLImporter from './NewsMLImporter'
@@ -79,6 +80,7 @@ export default {
         config.addImporter('newsml', NewsMLImporter)
         config.addExporter('newsml', NewsMLExporter)
 
+        config.addConverter('newsml', LinkXMLConverter)
         config.addConverter('newsml', StrongXmlConverter)
         config.addConverter('newsml', EmphasisXmlConverter)
 
