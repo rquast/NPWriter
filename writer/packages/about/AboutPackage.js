@@ -8,7 +8,7 @@ export default {
         config.addPopover(
             'npwriterabout',
             {
-                icon: '/data/assets/icon.svg',
+                icon: '/writer/assets/icon.svg',
                 align: 'left',
                 css: {
                     width: '30px',

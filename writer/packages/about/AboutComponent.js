@@ -17,7 +17,7 @@ class AboutComponent extends Component {
             .addClass('sc-np-about-popover')
             .append([
                 $$('img').attr({
-                    src: '/data/assets/icon.svg',
+                    src: '/writer/assets/icon.svg',
                     width: '18px'
                 }),
                 $$('h2').append(
