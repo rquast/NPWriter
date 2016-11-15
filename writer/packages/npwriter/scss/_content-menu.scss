@@ -22,11 +22,31 @@
 .sm-target-content-top-menu {
     padding: 5px 10px;
 }
+
 .sc-content-menu {
     position: absolute;
     top: -15px;
     left: 40px;
     z-index: 10;
+
+    .sm-target-content-top-menu {
+        padding: 0 10px;
+        background: #f9f9f9;
+        border-bottom: 1px solid #dddddd;
+
+        &:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        button {
+            &.se-tool {
+                padding: 8px;
+                float: left;
+            }
+        }
+    }
 
     .se-toggle {
         cursor: pointer;

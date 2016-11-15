@@ -112,6 +112,7 @@ class App extends Component {
 
         const api = this.api
 
+
         // Expose classes and endpoint on window.writer
         api.apiManager.expose('api', this.api)
         api.apiManager.expose('NilUUID', NilUUID)
@@ -138,6 +139,9 @@ class App extends Component {
                         this.addDefaultConfiguratorComponent()
 
                         var result = api.newsItem.setSource(xmlStr, {});
+
+                        // Locale for moment
+                        moment.locale(this.configurator.config.writerConfigFile.language)
 
                         if (this.editorSession) this.editorSession.dispose()
                         this.editorSession = new EditorSession(result.idfDocument, {
