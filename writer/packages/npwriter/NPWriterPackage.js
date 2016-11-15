@@ -93,6 +93,5 @@ export default {
         config.import(NPWContentMenuPackage)
         config.import(NPWContextMenuPackage)
         config.import(NPWOverlayMenuPackage)
-
     }
 }

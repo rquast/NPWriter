@@ -23,12 +23,15 @@ class SaveHandler {
      * @returns {*}
      */
     saveDocument() {
-        const uuid = this.api.newsItemArticle.documentElement.getAttribute('guid');
-        const exporter = this.configurator.createExporter('newsml', { api: this.api })
-        const exportedArticle = exporter.exportDocument(this.editorSession.getDocument(), this.api.newsItemArticle)
+
 
         this.editorSession.fileManager.sync()
         .then(() => {
+
+            const uuid = this.api.newsItemArticle.documentElement.getAttribute('guid');
+            const exporter = this.configurator.createExporter('newsml', { api: this.api })
+            const exportedArticle = exporter.exportDocument(this.editorSession.getDocument(), this.api.newsItemArticle)
+
             if(uuid) {
                 return this.updateNewsItem(uuid, exportedArticle)
             } else {

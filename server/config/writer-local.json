@@ -11,10 +11,17 @@
             "mandatory": true
         },
         {
+            "id": "se.infomaker.ximauthor",
+            "name": "ximauthor",
+            "url": "http://localhost:5001/index.js",
+            "enabled": true,
+            "mandatory": false
+        },
+        {
             "id": "se.infomaker.youtubeembed",
             "name": "youtubeembed",
-            "url": "http://localhost:5002/youtubeembed.build.js",
-            "enabled": false,
+            "url": "http://localhost:5001/index.js",
+            "enabled": true,
             "mandatory": false
         },
         {
@@ -108,9 +115,9 @@
             "name": "ximimage",
             "url": "http://localhost:5001/index.js",
             "mandatory": false,
-            "enabled": false,
+            "enabled": true,
             "data": {
-                "fields":[
+                "fields": [
                     {
                         "name": "caption",
                         "label": "Caption",
