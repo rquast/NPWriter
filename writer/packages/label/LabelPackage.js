@@ -19,5 +19,9 @@ export default {
             en: 'Select all',
             sv: 'Markera allt'
         })
+        config.addLabel('paragraph', {
+            en: 'Body',
+            sv: 'Brödtext'
+        })
     }
 };
