@@ -1,6 +1,24 @@
-var Nodehun = require('nodehun');
 var fs = require('fs');
 var path = require('path');
+
+var Nodehun;
+
+try {
+    Nodehun = require('nodehun');
+} catch (e) {
+    console.log("Did not find 'nodehun', using dummy implementation");
+    Nodehun = NodehunDummy
+}
+
+function NodehunDummy() {
+
+}
+
+NodehunDummy.prototype.isCorrect = function() {
+    return true;
+}
+
+
 
 /**
  *  @param {String|ByteArray} dict loaded dict file
