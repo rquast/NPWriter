@@ -96,7 +96,7 @@
             "name": "skeleton",
             "url": "http://localhost:5001/index.js",
             "mandatory": false,
-            "enabled": true,
+            "enabled": false,
             "data": {
                 "foo": "bar"
             }
