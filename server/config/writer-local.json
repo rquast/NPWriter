@@ -1,6 +1,7 @@
 {
     "newsItemTemplateId": "30eae1c0-c640-4053-b114-05c64e28bbe7",
-    "language": "en_US",
+    "language": "sv_SE",
+    "labelLanguage": "sv",
     "plugins": [
         {
             "id": "se.infomaker.publishflow",
