@@ -7,7 +7,7 @@ class FileService {
 
     getUrl(uuid, imType) {
 
-        return this.api.router.get('/api/image/url/' + uuid+'?imType='+imType)
+        return this.api.router.get('/api/binary/url/' + uuid+'?imType='+imType)
 
             .then(response => response.text())
 
@@ -28,6 +28,13 @@ class FileService {
     uploadFile(file, params) {
         return this.api.upload.uploadFile(file, params)
 
+    }
+
+    uploadURL(url, imType) {
+        const queryParams = {
+            imType: imType
+        }
+        return this.api.upload.uploadUri(url, queryParams)
     }
 }
 export default FileService

@@ -99,16 +99,24 @@ class Upload {
 
 
     uploadUri(uri, params, observer) {
-        if (observer.preview) {
-            observer.preview(null);
-        }
 
-        if (observer.progress) {
-            observer.progress(0);
-        }
+        var router = this.api.router;
 
-        var router = this.router;
+        return new Promise((resolve, reject) => {
 
+            router.get('/api/binary', {source: uri, imType: params.imType})
+                .then(response => router.checkForOKStatus(response))
+                .then(response => response.text())
+                .then(function (xmlString) {
+                    resolve(xmlString)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+
+        })
+    }
+/*
         this.router.get('/api/image', {source: uri}).done(function (data) {
             if (observer.progress) {
                 observer.progress(100);
@@ -161,7 +169,7 @@ class Upload {
                 observer.error(e);
             }
         });
-    }
+    }*/
 }
 
 

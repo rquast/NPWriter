@@ -38,6 +38,9 @@ class NPImageProxy extends FileProxy {
         if (this.url) {
             return this.url
         }
+        if (this.uri) {
+            return this.uri
+        }
         // if we have a local file, use it's data URL
         if (this._fileUrl) {
             return this._fileUrl
@@ -66,16 +69,7 @@ class NPImageProxy extends FileProxy {
 
                 this.fileService.uploadFile(this.file, params)
                     .then((xmlString) => {
-                        // Do we really need to set uuid on ximimage node? Enough to do in converter?
-
-                        // const ximimageNode = document.get(this.fileNode.parentNodeId)
-                        // try {
-                        // document.set([ximimageNode.id, 'uuid'], uuid);
-                        // } catch(e) {
-                        //
-                        // }
                         this.fileNode.handleDocument(xmlString);
-                        console.log('Finished uploading file', this.fileNode.id)
                         resolve()
                     })
                     .catch((e) => {
@@ -84,7 +78,20 @@ class NPImageProxy extends FileProxy {
                     })
             })
         } else if (!this.uuid && this.uri) { // uri-based upload
-            console.info('TODO: implement upload based on URI instead of file')
+
+            return new Promise((resolve, reject) => {
+                this.fileService.uploadURL(this.uri, this.fileNode.getImType())
+                    .then((xmlString) => {
+                        this.fileNode.handleDocument(xmlString);
+                        resolve()
+                    })
+                    .catch((e) => {
+                        console.log("Error uploading", e);
+                        reject(e)
+                    })
+            })
+
+
         } else {
             // console.log("Get url for", this.uuid);
             // this.fetchUrl()

@@ -116,9 +116,9 @@
             "name": "ximimage",
             "url": "http://localhost:5001/index.js",
             "mandatory": false,
-            "enabled": false,
+            "enabled": true,
             "data": {
-                "fields":[
+                "fields": [
                     {
                         "name": "caption",
                         "label": "Caption",
