@@ -19,8 +19,8 @@ export default {
         )
 
         config.addLabel('version', {
-            en: "3.0 alpha",
-            sv: "3.0 alpha"
+            en: "NP Writer 3.0 alpha",
+            sv: "NP Writer 3.0 alpha"
         })
 
         config.addLabel('about-header', {
