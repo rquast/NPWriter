@@ -12,6 +12,14 @@
             "mandatory": true
         },
         {
+            "id": "se.infomaker.contentrelations",
+            "name": "contentrelations",
+            "url": "http://localhost:5001/index.js",
+            "style": "http://localhost:5001/style.css",
+            "enabled": true,
+            "mandatory": false
+        },
+        {
             "id": "se.infomaker.ximauthor",
             "name": "ximauthor",
             "url": "http://localhost:5001/index.js",
