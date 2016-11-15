@@ -14,14 +14,15 @@
             "id": "se.infomaker.ximauthor",
             "name": "ximauthor",
             "url": "http://localhost:5001/index.js",
+            "style": "http://localhost:5001/style.css",
             "enabled": true,
-            "mandatory": false
+            "mandatory": true
         },
         {
             "id": "se.infomaker.youtubeembed",
             "name": "youtubeembed",
-            "url": "http://localhost:5001/index.js",
-            "enabled": true,
+            "url": "http://localhost:5002/youtubeembed.build.js",
+            "enabled": false,
             "mandatory": false
         },
         {
@@ -115,9 +116,9 @@
             "name": "ximimage",
             "url": "http://localhost:5001/index.js",
             "mandatory": false,
-            "enabled": true,
+            "enabled": false,
             "data": {
-                "fields": [
+                "fields":[
                     {
                         "name": "caption",
                         "label": "Caption",
