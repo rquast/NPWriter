@@ -9,6 +9,9 @@ import {BasePackage,
     SpellCheckPackage
 } from 'substance'
 
+import StrongXmlConverter from '../strong/StrongXMLConverter'
+import EmphasisXmlConverter from '../emphasis/EmphasisXMLConverter'
+
 import NewsMLArticle from './NewsMLArticle'
 import NewsMLImporter from './NewsMLImporter'
 import NewsMLExporter from './NewsMLExporter'
@@ -30,6 +33,9 @@ import NPWContentMenuPackage from '../npw-content-menu/NPWContentMenuPackage'
 import NPWOverlayMenuPackage from '../npw-overlay-menu/NPWOverlayMenuPackage'
 import NotificationPackage from '../notification/NotificationPackage'
 import FormSearchPackage from '../form-search/FormSearchPackage'
+
+
+
 
 export default {
     name: 'npwriter',
@@ -72,6 +78,9 @@ export default {
         // Override Importer/Exporter
         config.addImporter('newsml', NewsMLImporter)
         config.addExporter('newsml', NewsMLExporter)
+
+        config.addConverter('newsml', StrongXmlConverter)
+        config.addConverter('newsml', EmphasisXmlConverter)
 
         // File store extensions
         config.addNode(NPFileNode)
