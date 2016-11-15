@@ -136,7 +136,7 @@ class App extends Component {
 
                         var result = api.newsItem.setSource(xmlStr, {});
 
-
+                        if (this.editorSession) this.editorSession.dispose()
                         this.editorSession = new EditorSession(result.idfDocument, {
                             configurator: this.configurator,
                             lang: this.configurator.config.writerConfigFile.language,
@@ -144,7 +144,6 @@ class App extends Component {
                                 api: this.api
                             }
                         })
-
                         // ATTENTION: we need to update the API as well to use the fresh editorSession
                         api.editorSession = this.editorSession
 
@@ -213,7 +212,8 @@ class App extends Component {
      * @param idfDocument
      */
     replaceDoc({newsItemArticle, idfDocument}) {
-        this.newsItemArticle = newsItemArticle;
+        this.newsItemArticle = newsItemArticle
+        if (this.editorSession) this.editorSession.dispose()
         this.editorSession = new EditorSession(idfDocument, {
             configurator: this.configurator,
             lang: this.configurator.config.writerConfigFile.language,
@@ -225,7 +225,7 @@ class App extends Component {
         this.editorSession.saveHandler = this.getSaveHandler()
         this.api.init(newsItemArticle, this.editorSession, this.refs)
 
-        this.rerender();
+        this.rerender()
     }
 
     render($$) {

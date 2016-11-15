@@ -6,7 +6,6 @@ import Events from './Events'
 import Document from './Document'
 import NewsItem from './NewsItem'
 import Exceptions from './Exceptions'
-import Drop from './Drop'
 import Upload from './Upload'
 import Article from './Article'
 import Browser from './Browser'
@@ -35,7 +34,6 @@ class Api {
         this.article = new Article(this)
         this.browser = new Browser(this)
         this.ui = new Ui(this)
-        this.drop = new Drop()
         this.upload = new Upload(this)
         this.exceptions = Exceptions
         this.configurator = configurator
