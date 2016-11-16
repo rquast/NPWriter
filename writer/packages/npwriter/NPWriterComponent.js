@@ -64,6 +64,11 @@ class NPWriter extends AbstractEditor {
             // console.log('...current change     ', data._currentChange);
             // console.log('-----------------------------------------------------')
 
+            if (data._info.history === false) {
+                // Don't trigger document change for internal changes that the user cannot undo/redo
+                return
+            }
+
             this.props.api.events.documentChanged(null, {
                 type: 'edit',
                 action: 'edit',
