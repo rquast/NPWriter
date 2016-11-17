@@ -36,13 +36,15 @@ describe('Import and export document results in no loss or change', () => {
         const importer = configurator.createImporter('newsml')
 
         try {
-            const xmlDocument = Helper.getContentFromExampleDocument()
+            const xmlDocument = introduceControlCharacters(Helper.getContentFromExampleDocument(), "regular", "r\be\x03gular")
             const document = importer.importDocument(xmlDocument)
 
             const exporter = configurator.createExporter('newsml')
             const exportedArticle = exporter.exportDocument(document, Helper.getParsedExampleDocument())
 
-            // console.log(xmlDocument)//.replace(/\ /g,''));
+            expect(exportedArticle).toMatch(/regular/)
+
+             //console.log(exportedArticle)//.replace(/\ /g,''));
             // console.log(exportedArticle)//.replace(/\ /g,''));
 
             // expect(xmlDocument.replace(/\s/g,'')).toEqual(exportedArticle.replace(/\s/g,''))
@@ -65,3 +67,7 @@ describe('Import and export document results in no loss or change', () => {
 
 
 })
+
+function introduceControlCharacters(text, source, target) {
+    return text.replace(source, target)
+}
