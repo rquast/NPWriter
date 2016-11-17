@@ -66,6 +66,9 @@ class NewsMLExporter extends XMLExporter {
 
 
     exportDocument(doc, newsItemArticle) {
+
+        recursivelyRemoveInvalidXml(doc);
+
         this.state.doc = doc
         const $$ = this.$$
         var groupContainer = newsItemArticle.querySelector('idf');
@@ -81,6 +84,9 @@ class NewsMLExporter extends XMLExporter {
     convert(doc, options, newsItem) {
 
         console.info("convert method is deprecated, use exportDocument")
+
+        recursivelyRemoveInvalidXml(doc);
+
         this.state.doc = doc;
         var $$ = this.$$;
 
@@ -98,6 +104,36 @@ class NewsMLExporter extends XMLExporter {
 }
 
 export default NewsMLExporter
+
+function recursivelyRemoveInvalidXml(doc) {
+    for (var item in doc.data.nodes) {
+        if (doc.data.nodes.hasOwnProperty(item)) {
+            var node = doc.data.nodes[item];
+            if (node.content) {
+                node.content = removeControlCodes(node.content);
+            }
+        }
+    }
+}
+
+/**
+ * Removes for XML illegal control codes from text (range from 0x00 - 0x1F with the exception of
+ * TAB, CR and LF). See http://www.w3.org/TR/xml/#charsets
+ * @param {string} text to process
+ * @return {string} Text without control codes
+ */
+function removeControlCodes(text) {
+    var regex = new RegExp("[\x00-\x08\x0b\x0c\x0e-\x1f]", "g");
+    if (text !== undefined) {
+        if (regex.exec(text) != null) {
+            console.log("Removing illegal XML character in content");
+            return text.replace(regex, "");
+        }
+    }
+
+    return text;
+}
+
 /*
  function NewsMLExporter(writerConfig) {
  var DocumentSchema = require('substance/model/DocumentSchema');
