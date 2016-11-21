@@ -60,6 +60,14 @@ class Events {
      *
      * @private
      *
+     * @example
+     * Data should be
+     * {
+            type: 'edit',
+            action: 'edit',
+            data: data
+        }
+     *
      * @param {string} name Plugin type to not send event to, leave it empty to send to all
      * @param {string} eventType The event type to trigger
      * @param {*} data Event specific data
@@ -142,3 +150,4 @@ class Events {
 
 }
 export default Events
+

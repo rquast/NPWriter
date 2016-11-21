@@ -1,9 +1,8 @@
-var moment = require('moment')
-
-var NilUUID = require('writer/utils/NilUUID');
-
+import moment from 'moment'
+import Event from '../utils/Event'
 const HST_KEY = "__history__"
 const HST_MAX_LENGTH = 15
+
 
 /**
  * @class Api.History
@@ -60,30 +59,28 @@ class History {
             return false;
         }
 
-        if (!historyList) {
-            historyList = this.getHistory();
-        }
-
-        let doc = historyList.find((doc) => {
-            return doc.id == id;
-        });
-        return doc || this.createAndAddEmptyHistory(id, historyList);
+        let doc = this.getHistoryForArticle(id)
+        return doc || this.createAndAddEmptyHistory(id);
     }
 
 
-    createAndAddEmptyHistory(id, historyList) {
 
+
+    createAndAddEmptyHistory(id) {
+
+        let articleHistory = []
         if (!this.isAvailable()) {
             return false;
         }
         let history = {id: id, versions: [], updated: moment()};
 
         // If this is temporary, add a property to keep track
-        if (this.api.hasTemporaryId()) {
+        if (this.api.newsItem.hasTemporaryId()) {
             history['unsavedArticle'] = true;
         }
 
-        historyList.push(history)
+        articleHistory.push(history)
+
         return history;
     }
 
@@ -93,15 +90,12 @@ class History {
      * @param id
      */
     deleteHistory(id) {
-        let historyForAllArticles = this.getHistory();
 
-        // Keep the other UUIDs
-        let historyToBeSaved = historyForAllArticles.filter(function (history) {
-            return history.id !== id
-        }.bind(this))
+        if (!this.isAvailable()) {
+            return false;
+        }
 
-        // Save to local storage
-        this.saveHistory(historyToBeSaved)
+        this.storage.removeItem(HST_KEY+id)
     }
 
 
@@ -114,12 +108,32 @@ class History {
             return false;
         }
 
+        const history = Object.keys(this.storage).filter((key) => {
+            return key.indexOf('__history__') >= 0
+        }).map((historyKey)=> {
+            return this.storage[historyKey]
+        }).map((article) => {
+            try {
+                return JSON.parse(article)
+            } catch(e) {
+                this.api.ui.showNotification('history', null, "Error loading history");
+            }
+
+        })
+        return (!history) ? [] : history;
+    }
+
+    getHistoryForArticle(id) {
+        if (!this.isAvailable()) {
+            return false;
+        }
+
         try {
-            let historyJson = this.storage.getItem(HST_KEY)
-            return (!historyJson) ? [] : JSON.parse(historyJson);
+            let articleHistory = this.storage.getItem(HST_KEY+id)
+            return (!articleHistory) ? null : JSON.parse(articleHistory);
         }
         catch (e) {
-            this.api.ui.showNotification('history', null, this.api.i18n.t("Error loading history"));
+            this.api.ui.showNotification('history', null, "Error loading history");
         }
     }
 
@@ -138,18 +152,18 @@ class History {
             var dateA = moment(a.updated),
                 dateB = moment(b.updated)
 
-            if(dateA.isBefore(dateB)) {
+            if (dateA.isBefore(dateB)) {
                 return -1;
             } else {
                 return 1;
             }
         });
-        versions.splice(0, versions.length/2);
+        versions.splice(0, versions.length / 2);
 
         try {
             this.saveHistory(versions)
         } catch (e) {
-            this.api.ui.showNotification('history', null, this.api.i18n.t("Could not save version to local storage"));
+            this.api.ui.showNotification('history', null, "Could not save version to local storage");
         }
     }
 
@@ -159,15 +173,21 @@ class History {
      * @param history
      * @returns {boolean}
      */
-    saveHistory(history) {
+    saveHistory(id, history) {
         if (!this.isAvailable()) {
             return false;
         }
 
         try {
             let historyJson = JSON.stringify(history)
-            this.storage.setItem(HST_KEY, historyJson)
-            this.api.triggerEvent(null, 'history:saved', {});
+            this.storage.setItem(HST_KEY+id, historyJson)
+
+            const eventData = {
+                type: 'add',
+                action: 'add',
+                data: null
+            }
+            this.api.events.triggerEvent(null, Event.HISTORY_SAVED, eventData);
         }
         catch (e) {
             throw e;
@@ -180,7 +200,8 @@ class History {
             return false;
         }
 
-        let historyObj = this.getHistory()
+        let id = this.api.newsItem.getIdForArticle()
+
 
         var _lsTotal = 0, _xLen, _x;
 
@@ -188,11 +209,9 @@ class History {
             _xLen = ((localStorage[_x].length + _x.length) * 2);
             _lsTotal += _xLen;
             console.info(_x.substr(0, 50) + " using " + (_xLen / 1024).toFixed(2) + " KB")
-        };
+        }
 
-
-        let id = this.api.getIdForArticle()
-        let doc = this.get(id, historyObj)
+        let doc = this.get(id)
 
         // Don't grow the version list too much
         if (doc.versions.length >= HST_MAX_LENGTH) {
@@ -201,7 +220,7 @@ class History {
 
         // Check if version already exists among versions
         let existingVersion = doc.versions.find((version) => {
-            return version.src === this.api.getSource();
+            return version.src === this.api.newsItem.getSource();
         });
 
         if (!existingVersion) {
@@ -209,18 +228,18 @@ class History {
             doc.updated = moment()
             doc.versions.push({
                 time: moment(),
-                src: this.api.getSource(),
+                src: this.api.newsItem.getSource(),
                 action: action || null
             })
         }
 
         try {
-            this.saveHistory(historyObj)
+            this.saveHistory(id, doc)
         } catch (e) {
             if (e instanceof window.DOMException) {
                 this.cleanAndRetry(historyObj);
             } else {
-                this.api.ui.showNotification('history', null, this.api.i18n.t(e.message));
+                this.api.ui.showNotification('history', null, e.message);
             }
         }
 
@@ -230,10 +249,10 @@ class History {
         try {
             this.cleanOldVersions(historyObj);
         } catch (e) {
-            this.api.ui.showNotification('history', null, this.api.i18n.t("Error saving version to local storage"));
+            this.api.ui.showNotification('history', null, "Error saving version to local storage");
         }
         finally {
-            this.api.ui.showNotification('history', null, this.api.i18n.t("Error"));
+            this.api.ui.showNotification('history', null, "Error");
         }
 
     }
@@ -241,4 +260,4 @@ class History {
 
 }
 
-module.exports = History
+export default History

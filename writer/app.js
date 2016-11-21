@@ -219,8 +219,10 @@ class App extends Component {
      * @param idfDocument
      */
     replaceDoc({newsItemArticle, idfDocument}) {
+
         this.newsItemArticle = newsItemArticle
         if (this.editorSession) this.editorSession.dispose()
+
         this.editorSession = new EditorSession(idfDocument, {
             configurator: this.configurator,
             lang: this.configurator.config.writerConfigFile.language,
@@ -237,7 +239,6 @@ class App extends Component {
 
     render($$) {
         var el = $$('div').addClass('sc-app').ref('app')
-
         switch (this.state.status) {
 
             case STATUS_HAS_ERROR:
@@ -275,6 +276,31 @@ class App extends Component {
 export default App
 
 window.onload = () => {
+
+    // if(window.PRODUCTION) {
+        if('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('serviceworker.js')
+                .then((registration) => {
+                    console.log("Registration done");
+                    // showNotification()
+                })
+                .catch((error) => {
+                    console.log("Registrsation of serviceworker failed")
+                })
+        }
+    // }
+
+
+    //
+    // function showNotification() {
+    //     Notification.requestPermission(function (result) {
+    //         if (result === 'granted') {
+    //             navigator.serviceWorker.ready.then(function (registration) {
+    //                 registration.showNotification('Service worker is installed and ready to use');
+    //             });
+    //         }
+    //     });
+    // }
 
     App.mount({}, document.body)
 }

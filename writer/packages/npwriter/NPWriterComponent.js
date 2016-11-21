@@ -6,6 +6,8 @@ import DialogMessageComponent from '../dialog/DialogMessageComponent'
 import BarComponent from './../../components/bar/BarComponent'
 import DialogPlaceholder from '../dialog/DialogPlaceholder'
 import Event from '../../utils/Event'
+import debounce from '../../utils/Debounce'
+import idGenerator from '../../utils/IdGenerator'
 
 class NPWriter extends AbstractEditor {
 
@@ -44,18 +46,31 @@ class NPWriter extends AbstractEditor {
         })
     }
 
+
+    setTemporaryId() {
+        if (!this.temporaryArticleID) {
+            this.temporaryArticleID = idGenerator();
+        }
+    }
+
     didMount() {
         super.didMount()
 
         this.spellCheckManager.runGlobalCheck()
         this.editorSession.onUpdate(this.editorSessionUpdated, this)
 
+        this.addVersion = debounce(() => {
+            this.props.api.history.snapshot();
+        }, 1000)
 
     }
 
 
     editorSessionUpdated(data) {
         if (data._change) {
+
+            this.addVersion()
+
             // console.log('...has unsaved changes', data._hasUnsavedChanges)
             // console.log('...is transacting     ', data._isTransacting)
             // console.log('...is saving          ', data._isSaving)
@@ -85,6 +100,12 @@ class NPWriter extends AbstractEditor {
 
 
     render($$) {
+
+
+        if(!this.props.api.browser.getHash()) {
+            this.setTemporaryId();
+        }
+
         const el = $$('div')
             .addClass('sc-np-writer').ref('npwriter')
 
@@ -98,7 +119,6 @@ class NPWriter extends AbstractEditor {
             this._renderModalContainer($$),
             this._renderNotificationArea($$)
         )
-
 
 
         return el

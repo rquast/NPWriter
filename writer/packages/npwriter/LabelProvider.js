@@ -12,7 +12,12 @@ class LabelProvider {
     getLabel(name) {
         let labels = this.labels[this.lang]
         if (!labels) return name
-        return labels[name] || name
+
+        if(labels[name]) {
+            return labels[name]
+        }
+        // console.warn('No label exists for', name)
+        return name
     }
 }
 

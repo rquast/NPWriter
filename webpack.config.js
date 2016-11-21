@@ -68,6 +68,10 @@ module.exports = {
                 to: "index.html"
             },
             {
+                from: "writer/serviceworker.js",
+                to: "serviceworker.js"
+            },
+            {
                 from: "writer/styles/app.css",
                 to: "styles/app.css"
             }
