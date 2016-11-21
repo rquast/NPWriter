@@ -52,7 +52,7 @@ class BarIconComponent extends Component {
 
             // HACK: Avoid having the element detached before calculations
             window.setTimeout(() => {
-                this.setState({
+                this.extendState({
                     active: !this.state.active
                 })
             }, 50)

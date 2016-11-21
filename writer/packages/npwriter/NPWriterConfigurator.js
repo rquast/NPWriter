@@ -48,7 +48,7 @@ class NPWriterConfigurator extends Configurator {
      */
     addPopover(id, def, component) {
         def.align = def.align === 'left' ? 'left' : 'right'
-        def.button = def.button === true ? true : false
+        def.button = def.button || false
 
         if (!def.icon) {
             throw new Error('Popover trigger must have a default icon')

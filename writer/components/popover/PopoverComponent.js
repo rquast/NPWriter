@@ -1,4 +1,6 @@
 import {Component} from 'substance'
+import BarIconComponent from './../bar-icon/BarIconComponent'
+import ButtonComponent from './../button/ButtonComponent'
 import './scss/popover.scss'
 
 class PopoverComponent extends Component {
@@ -9,37 +11,93 @@ class PopoverComponent extends Component {
 
     getInitialState() {
         return {
-            active: null,
+            enabled: true,
+            active: false,
+            icon: this.props.popover.icon || null,
+            button: this.props.popover.button || null,
+            statusText: this.props.popover.statusText || null,
             triggerElement: null
         }
     }
 
-    willReceiveProps(props) {
-        if (this.state.active === null || !props.triggerElement) {
-            this.extendState({
-                active: false
-            })
-            return false
+    render($$) {
+        let barContainerEl = $$('div')
+            .addClass('sc-np-bar-container')
+
+        if (this.state.button) {
+            barContainerEl.append(
+                this.renderTriggerButton($$)
+            )
+        }
+        else if (this.state.icon) {
+            barContainerEl.append(
+                this.renderTriggerIcon($$)
+            )
         }
 
+        if (this.state.statusText) {
+            barContainerEl.append(
+                this.renderStatusText($$)
+            )
+        }
 
-        this.extendState({
-            active: !this.state.active,
-            triggerElement: props.triggerElement
-        })
-
-        return true
+        return $$('div').append([
+            barContainerEl,
+            this.renderPopoverContent($$)
+        ])
     }
 
-    render($$) {
+    renderTriggerButton($$) {
+        return $$(ButtonComponent, {
+            contextIcon: this.state.icon,
+            label: this.state.button,
+            enabled: this.state.enabled,
+            contextClick: (evt) => this.togglePopover(evt, this.props.popover.id),
+            buttonClick: (evt) => this.buttonClick(evt, this.props.popover.id)
+        })
+        .ref('btn')
+    }
+
+    renderTriggerIcon($$) {
+        return $$(BarIconComponent, {
+            icon: this.state.icon,
+            css: this.props.popover.css,
+            enabled: this.state.enabled
+        })
+        .ref('icon')
+        .on('click', (evt) => this.togglePopover(evt))
+    }
+
+    renderStatusText($$) {
+        return $$('p')
+            .ref('statustext')
+            .addClass('sc-np-bar-item')
+            .append(
+                this.state.statusText
+            )
+    }
+
+    renderPopoverContent($$) {
         var el = $$('div')
+            .ref('popover')
             .addClass('sc-np-popover')
             .append(
                 $$('div')
-                    .addClass('sc-np-popover-top')
+                    .ref('popover_top')
+                    .addClass('sc-np-popover-arrow')
             )
             .append(
-                this.props.children
+                $$(this.props.popover.component, {
+                    popover: {
+                        setStatusText: (statusText) => this.onSetStatusText(statusText),
+                        setButtonText: (buttonText) => this.onSetButtonText(buttonText),
+                        setIcon: (iconClass) => this.onSetIcon(iconClass),
+                        disable: () => this.onSetEnabled(false),
+                        enable: () => this.onSetEnabled(true),
+                        close: () => this.closePopover()
+                    }
+                })
+                .ref('component')
             )
             .css('left', '-99999px')
 
@@ -47,9 +105,10 @@ class PopoverComponent extends Component {
             el.addClass('active');
             window.setTimeout(() => {
                 let offset = this.getOffsets(),
-                    arrow = this.el.el.querySelector("div:first-child")
+                    popover = this.el.el.querySelector("div.sc-np-popover"),
+                    arrow = this.el.el.querySelector("div.sc-np-popover-arrow")
 
-                this.el.el.style.left = offset.box + 'px'
+                popover.style.left = offset.box + 'px'
                 arrow.style.marginLeft = offset.arrow + 'px'
             }, 5)
         }
@@ -57,21 +116,76 @@ class PopoverComponent extends Component {
         return el
     }
 
+    buttonClick(evt) {
+        if (this.refs['component'].defaultAction) {
+            this.refs['component'].defaultAction(evt)
+        }
+    }
+
+    togglePopover(evt) {
+        if (this.state.active === true) {
+            this.extendState({active: false})
+        }
+        else {
+            let triggerElement = null
+
+            if (evt.target.nodeName === 'A') {
+                triggerElement = evt.target
+            }
+            else if (evt.currentTarget.nodeName === 'BUTTON') {
+                triggerElement = evt.currentTarget
+            }
+            else {
+                return
+            }
+
+            this.extendState({
+                offsetLeft: triggerElement.offsetLeft,
+                offsetWidth: triggerElement.offsetWidth,
+                active: true
+            })
+        }
+    }
+
+    onSetIcon(iconClass) {
+        this.extendState({
+            icon: iconClass
+        })
+    }
+
+    onSetStatusText(text) {
+        this.extendState({
+            statusText: text
+        })
+    }
+
+    onSetButtonText(text) {
+        this.extendState({
+            button: text
+        })
+    }
+
+    onSetEnabled(enabled) {
+        this.extendState({
+            enabled: enabled
+        })
+    }
+
     /*
      * Calculate offsets for popover box (left) and it's arrow (margin)
      */
     getOffsets() {
-        let triggerElement = this.state.triggerElement,
-            left = triggerElement.offsetLeft - (this.el.width / 2) + triggerElement.offsetWidth / 2,
+        let popoverEl = this.refs['popover'].el,
+            left = this.state.offsetLeft - (popoverEl.width / 2) + this.state.offsetWidth / 2,
             margin = 0
 
         if (left < 10) {
+            margin = left - 10
             left = 10
-            margin = triggerElement.offsetLeft + (triggerElement.offsetWidth / 2) - (this.el.el.offsetWidth / 2) - 10
         }
-        else if (left + this.el.width > document.body.clientWidth) {
+        else if (left + popoverEl.width > document.body.clientWidth) {
             let oldLeft = left
-            left = document.body.clientWidth - this.el.width - 10
+            left = document.body.clientWidth - popoverEl.width - 10
             margin = oldLeft - left
         }
 

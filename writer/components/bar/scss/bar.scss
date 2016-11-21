@@ -5,13 +5,15 @@ div.sc-np-bar {
 
     &>div {
         height: 52px;
-        & > * {
+
+        & > div {
             display: inline-block;
         }
 
-        & > div.sc-np-bar-container > p.sc-np-bar-item {
+        div.sc-np-bar-container > p.sc-np-bar-item {
             font-size: 90%;
             margin: 0 10px;
+            display: inline-block;
         }
 
         div.sc-np-btn-group {
@@ -23,13 +25,15 @@ div.sc-np-bar {
         float: left;
         margin-left: 100px;
 
+        & > div {
+            margin-right: 10px;
+        }
+
         & > div.sc-np-bar-container > * {
             padding-right: 40px;
         }
 
         div.sc-np-bar-container > p.sc-np-bar-item {
-            float: right;
-            margin-left: -30px;
         }
     }
 
@@ -37,13 +41,16 @@ div.sc-np-bar {
         float: right;
         margin-right: 20px;
 
+        & > div {
+            margin-left: 10px;
+        }
+
         & > div.sc-np-bar-container > * {
             padding-left: 40px;
         }
 
         div.sc-np-bar-container > p.sc-np-bar-item {
             float: left;
-            margin-right: -30px;
         }
     }
 
