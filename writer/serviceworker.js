@@ -65,6 +65,7 @@ self.addEventListener('install', (event) => {
                     '/',
                     '/index.html',
                     '/app.js',
+                    '/assets/icon.svg',
                     '/substance/substance.css',
                     '/substance/substance-reset.css',
                     '/substance/substance-pagestyle.css',

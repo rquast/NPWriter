@@ -74,6 +74,10 @@ module.exports = {
             {
                 from: "writer/styles/app.css",
                 to: "styles/app.css"
+            },
+            {
+                from: 'writer/assets',
+                to: 'assets'
             }
         ])
     ]

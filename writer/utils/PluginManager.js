@@ -85,13 +85,14 @@ class PluginManager {
         })
 
         this.pluginPackages = []
-        const pluginRegistered = enabledPlugins.map(plugin => {
+        const pluginRegistered = enabledPlugins.map((plugin, idx) => {
             return new Promise((resolve, reject) => {
                 let resolved = false;
 
                 this.registerPluginList.set(plugin.id, (pluginPackage) => {
+                    console.log("Imporgt", pluginPackage.id);
+                    pluginPackage.index = idx // Set the sort index for the package
                     this.pluginPackages.push(pluginPackage)
-                    // this.configurator.import(pluginPackage)
                     resolved = true;
                     this.plugins.set(plugin.id, plugin)
                     this.registerPluginList.delete(plugin.id)
@@ -128,7 +129,7 @@ class PluginManager {
                 pluginPackage.index = 0
             }
             return pluginPackage.index;
-        }]).reverse()
+        }])
 
         packages.forEach((pluginPackage) => {
             this.configurator.import(pluginPackage)

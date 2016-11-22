@@ -207,9 +207,12 @@ class NPWriter extends AbstractEditor {
 
 
     hideDialog() {
-        this.refs.modalPlaceholder.setProps({
-            showModal: false
-        })
+        if(this.refs.modalPlaceholder) {
+            this.refs.modalPlaceholder.setProps({
+                showModal: false
+            })
+        }
+
     }
 
     /**
