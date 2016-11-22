@@ -160,7 +160,7 @@ class NewsItem {
         this.api.newsItemArticle = newsItemArticle;
         this.api.doc = idfDocument;
 
-        this.refs.writer.send('replacedoc', {
+        this.api.writer.send('replacedoc', {
             newsItemArticle: newsItemArticle,
             idfDocument: idfDocument
         });
