@@ -91,6 +91,10 @@ module.exports = {
                 to: "writer/styles/app.css"
             },
             {
+                from: "writer/serviceworker.js",
+                to: "writer/serviceworker.js"
+            },
+            {
                 from: 'package.json',
                 to: '.'
             },
