@@ -157,12 +157,23 @@ class Ui {
             }
         }
 
-        const writer = this.api.refs.writer;
+        const writer = this.api.writer;
         writer.showMessageDialog(
             messages,
             props,
             options
         );
+    }
+
+    /**
+     * Returns a registered component from component registry
+     * Can then be used the appending to a existing component
+     *
+     * @param {string} name - The key that component was registered with
+     * @returns {*}
+     */
+    getComponent(name) {
+        return this.api.writer.componentRegistry.get(name)
     }
 
 }

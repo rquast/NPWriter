@@ -130,6 +130,14 @@ class Document {
     }
 
 
+    setDocumentStatus(newStatus) {
+        this.status = newStatus
+    }
+
+    getDocumentStatus() {
+        return this.status
+    }
+
     /**
      * Make element/node combination draggable within the writer. At the
      * moment only a (with href attribute) and img elements are supported.
@@ -137,7 +145,7 @@ class Document {
      * @param {object} element
      * @param {object} node
      */
-    handleDrag(el, node) {
+    /*handleDrag(el, node) {
         var nodeId = node.id;
 
         el.attr('draggable', 'true');
@@ -158,7 +166,7 @@ class Document {
         el.on('dragend', function (evt) {
             evt.target.style.opacity = 1;
         });
-    }
+    }*/
 }
 
 export default Document

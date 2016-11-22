@@ -125,8 +125,10 @@ class NewsItem {
     }
 
     getSource() {
-        var exporter = new NewsMLExporter(this.refs.writer.props.config);
-        return exporter.convert(this.refs.writer.props.doc, {}, this.api.newsItemArticle);
+        var exporter = this.api.configurator.createExporter('newsml', {
+            api: this.api
+        })
+        return exporter.exportDocument(this.api.editorSession.getDocument(), this.api.newsItemArticle);
     }
 
     /**
@@ -160,7 +162,7 @@ class NewsItem {
         this.api.newsItemArticle = newsItemArticle;
         this.api.doc = idfDocument;
 
-        this.refs.writer.send('replacedoc', {
+        this.api.writer.send('replacedoc', {
             newsItemArticle: newsItemArticle,
             idfDocument: idfDocument
         });
@@ -1489,6 +1491,32 @@ class NewsItem {
             return this.api.newsItemArticle.querySelectorAll('itemMeta links link[type="' + type + '"]');
         }
     }
+
+    /**
+     * Returns the generated temporary id for the article.
+     * Temporary id is used when a new article is created and before it's saved the first time.
+     * @returns {*|null}
+     */
+    getTemporaryId() {
+        return this.api.writer.temporaryArticleID || null
+    }
+
+    /**
+     * Checks if current article has a temporary id
+     * @returns {boolean}
+     */
+    hasTemporaryId() {
+        return this.api.writer.temporaryArticleID ? true : false;
+    }
+
+    getIdForArticle() {
+        if (this.hasTemporaryId()) {
+            return this.getTemporaryId()
+        } else {
+            return this.getGuid()
+        }
+    }
+
 
 }
 export default NewsItem

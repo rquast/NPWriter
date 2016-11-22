@@ -12,6 +12,7 @@ import Browser from './Browser'
 import Router from './Router'
 import Concept from './Concept'
 import Ui from './Ui'
+import History from './History'
 
 jxon.config({
     autoDate: false,
@@ -39,6 +40,7 @@ class Api {
         this.configurator = configurator
         this.concept = Concept
         this.apiManager = apiManager
+        this.history = new History(this)
     }
 
     /**

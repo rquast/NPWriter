@@ -3,6 +3,21 @@
     "language": "sv_SE",
     "labelLanguage": "sv",
     "plugins": [
+
+        {
+            "id": "se.infomaker.history",
+            "name": "history",
+            "url": "http://localhost:5001/index.js",
+            "enabled": true,
+            "mandatory": false
+        },
+        {
+            "id": "se.infomaker.textanalyzer",
+            "name": "textanalyzer",
+            "url": "http://localhost:5001/index.js",
+            "mandatory": false,
+            "enabled": true
+        },
         {
             "id": "se.infomaker.publishflow",
             "name": "publishflow",
@@ -94,21 +109,11 @@
             "mandatory": true
         },
         {
-            "id": "se.infomaker.textanalyzer",
-            "name": "textanalyzer",
-            "url": "http://localhost:5001/index.js",
-            "mandatory": false,
-            "enabled": true
-        },
-        {
             "id": "se.infomaker.skeleton",
             "name": "skeleton",
             "url": "http://localhost:5001/index.js",
             "mandatory": false,
-            "enabled": false,
-            "data": {
-                "foo": "bar"
-            }
+            "enabled": false
         },
         {
             "id": "se.infomaker.socialembed",
@@ -142,26 +147,6 @@
             "url": "http://localhost:5001/index.js",
             "mandatory": false,
             "enabled": true,
-            "data": {
-                "foo": "bar"
-            }
-        },
-        {
-            "id": "se.infomaker.open-modal",
-            "name": "open-modal",
-            "url": "http://localhost:5002/open-modal.build.js",
-            "mandatory": false,
-            "enabled": false,
-            "data": {
-                "foo": "bar"
-            }
-        },
-        {
-            "id": "se.infomaker.insertnode",
-            "name": "insertnode",
-            "url": "http://localhost:5002/insertnode.build.js",
-            "mandatory": false,
-            "enabled": false,
             "data": {
                 "foo": "bar"
             }

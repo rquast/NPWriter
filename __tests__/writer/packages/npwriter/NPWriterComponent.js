@@ -4,8 +4,18 @@ import AppPackage from '../../../../writer/AppPackage'
 import Api from '../../../../writer/api/Api'
 import sinon from 'sinon'
 import Helper from '../../../helpers'
-import UnsupportedPackage from '../../../../writer/packages/unsupported/UnsupportedPackage'
 import NPWriterCompontent from '../../../../writer/packages/npwriter/NPWriterComponent'
+
+window.crypto = {
+    getRandomValues: function(seed) {
+        seed.map((int, idx, array) => {
+            array[idx] = Math.ceil(Math.random()*100);
+        });
+    }
+}
+// MOCK
+window.document.createRange = () => {}
+
 
 class App extends Component {
 
@@ -18,8 +28,7 @@ class App extends Component {
 
     render($$) {
 
-        // MOCK
-        window.document.createRange = () => {}
+
 
         this.api = new Api({}, this.props.configurator)
         this.api.init(Helper.getParsedExampleDocument(), {getDocument:()=>{}}, {}) // Mocking documentSession parameter

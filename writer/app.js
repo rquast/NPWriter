@@ -21,7 +21,9 @@ import jxon from 'jxon'
 
 const STATUS_ISREADY = 'isReady',
     STATUS_LOADING = 'loading',
-    STATUS_HAS_ERROR = 'hasErrors'
+    STATUS_HAS_ERROR = 'hasErrors',
+    HAS_DOCUMENT = 'writerHasDocument',
+    HAS_NO_DOCUMENT = 'writerHasNoDocument'
 
 class App extends Component {
 
@@ -99,8 +101,6 @@ class App extends Component {
 
     didMount() {
 
-        console.info('Welcome to a local hack. You can find documentation, guides and examples at: https://infomaker.github.io/NPWriterDevelopers/')
-
         document.onkeydown = this.handleApplicationKeyCombos.bind(this)
 
         this.configurator = new NPWriterConfigurator().import(AppPackage)
@@ -111,7 +111,6 @@ class App extends Component {
         this.api = new API(this.pluginManager, this.configurator, this.APIManager)
 
         const api = this.api
-
 
         // Expose classes and endpoint on window.writer
         api.apiManager.expose('api', this.api)
@@ -219,8 +218,10 @@ class App extends Component {
      * @param idfDocument
      */
     replaceDoc({newsItemArticle, idfDocument}) {
+
         this.newsItemArticle = newsItemArticle
         if (this.editorSession) this.editorSession.dispose()
+
         this.editorSession = new EditorSession(idfDocument, {
             configurator: this.configurator,
             lang: this.configurator.config.writerConfigFile.language,
@@ -228,16 +229,23 @@ class App extends Component {
                 api: this.api
             }
         })
-
         this.editorSession.saveHandler = this.getSaveHandler()
         this.api.init(newsItemArticle, this.editorSession, this.refs)
+        // Rerender from scratch
+        // NOTE: emptying the component here makes sure that no component survives connected to the old document
 
+        if(this.refs.writer) { // First load we have to reference to writer so we know it's the initial load
+            this.api.document.setDocumentStatus(HAS_DOCUMENT)
+        } else {
+            this.api.document.setDocumentStatus(HAS_NO_DOCUMENT)
+        }
+        this.empty()
         this.rerender()
+
     }
 
     render($$) {
         var el = $$('div').addClass('sc-app').ref('app')
-
         switch (this.state.status) {
 
             case STATUS_HAS_ERROR:
@@ -275,6 +283,31 @@ class App extends Component {
 export default App
 
 window.onload = () => {
+
+    // if(window.PRODUCTION) {
+        if('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('serviceworker.js')
+                .then(() => {
+                    console.log("Registration done");
+                    // showNotification()
+                })
+                .catch((error) => {
+                    console.log("Registrsation of serviceworker failed")
+                })
+        }
+    // }
+
+
+    //
+    // function showNotification() {
+    //     Notification.requestPermission(function (result) {
+    //         if (result === 'granted') {
+    //             navigator.serviceWorker.ready.then(function (registration) {
+    //                 registration.showNotification('Service worker is installed and ready to use');
+    //             });
+    //         }
+    //     });
+    // }
 
     App.mount({}, document.body)
 }

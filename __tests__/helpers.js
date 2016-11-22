@@ -25,7 +25,21 @@ class Helper {
 
     static getApp(api) {
 
+        /*
+         Mock the window crypto function
+         */
+        window.crypto = {
+            getRandomValues: function(seed) {
+                seed.map((int, idx, array) => {
+                    array[idx] = Math.ceil(Math.random()*100);
+                });
+            }
+        }
+
+
         class App extends Component {
+
+
 
             getChildContext() {
                 return Object.assign({}, {
@@ -62,6 +76,28 @@ class Helper {
 
         }
         return App
+    }
+
+    static getLocalStorageMock() {
+        return class MockStorage {
+            constructor () {
+                this.storage = new Map();
+            }
+            setItem (key, value) {
+
+
+                this.storage.set(key, value);
+            }
+            getItem (key) {
+                return this.storage.get(key);
+            }
+            removeItem (key) {
+                this.storage.delete(key);
+            }
+            clear () {
+                this.constructor();
+            }
+        }
     }
 
 }
