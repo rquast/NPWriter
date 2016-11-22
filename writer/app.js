@@ -230,10 +230,11 @@ class App extends Component {
                 api: this.api
             }
         })
-
         this.editorSession.saveHandler = this.getSaveHandler()
         this.api.init(newsItemArticle, this.editorSession, this.refs)
-
+        // Rerender from scratch
+        // NOTE: emptying the component here makes sure that no component survives connected to the old document
+        this.empty()
         this.rerender()
     }
 
