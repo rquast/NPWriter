@@ -4,6 +4,13 @@
     "labelLanguage": "sv",
     "plugins": [
         {
+            "id": "se.infomaker.textanalyzer",
+            "name": "textanalyzer",
+            "url": "http://localhost:5001/index.js",
+            "mandatory": false,
+            "enabled": true
+        },
+        {
             "id": "se.infomaker.publishflow",
             "name": "publishflow",
             "url": "http://localhost:5001/index.js",
