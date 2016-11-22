@@ -16,6 +16,11 @@ class NPWriter extends AbstractEditor {
 
         this.props.api.setWriterReference(this);
 
+        // When document is changed we need to save a local version
+        this.props.api.events.on('npwritercomponent', Event.DOCUMENT_CHANGED, () => {
+            this.addVersion()
+        })
+
         this.exporter = this._getExporter();
         this.spellCheckManager = new SpellCheckManager(this.editorSession, {
             wait: 400,
@@ -47,11 +52,7 @@ class NPWriter extends AbstractEditor {
     }
 
 
-    setTemporaryId() {
-        if (!this.temporaryArticleID) {
-            this.temporaryArticleID = idGenerator();
-        }
-    }
+
 
     didMount() {
         super.didMount()
@@ -95,16 +96,12 @@ class NPWriter extends AbstractEditor {
     dispose() {
         super.dispose()
 
+        this.props.api.events.off('npwritercomponent', Event.DOCUMENT_CHANGED)
         // this.spellCheckManager.dispose()
     }
 
 
     render($$) {
-
-
-        if(!this.props.api.browser.getHash()) {
-            this.setTemporaryId();
-        }
 
         const el = $$('div')
             .addClass('sc-np-writer').ref('npwriter')

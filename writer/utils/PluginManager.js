@@ -90,7 +90,6 @@ class PluginManager {
                 let resolved = false;
 
                 this.registerPluginList.set(plugin.id, (pluginPackage) => {
-                    console.log("Imporgt", pluginPackage.id);
                     pluginPackage.index = idx // Set the sort index for the package
                     this.pluginPackages.push(pluginPackage)
                     resolved = true;

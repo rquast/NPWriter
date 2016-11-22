@@ -63,6 +63,10 @@ class Api {
         this.writer = writer
     }
 
+    setAppReference(app) {
+        this.app = app
+    }
+
     /**
      * Get configuration value in a plugins local configuration data section.
      *

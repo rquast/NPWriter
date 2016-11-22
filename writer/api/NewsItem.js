@@ -1498,7 +1498,15 @@ class NewsItem {
      * @returns {*|null}
      */
     getTemporaryId() {
-        return this.api.writer.temporaryArticleID || null
+        return this.api.app.temporaryArticleID || null
+    }
+
+    /**
+     * Set a temporaryId for the article
+     * @param temporaryArticleID
+     */
+    setTemporaryId(temporaryArticleID) {
+        this.api.app.temporaryArticleID = temporaryArticleID
     }
 
     /**
@@ -1506,7 +1514,7 @@ class NewsItem {
      * @returns {boolean}
      */
     hasTemporaryId() {
-        return this.api.writer.temporaryArticleID ? true : false;
+        return this.api.app.temporaryArticleID ? true : false;
     }
 
     getIdForArticle() {

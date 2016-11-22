@@ -109,8 +109,9 @@ class App extends Component {
 
         this.pluginManager = new PluginManager(this.configurator, this.APIManager)
         this.api = new API(this.pluginManager, this.configurator, this.APIManager)
-
         const api = this.api
+
+        api.setAppReference(this)
 
         // Expose classes and endpoint on window.writer
         api.apiManager.expose('api', this.api)
@@ -244,6 +245,12 @@ class App extends Component {
 
     }
 
+    setTemporaryId() {
+        if (!this.temporaryArticleID) {
+            this.temporaryArticleID = idGenerator();
+        }
+    }
+
     render($$) {
         var el = $$('div').addClass('sc-app').ref('app')
         switch (this.state.status) {
@@ -253,6 +260,11 @@ class App extends Component {
                 break
 
             case STATUS_ISREADY:
+
+                if(!this.api.browser.getHash()) {
+                    this.setTemporaryId();
+                }
+
                 el.append($$(NPWriterComponent, {
                     pluginManager: this.pluginManager,
                     editorSession: this.editorSession,
