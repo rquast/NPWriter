@@ -94,7 +94,11 @@ class PopoverComponent extends Component {
                         setIcon: (iconClass) => this.onSetIcon(iconClass),
                         disable: () => this.onSetEnabled(false),
                         enable: () => this.onSetEnabled(true),
-                        close: () => this.closePopover()
+                        close: () => {
+                            if (this.state.active) {
+                                this.togglePopover()
+                            }
+                        }
                     }
                 })
                 .ref('component')
