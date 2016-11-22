@@ -7,7 +7,6 @@ import BarComponent from './../../components/bar/BarComponent'
 import DialogPlaceholder from '../dialog/DialogPlaceholder'
 import Event from '../../utils/Event'
 import debounce from '../../utils/Debounce'
-import idGenerator from '../../utils/IdGenerator'
 
 class NPWriter extends AbstractEditor {
 

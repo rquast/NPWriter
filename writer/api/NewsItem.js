@@ -6,6 +6,8 @@ import replace from 'lodash/replace'
 import isObject from 'lodash/isObject'
 import isArray from 'lodash/isArray'
 
+import Validator from '../packages/npwriter/Validator'
+
 import NewsMLExporter from '../packages/npwriter/NewsMLExporter'
 
 jxon.config({
@@ -104,6 +106,34 @@ class NewsItem {
      */
     save(onBeforeSave, onError) {
         if (this.api.browser.isSupported()) {
+
+
+            const validators = this.api.configurator.getValidators()
+            validators.forEach((validatorClass) => {
+
+                let pluginValidator = new validatorClass()
+
+                if(pluginValidator.validate) {
+                    pluginValidator.validate(this.api.newsItemArticle)
+
+                    if(pluginValidator.hasErrors()) {
+                        this.api.ui.showMessageDialog(
+                            pluginValidator.messages,
+                            function () {
+
+                            }.bind(this),
+                            function () {
+
+                            }.bind(this)
+                        )
+                    }
+                } else {
+                    throw new Error('Validator missing validate method')
+                }
+                debugger;
+            })
+
+            debugger;
             this.api.editorSession.saveHandler.saveDocument()
         }
         else {
