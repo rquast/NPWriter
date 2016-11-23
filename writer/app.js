@@ -199,7 +199,7 @@ class App extends Component {
         let handled = false;
 
         if (e.keyCode === 83 && (e.metaKey || e.ctrlKey)) { // Save: cmd+s
-            this.api.newsItem.save()
+            this.api.events.userActionSave()
             handled = true;
         } else if (e.keyCode === 85 && (e.metaKey || e.ctrlKey) && !e.altKey) {
             const xml = this.getSaveHandler().getExportedDocument()
