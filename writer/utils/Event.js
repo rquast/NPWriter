@@ -4,5 +4,7 @@ export default {
     DOCUMENT_CHANGED: 'document:changed',
     DIALOG_CLOSE: 'dialog:close',
     NOTIFICATION_ADD: 'notification:add',
-    HISTORY_SAVED: 'history:saved'
+    HISTORY_SAVED: 'history:saved',
+    USERACTION_SAVE: 'useraction:save',
+    USERACTION_CANCEL_SAVE: 'useraction:cancel_save'
 }
