@@ -1,7 +1,7 @@
 class Validator {
 
-    constructor() {
-        console.log("Construct call");
+    constructor(newsItemArticle) {
+        this.newsItem = newsItemArticle
         this.messages = []
     }
 
@@ -17,8 +17,11 @@ class Validator {
         this.messages.push({type: 'info', message: info})
     }
 
-    hasErrors() {
+    hasMessages() {
         return this.messages.length > 0
+    }
+    getMessages() {
+        return this.messages
     }
 
 }
