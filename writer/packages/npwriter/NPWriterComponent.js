@@ -40,6 +40,7 @@ class NPWriter extends AbstractEditor {
         this.handleActions(actionHandlers)
 
         this.props.api.events.on('__internal', Event.DOCUMENT_SAVE_FAILED, (e) => {
+            console.log("Error", e);
             let errorMessages = e.data.errors.map((error) => {
                 return {
                     type: 'error',
