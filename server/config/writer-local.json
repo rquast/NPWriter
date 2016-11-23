@@ -298,6 +298,13 @@
             }
         },
         {
+            "id": "se.infomaker.defaultvalidation",
+            "name": "defaultvalidation",
+            "url": "http://localhost:5001/index.js",
+            "mandatory": false,
+            "enabled": true
+        },
+        {
             "id": "se.infomaker.newspriority",
             "name": "newspriority",
             "url": "http://localhost:5001/index.js",

@@ -1,6 +1,7 @@
 import {FileProxy} from 'substance'
 import FileService from './FileService'
 import isString from 'lodash/isString'
+import FileUploadError from '../../utils/errors/FileUploadError'
 
 class NPImageProxy extends FileProxy {
 
@@ -66,7 +67,6 @@ class NPImageProxy extends FileProxy {
             this._isSyncing = true
             if (!this.uuid && this.file) { // regular file upload
                 return new Promise((resolve, reject) => {
-
                     const params = {
                         imType: this.fileNode.getImType()
                     }
@@ -78,9 +78,8 @@ class NPImageProxy extends FileProxy {
                             resolve()
                         })
                         .catch((e) => {
-                            console.log("Error uploading", e);
                             this._isSyncing = false
-                            reject(e)
+                            reject(new FileUploadError(e.message))
                         })
                 })
             } else if (!this.uuid && this.uri) { // uri-based upload
@@ -93,17 +92,13 @@ class NPImageProxy extends FileProxy {
                             resolve()
                         })
                         .catch((e) => {
-                            console.log("Error uploading", e);
                             this._isSyncing = false
-                            reject(e)
+                            reject(new FileUploadError(e.message))
                         })
                 })
 
 
             } else {
-                // console.log("Get url for", this.uuid);
-                // this.fetchUrl()
-                // return ""
                 return Promise.resolve()
             }
         }

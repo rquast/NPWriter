@@ -91,6 +91,12 @@ class Api {
         return this.pluginManager.getConfigValue(name, path, defaultValue);
     }
 
+    getLabel(name) {
+        var labelProvider = this.configurator.labelProvider
+        if (!labelProvider) { throw new Error('Missing labelProvider.') }
+        return labelProvider.getLabel(name)
+    }
+
     /**
      * Make a call to a named external backend using provided call configuration.
      *

@@ -1,5 +1,6 @@
 import {Configurator, Component} from 'substance'
 import LabelProvider from './LabelProvider'
+import Validator from './Validator'
 import 'whatwg-fetch'
 
 class NPWriterConfigurator extends Configurator {
@@ -25,7 +26,12 @@ class NPWriterConfigurator extends Configurator {
         if(this.config.writerConfigFile && this.config.writerConfigFile.labelLanguage) {
             labelLanguage = this.config.writerConfigFile.labelLanguage
         }
-        return new LabelProvider(this.config.labels, labelLanguage)
+
+        if(!this.labelProvider) {
+            this.labelProvider = new LabelProvider(this.config.labels, labelLanguage)
+        }
+        return this.labelProvider
+
     }
 
     /**
@@ -121,8 +127,12 @@ class NPWriterConfigurator extends Configurator {
         })
     }
 
-    addValidator(validator) {
-        this.config.validators.push(validator)
+    addValidator(pluginValidator) {
+        this.config.validators.push(pluginValidator)
+    }
+
+    getValidators() {
+        return this.config.validators
     }
 
 
@@ -202,6 +212,8 @@ class NPWriterConfigurator extends Configurator {
 
         super.addTool(toolName, ToolClass, options)
     }
+
+
 }
 
 export default NPWriterConfigurator

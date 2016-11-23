@@ -131,28 +131,31 @@ class Ui {
             },
             options = {
                 global: true,
-                title: 'Message',
+                title: this.api.getLabel('message'),
                 primary: false,
                 secondary: false
             };
 
+
+        const cancelLabel = this.api.getLabel('cancel')
+        const continueLabel = this.api.getLabel('continue')
         if (level === 2) {
-            options.primary = 'Cancel';
+            options.primary = cancelLabel
             props.cbPrimary = cbCancel;
         }
         else if (level === 1) {
-            options.primary = 'Cancel';
+            options.primary = cancelLabel
             props.cbPrimary = cbCancel;
 
-            options.secondary = 'Continue';
+            options.secondary = continueLabel
             props.cbSecondary = cbContinue;
         }
         else {
-            options.primary = 'Continue';
+            options.primary = continueLabel
             props.cbPrimary = cbContinue;
 
             if (cbCancel) {
-                options.secondary = 'Cancel';
+                options.secondary = cancelLabel
                 props.cbSecondary = cbCancel;
             }
         }
