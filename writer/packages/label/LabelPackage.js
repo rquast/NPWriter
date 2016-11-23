@@ -23,5 +23,27 @@ export default {
             en: 'Body',
             sv: 'Brödtext'
         })
+
+        // --------------------------------------
+        // Labels specified in API
+        // --------------------------------------
+
+        config.addLabel('message', {
+            en: 'Message',
+            sv: 'Meddelande'
+        })
+
+        config.addLabel('cancel', {
+            en: 'Cancel',
+            sv: 'Avbryt'
+        })
+
+        config.addLabel('continue', {
+            en: 'Continue',
+            sv: 'Fortsätt'
+        })
+
+
+
     }
 };
