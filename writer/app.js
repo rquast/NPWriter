@@ -238,9 +238,9 @@ class App extends Component {
         // NOTE: emptying the component here makes sure that no component survives connected to the old document
 
         if(this.refs.writer) { // First load we have to reference to writer so we know it's the initial load
-            this.api.document.setDocumentStatus(HAS_DOCUMENT)
+            this.api.document._setDocumentStatus(HAS_DOCUMENT)
         } else {
-            this.api.document.setDocumentStatus(HAS_NO_DOCUMENT)
+            this.api.document._setDocumentStatus(HAS_NO_DOCUMENT)
         }
         this.empty()
         this.rerender()
