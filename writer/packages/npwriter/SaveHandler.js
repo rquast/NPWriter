@@ -21,26 +21,46 @@ class SaveHandler {
     }
 
 
-    validateDocument(onBeforeSave) {
+    /**
+     *
+     * Runs validate method on all provided validators
+     *
+     * @param {Array} validators - An array with Validators
+     * @returns {Array} Messages - An array with messages objects
+     * @throws Error - Error is thrown is the validator class doesn't have a validate method
+     */
+    runValidators(validators) {
+        let messages = []
+        validators.forEach((validatorClass) => {
+            const pluginValidator = new validatorClass(this.api.newsItemArticle)
+            if (pluginValidator.validate) {
+                pluginValidator.validate()
 
-        return new Promise((resolve, reject) => {
-            const validators = this.api.configurator.getValidators()
-            let messages = []
-            validators.forEach((validatorClass) => {
-
-                let pluginValidator = new validatorClass(this.api.newsItemArticle)
-
-                if (pluginValidator.validate) {
-                    pluginValidator.validate()
-
-                    if (pluginValidator.hasMessages()) {
-                        messages = [...messages, ...pluginValidator.getMessages()]
-                    }
-
-                } else {
-                    throw new Error('Validator missing validate method')
+                if (pluginValidator.hasMessages()) {
+                    messages = [...messages, ...pluginValidator.getMessages()]
                 }
-            })
+
+            } else {
+                throw new Error('Validator missing validate method')
+            }
+        })
+
+        return messages
+    }
+
+
+    /**
+     * Runs all validators and shows messages in a dialog
+     * Promise is resolved if user clicks continue
+     * Promise is rejected if user clicks cancel
+     *
+     * If no messages is found in the validators the promise is resolved immediately
+     *
+     * @returns {Promise}
+     */
+    validateDocument() {
+        return new Promise((resolve, reject) => {
+            const messages = this.runValidators(this.api.configurator.getValidators())
 
             if(messages.length === 0) {
                 resolve()
@@ -52,7 +72,7 @@ class SaveHandler {
                     resolve()
                 },
                 () => {
-                    reject(new ValidationError('User canceled'))
+                    reject(new ValidationError(messages))
                 })
         })
 
