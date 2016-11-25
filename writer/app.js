@@ -93,7 +93,6 @@ class App extends Component {
     getSaveHandler() {
         if(!this.saveHandler) {
             this.saveHandler = new SaveHandler({
-                editorSession: this.editorSession,
                 configurator: this.configurator,
                 api: this.api
             })
@@ -224,6 +223,7 @@ class App extends Component {
 
         this.newsItemArticle = newsItemArticle
         if (this.editorSession) this.editorSession.dispose()
+        this.saveHandler = null
 
         this.editorSession = new EditorSession(idfDocument, {
             configurator: this.configurator,
@@ -297,31 +297,31 @@ class App extends Component {
 export default App
 
 window.onload = () => {
-
+/*
     // if(window.PRODUCTION) {
         if('serviceWorker' in navigator) {
             navigator.serviceWorker.register('serviceworker.js')
                 .then(() => {
                     console.log("Registration done");
-                    // showNotification()
+                    showNotification()
                 })
                 .catch((error) => {
                     console.log("Registrsation of serviceworker failed")
                 })
         }
-    // }
+     // }
 
 
     //
-    // function showNotification() {
-    //     Notification.requestPermission(function (result) {
-    //         if (result === 'granted') {
-    //             navigator.serviceWorker.ready.then(function (registration) {
-    //                 registration.showNotification('Service worker is installed and ready to use');
-    //             });
-    //         }
-    //     });
-    // }
-
+    function showNotification() {
+        Notification.requestPermission(function (result) {
+            if (result === 'granted') {
+                navigator.serviceWorker.ready.then(function (registration) {
+                    registration.showNotification('Service worker is installed and ready to use');
+                });
+            }
+        });
+    }
+*/
     App.mount({}, document.body)
 }

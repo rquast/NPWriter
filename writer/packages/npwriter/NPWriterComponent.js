@@ -40,6 +40,10 @@ class NPWriter extends AbstractEditor {
         this.handleActions(actionHandlers)
 
         this.props.api.events.on('__internal', Event.DOCUMENT_SAVE_FAILED, (e) => {
+            if(!e.data.errors) {
+                console.log("E", e);
+                return
+            }
             let errorMessages = e.data.errors.map((error) => {
                 return {
                     type: 'error',
@@ -60,6 +64,7 @@ class NPWriter extends AbstractEditor {
         this.editorSession.onUpdate(this.editorSessionUpdated, this)
 
         this.addVersion = debounce(() => {
+            console.log("Add to version");
             this.props.api.history.snapshot();
         }, 1000)
 
@@ -155,7 +160,7 @@ class NPWriter extends AbstractEditor {
         const headerEditorContainer = $$('div').addClass('se-header-editor-container')
 
         const doc = this.editorSession.getDocument()
-        var textEditComponents = this.props.configurator.getTextEditComponents()
+/*        var textEditComponents = this.props.configurator.getTextEditComponents()
 
         let textEditors = textEditComponents.map((editTextComponent) => {
 
@@ -168,8 +173,8 @@ class NPWriter extends AbstractEditor {
                 containerId: 'headereditor',
             })
         });
-
-        headerEditorContainer.append(textEditors)
+*/
+        // headerEditorContainer.append(textEditors)
 
         return headerEditorContainer
     }

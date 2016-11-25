@@ -112,7 +112,7 @@ class NewsMLExporter extends XMLExporter {
         const $$ = this.$$
         var groupContainer = newsItemArticle.querySelector('idf');
 
-        this.addHeaderGroup(doc, newsItemArticle, $$, groupContainer);
+        // this.addHeaderGroup(doc, newsItemArticle, $$, groupContainer);
         this.addBodyGroup(doc, newsItemArticle, groupContainer);
         this.addTeaser(newsItemArticle, groupContainer);
 

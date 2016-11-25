@@ -3,9 +3,8 @@ import FileUploadError from '../../utils/errors/FileUploadError'
 
 class SaveHandler {
 
-    constructor({editorSession, api, configurator}) {
+    constructor({api, configurator}) {
         this.api = api
-        this.editorSession = editorSession
         this.configurator = configurator
     }
 
@@ -15,9 +14,7 @@ class SaveHandler {
      */
     getExportedDocument() {
         const exporter = this.configurator.createExporter('newsml', {api: this.api})
-        const exportedArticle = exporter.exportDocument(this.editorSession.getDocument(), this.api.newsItemArticle)
-
-        return exportedArticle
+        return exporter.exportDocument(this.api.editorSession.getDocument(), this.api.newsItemArticle)
     }
 
 
@@ -29,10 +26,14 @@ class SaveHandler {
      * @returns {Array} Messages - An array with messages objects
      * @throws Error - Error is thrown is the validator class doesn't have a validate method
      */
-    runValidators(validators) {
+    runValidatorsForDocument(validators, document) {
         let messages = []
+
+        var parser = new DOMParser();
+        var newsItemArticle = parser.parseFromString(document, "text/xml")
+
         validators.forEach((validatorClass) => {
-            const pluginValidator = new validatorClass(this.api.newsItemArticle)
+            const pluginValidator = new validatorClass(newsItemArticle)
             if (pluginValidator.validate) {
                 pluginValidator.validate()
 
@@ -55,21 +56,21 @@ class SaveHandler {
      * Promise is rejected if user clicks cancel
      *
      * If no messages is found in the validators the promise is resolved immediately
-     *
+     * @param Exported newsItem as XMLString
      * @returns {Promise}
      */
-    validateDocument() {
+    validateDocument(document) {
         return new Promise((resolve, reject) => {
-            const messages = this.runValidators(this.api.configurator.getValidators())
+            const messages = this.runValidatorsForDocument(this.api.configurator.getValidators(), document)
 
             if(messages.length === 0) {
-                resolve()
+                resolve(document)
                 return
             }
 
             this.api.ui.showMessageDialog(messages,
                 () => {
-                    resolve()
+                    resolve(document)
                 },
                 () => {
                     reject(new ValidationError(messages))
@@ -86,19 +87,19 @@ class SaveHandler {
      */
     saveDocument() {
 
-        this.validateDocument()
+        this.api.editorSession.fileManager.sync()
             .then(() => {
-                this.editorSession.fileManager.sync()
+                const exportedArticle = this.getExportedDocument()
+                return this.validateDocument(exportedArticle)
             })
-            .then(() => {
+            .then((document) => {
 
                 const uuid = this.api.newsItemArticle.documentElement.getAttribute('guid');
-                const exportedArticle = this.getExportedDocument()
 
                 if (uuid) {
-                    return this.updateNewsItem(uuid, exportedArticle)
+                    return this.updateNewsItem(uuid, document)
                 } else {
-                    return this.createNewsItem(exportedArticle)
+                    return this.createNewsItem(document)
                 }
             })
             .catch((error) => {
