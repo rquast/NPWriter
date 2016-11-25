@@ -140,6 +140,14 @@ class Events {
         this.triggerEvent(null, Event.DOCUMENT_SAVE_FAILED, error);
     }
 
+    userActionSave() {
+        this.triggerEvent(null, Event.USERACTION_SAVE)
+    }
+
+    userActionCancelSave() {
+        this.triggerEvent(null, Event.USERACTION_CANCEL_SAVE)
+    }
+
     /**
      * Triggers a document start saving event (document:startsaving)
      * @fixme Should not be named onDocument... as it is a trigger, not an event handler

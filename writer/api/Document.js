@@ -130,7 +130,7 @@ class Document {
     }
 
 
-    setDocumentStatus(newStatus) {
+    _setDocumentStatus(newStatus) {
         this.status = newStatus
     }
 
@@ -138,35 +138,6 @@ class Document {
         return this.status
     }
 
-    /**
-     * Make element/node combination draggable within the writer. At the
-     * moment only a (with href attribute) and img elements are supported.
-     *
-     * @param {object} element
-     * @param {object} node
-     */
-    /*handleDrag(el, node) {
-        var nodeId = node.id;
-
-        el.attr('draggable', 'true');
-        el.attr('href', '#' + node.id);
-        el.on('click', function (evt) {
-            evt.preventDefault();
-        });
-
-        el.on('dragstart', (evt) => {
-            this.context.surface._draggedSelection = new NodeSelection(nodeId);
-
-            // Necessary for firefox to work
-            evt.dataTransfer.setData('nodeid', nodeId);
-            evt.target.style.opacity = 0.4;
-            evt.stopPropagation();
-        });
-
-        el.on('dragend', function (evt) {
-            evt.target.style.opacity = 1;
-        });
-    }*/
 }
 
 export default Document

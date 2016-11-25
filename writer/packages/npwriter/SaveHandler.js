@@ -1,3 +1,6 @@
+import ValidationError from '../../utils/errors/ValidationError'
+import FileUploadError from '../../utils/errors/FileUploadError'
+
 class SaveHandler {
 
     constructor({editorSession, api, configurator}) {
@@ -11,10 +14,69 @@ class SaveHandler {
      * @returns {*|String}
      */
     getExportedDocument() {
-        const exporter = this.configurator.createExporter('newsml', { api: this.api })
+        const exporter = this.configurator.createExporter('newsml', {api: this.api})
         const exportedArticle = exporter.exportDocument(this.editorSession.getDocument(), this.api.newsItemArticle)
 
         return exportedArticle
+    }
+
+
+    /**
+     *
+     * Runs validate method on all provided validators
+     *
+     * @param {Array} validators - An array with Validators
+     * @returns {Array} Messages - An array with messages objects
+     * @throws Error - Error is thrown is the validator class doesn't have a validate method
+     */
+    runValidators(validators) {
+        let messages = []
+        validators.forEach((validatorClass) => {
+            const pluginValidator = new validatorClass(this.api.newsItemArticle)
+            if (pluginValidator.validate) {
+                pluginValidator.validate()
+
+                if (pluginValidator.hasMessages()) {
+                    messages = [...messages, ...pluginValidator.getMessages()]
+                }
+
+            } else {
+                throw new Error('Validator missing validate method')
+            }
+        })
+
+        return messages
+    }
+
+
+    /**
+     * Runs all validators and shows messages in a dialog
+     * Promise is resolved if user clicks continue
+     * Promise is rejected if user clicks cancel
+     *
+     * If no messages is found in the validators the promise is resolved immediately
+     *
+     * @returns {Promise}
+     */
+    validateDocument() {
+        return new Promise((resolve, reject) => {
+            const messages = this.runValidators(this.api.configurator.getValidators())
+
+            if(messages.length === 0) {
+                resolve()
+                return
+            }
+
+            this.api.ui.showMessageDialog(messages,
+                () => {
+                    resolve()
+                },
+                () => {
+                    reject(new ValidationError(messages))
+                })
+        })
+
+
     }
 
     /**
@@ -24,22 +86,33 @@ class SaveHandler {
      */
     saveDocument() {
 
+        this.validateDocument()
+            .then(() => {
+                this.editorSession.fileManager.sync()
+            })
+            .then(() => {
 
-        this.editorSession.fileManager.sync()
-        .then(() => {
+                const uuid = this.api.newsItemArticle.documentElement.getAttribute('guid');
+                const exportedArticle = this.getExportedDocument()
 
-            const uuid = this.api.newsItemArticle.documentElement.getAttribute('guid');
-            const exporter = this.configurator.createExporter('newsml', { api: this.api })
-            const exportedArticle = exporter.exportDocument(this.editorSession.getDocument(), this.api.newsItemArticle)
+                if (uuid) {
+                    return this.updateNewsItem(uuid, exportedArticle)
+                } else {
+                    return this.createNewsItem(exportedArticle)
+                }
+            })
+            .catch((error) => {
 
-            if(uuid) {
-                return this.updateNewsItem(uuid, exportedArticle)
-            } else {
-                return this.createNewsItem(exportedArticle)
-            }
-        }).catch(function(error) {
-            console.error(error)
-        })
+                if(error instanceof ValidationError) {
+                    // User canceled the save when on validation errors
+                    this.api.events.userActionCancelSave()
+                } else if (error instanceof FileUploadError) {
+                    this.api.events.documentSaveFailed(error)
+                } else {
+                    this.api.events.documentSaveFailed(error)
+                }
+                console.error(error)
+            })
     }
 
     createNewsItem(newsItemXmlString) {
@@ -57,7 +130,7 @@ class SaveHandler {
                         const result = this.api.newsItem.setSource(xmlString, {})
                         this.api.browser.ignoreNextHashChange = true
                         this.api.browser.setHash(uuid)
-                        this.api.refs.writer.parent.replaceDoc(result) //@TODO Fix this so we dont use parent
+                        this.api.app.replaceDoc(result)
                         this.api.events.documentSaved();
                     })
             })
@@ -73,7 +146,6 @@ class SaveHandler {
                 this.api.events.documentSaved();
             })
             .catch((error) => {
-                console.log("Failing save due to", error)
                 this.api.events.documentSaveFailed(error)
             })
     }

@@ -6,6 +6,8 @@ import replace from 'lodash/replace'
 import isObject from 'lodash/isObject'
 import isArray from 'lodash/isArray'
 
+import Validator from '../packages/npwriter/Validator'
+
 import NewsMLExporter from '../packages/npwriter/NewsMLExporter'
 
 jxon.config({
@@ -29,80 +31,11 @@ class NewsItem {
         this.api = api
     }
 
-    /**
-     * Validate news item before saving
-     * This api method is called automatically by the writer when a save is
-     * requested. Should normally not be called directly from a plugin as it
-     * triggers a full validation from all registered validation plugins.
-     *
-     * @param {Document} newsItem
-     * @param {Function} cbFunc
-     */
-    isValid(newsItem, cbFunc) {
-        var validationResponses = [],
-            inNewsItem = newsItem;
-
-        if (!this.isSupportedBrowser()) {
-            validationResponses.push({
-                plugin: null,
-                type: 'error',
-                message: 'Saving not allowed. Browser not supported.'
-            });
-        }
-        else {
-            this.pluginManager.forEach(function (plugin) {
-                var messages = null;
-                if (plugin.schema.validation) {
-                    try {
-
-                        plugin.schema.validation.context = {
-                            api: this,
-                            i18n: this.refs.writer.i18n
-                        };
-
-                        messages = plugin.schema.validation.isValid(
-                            inNewsItem
-                        );
-
-                        for (var n = 0; n < messages.length; n++) {
-                            messages[n].plugin = plugin;
-                            validationResponses.push(messages[n]);
-                        }
-                    }
-                    catch (ex) {
-                        validationResponses.push({
-                            plugin: plugin,
-                            type: 'error',
-                            message: 'Exception while validating: ' + ex.message
-                        });
-                    }
-                }
-            }.bind(this));
-        }
-
-        if (validationResponses.length) {
-            this.showMessageDialog(
-                validationResponses,
-                function () {
-                    cbFunc(true, validationResponses); // Continue
-                }.bind(this),
-                function () {
-                    cbFunc(false, validationResponses); // Cancel
-                }.bind(this)
-            );
-        }
-        else {
-            cbFunc(true, []);
-        }
-    }
 
     /**
      * Save news item. Triggers a validation of the news item.
-     *
-     * @param {Function} onBeforeSave Optional callback function called before saving
-     * @param {Function} onError Optional callback function called on validation error
      */
-    save(onBeforeSave, onError) {
+    save() {
         if (this.api.browser.isSupported()) {
             this.api.editorSession.saveHandler.saveDocument()
         }
@@ -110,18 +43,7 @@ class NewsItem {
             // TODO: Display nicer error dialog
             console.log('Unsupported browser. Document not saved!')
         }
-        // // Create callback that takes a boolean, true = save, false = cancel
-        // this.refs.writer.send('validate', function (isValid) {
-        //     if (isValid) {
-        //         if (onBeforeSave) {
-        //             onBeforeSave();
-        //         }
-        //         this.refs.writer.send('save');
-        //     }
-        //     else if (onError) {
-        //         onError();
-        //     }
-        // }.bind(this));
+
     }
 
     getSource() {
@@ -141,9 +63,6 @@ class NewsItem {
      * @return {object | null}
      */
     setSource(newsML, writerConfig) {
-        // var newsMLImporter = new NewsMLImporter(
-        //     writerConfig || this.refs.writer.props.config
-        // );
         var newsMLImporter = this.api.configurator.createImporter('newsml', {
             api: this.api
         })
@@ -1498,7 +1417,15 @@ class NewsItem {
      * @returns {*|null}
      */
     getTemporaryId() {
-        return this.api.writer.temporaryArticleID || null
+        return this.api.app.temporaryArticleID || null
+    }
+
+    /**
+     * Set a temporaryId for the article
+     * @param temporaryArticleID
+     */
+    setTemporaryId(temporaryArticleID) {
+        this.api.app.temporaryArticleID = temporaryArticleID
     }
 
     /**
@@ -1506,7 +1433,7 @@ class NewsItem {
      * @returns {boolean}
      */
     hasTemporaryId() {
-        return this.api.writer.temporaryArticleID ? true : false;
+        return this.api.app.temporaryArticleID ? true : false;
     }
 
     getIdForArticle() {

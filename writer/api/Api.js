@@ -63,6 +63,10 @@ class Api {
         this.writer = writer
     }
 
+    setAppReference(app) {
+        this.app = app
+    }
+
     /**
      * Get configuration value in a plugins local configuration data section.
      *
@@ -85,6 +89,12 @@ class Api {
      */
     getConfigValue(name, path, defaultValue) {
         return this.pluginManager.getConfigValue(name, path, defaultValue);
+    }
+
+    getLabel(name) {
+        var labelProvider = this.configurator.labelProvider
+        if (!labelProvider) { throw new Error('Missing labelProvider.') }
+        return labelProvider.getLabel(name)
     }
 
     /**

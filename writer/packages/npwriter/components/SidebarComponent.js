@@ -55,6 +55,13 @@ class SidebarComponent extends Component {
         })
     }
 
+    /**
+     * Get alll registered sidebar panels and then filter by the current tab id
+     *
+     * @param $$
+     * @param tabId
+     * @returns {Array} - Returns an array with components
+     */
     getSidebarPanelsForTabId($$, tabId) {
         return this.context.configurator.getSidebarPanels().filter((panel) => {
             return panel.tabId === tabId

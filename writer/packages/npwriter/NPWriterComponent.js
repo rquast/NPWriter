@@ -7,7 +7,6 @@ import BarComponent from './../../components/bar/BarComponent'
 import DialogPlaceholder from '../dialog/DialogPlaceholder'
 import Event from '../../utils/Event'
 import debounce from '../../utils/Debounce'
-import idGenerator from '../../utils/IdGenerator'
 
 class NPWriter extends AbstractEditor {
 
@@ -15,6 +14,11 @@ class NPWriter extends AbstractEditor {
         super._initialize(...args)
 
         this.props.api.setWriterReference(this);
+
+        // When document is changed we need to save a local version
+        this.props.api.events.on('npwritercomponent', Event.DOCUMENT_CHANGED, () => {
+            this.addVersion()
+        })
 
         this.exporter = this._getExporter();
         this.spellCheckManager = new SpellCheckManager(this.editorSession, {
@@ -36,6 +40,7 @@ class NPWriter extends AbstractEditor {
         this.handleActions(actionHandlers)
 
         this.props.api.events.on('__internal', Event.DOCUMENT_SAVE_FAILED, (e) => {
+            console.log("Error", e);
             let errorMessages = e.data.errors.map((error) => {
                 return {
                     type: 'error',
@@ -47,11 +52,7 @@ class NPWriter extends AbstractEditor {
     }
 
 
-    setTemporaryId() {
-        if (!this.temporaryArticleID) {
-            this.temporaryArticleID = idGenerator();
-        }
-    }
+
 
     didMount() {
         super.didMount()
@@ -98,16 +99,12 @@ class NPWriter extends AbstractEditor {
     dispose() {
         super.dispose()
 
+        this.props.api.events.off('npwritercomponent', Event.DOCUMENT_CHANGED)
         // this.spellCheckManager.dispose()
     }
 
 
     render($$) {
-
-
-        if(!this.props.api.browser.getHash()) {
-            this.setTemporaryId();
-        }
 
         const el = $$('div')
             .addClass('sc-np-writer').ref('npwriter')

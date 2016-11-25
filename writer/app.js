@@ -18,6 +18,8 @@ import APIManager from './api/APIManager'
 import lodash from 'lodash'
 import SourceComponent from './packages/dialog/SourceComponent'
 import jxon from 'jxon'
+import Validator from './packages/npwriter/Validator'
+
 
 const STATUS_ISREADY = 'isReady',
     STATUS_LOADING = 'loading',
@@ -109,8 +111,9 @@ class App extends Component {
 
         this.pluginManager = new PluginManager(this.configurator, this.APIManager)
         this.api = new API(this.pluginManager, this.configurator, this.APIManager)
-
         const api = this.api
+
+        api.setAppReference(this)
 
         // Expose classes and endpoint on window.writer
         api.apiManager.expose('api', this.api)
@@ -120,7 +123,7 @@ class App extends Component {
         api.apiManager.expose('idGenerator', idGenerator) // Expose the ID Generator helper method
         api.apiManager.expose('lodash', lodash) // Expose the ID Generator helper method
         api.apiManager.expose('jxon', jxon) // Expose JXON library
-
+        api.apiManager.expose('Validator', Validator) // Expose JXON library
 
         var promise = this.configurator.loadConfigJSON('/api/config')                     // Load config file and store it in configurator
             .then(() => this.configurator.config.writerConfigFile.plugins)  // Get the plugins section from config (stored in the configurator)
@@ -196,7 +199,7 @@ class App extends Component {
         let handled = false;
 
         if (e.keyCode === 83 && (e.metaKey || e.ctrlKey)) { // Save: cmd+s
-            this.api.newsItem.save()
+            this.api.events.userActionSave()
             handled = true;
         } else if (e.keyCode === 85 && (e.metaKey || e.ctrlKey) && !e.altKey) {
             const xml = this.getSaveHandler().getExportedDocument()
@@ -235,13 +238,19 @@ class App extends Component {
         // NOTE: emptying the component here makes sure that no component survives connected to the old document
 
         if(this.refs.writer) { // First load we have to reference to writer so we know it's the initial load
-            this.api.document.setDocumentStatus(HAS_DOCUMENT)
+            this.api.document._setDocumentStatus(HAS_DOCUMENT)
         } else {
-            this.api.document.setDocumentStatus(HAS_NO_DOCUMENT)
+            this.api.document._setDocumentStatus(HAS_NO_DOCUMENT)
         }
         this.empty()
         this.rerender()
 
+    }
+
+    setTemporaryId() {
+        if (!this.temporaryArticleID) {
+            this.temporaryArticleID = idGenerator();
+        }
     }
 
     render($$) {
@@ -253,6 +262,11 @@ class App extends Component {
                 break
 
             case STATUS_ISREADY:
+
+                if(!this.api.browser.getHash()) {
+                    this.setTemporaryId();
+                }
+
                 el.append($$(NPWriterComponent, {
                     pluginManager: this.pluginManager,
                     editorSession: this.editorSession,

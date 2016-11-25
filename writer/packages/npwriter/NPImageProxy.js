@@ -1,6 +1,7 @@
 import {FileProxy} from 'substance'
 import FileService from './FileService'
 import isString from 'lodash/isString'
+import FileUploadError from '../../utils/errors/FileUploadError'
 
 class NPImageProxy extends FileProxy {
 
@@ -17,7 +18,7 @@ class NPImageProxy extends FileProxy {
         // used locally e.g. after drop or file dialog
 
         // If this file is being uploaded
-        this._isSyncing = false
+        this.uploadPromise = null
 
         // When an url (String) is given as the data an uri needs to be 'uploaded'
         if (isString(fileNode.data)) {
@@ -62,51 +63,49 @@ class NPImageProxy extends FileProxy {
     }
 
     sync() {
-        if(!this._isSyncing) {
-            this._isSyncing = true
-            if (!this.uuid && this.file) { // regular file upload
-                return new Promise((resolve, reject) => {
-
-                    const params = {
-                        imType: this.fileNode.getImType()
-                    }
-
-                    this.fileService.uploadFile(this.file, params)
-                        .then((xmlString) => {
-                            this.fileNode.handleDocument(xmlString);
-                            this._isSyncing = false
-                            resolve()
-                        })
-                        .catch((e) => {
-                            console.log("Error uploading", e);
-                            this._isSyncing = false
-                            reject(e)
-                        })
-                })
-            } else if (!this.uuid && this.uri) { // uri-based upload
-
-                return new Promise((resolve, reject) => {
-                    this.fileService.uploadURL(this.uri, this.fileNode.getImType())
-                        .then((xmlString) => {
-                            this.fileNode.handleDocument(xmlString);
-                            this._isSyncing = false
-                            resolve()
-                        })
-                        .catch((e) => {
-                            console.log("Error uploading", e);
-                            this._isSyncing = false
-                            reject(e)
-                        })
-                })
-
-
-            } else {
-                // console.log("Get url for", this.uuid);
-                // this.fetchUrl()
-                // return ""
-                return Promise.resolve()
-            }
+        if (this.uploadPromise) {
+            return this.uploadPromise
         }
+
+        if (!this.uuid && this.file) { // regular file upload
+            this.uploadPromise = new Promise((resolve, reject) => {
+                const params = {
+                    imType: this.fileNode.getImType()
+                }
+
+                this.fileService.uploadFile(this.file, params)
+                    .then((xmlString) => {
+                        this.fileNode.handleDocument(xmlString);
+                        this.uploadPromise = null
+                        resolve()
+                    })
+                    .catch((e) => {
+                        this.uploadPromise = null
+                        reject(new FileUploadError(e.message))
+                    })
+            })
+        } else if (!this.uuid && this.uri) { // uri-based upload
+
+            this.uploadPromise = new Promise((resolve, reject) => {
+                this.fileService.uploadURL(this.uri, this.fileNode.getImType())
+                    .then((xmlString) => {
+                        this.fileNode.handleDocument(xmlString);
+                        this.uploadPromise = null
+                        resolve()
+                    })
+                    .catch((e) => {
+                        this.uploadPromise = null
+                        reject(new FileUploadError(e.message))
+                    })
+            })
+
+
+        } else {
+            return Promise.resolve()
+        }
+
+        return this.uploadPromise
+
 
     }
 }
