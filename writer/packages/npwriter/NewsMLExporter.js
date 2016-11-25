@@ -6,17 +6,12 @@ class NewsMLExporter extends XMLExporter {
         super(...args)
     }
 
-    isElementedConvertedByPlugins(textEditElement, existingChildren) {
-        let found = false
+    removeElementIfExists(textEditElement, existingChildren) {
         existingChildren.forEach((child) => {
             if (textEditElement.el.tagName === child.nodeName && textEditElement.el.getAttribute('type') === child.getAttribute('type')) {
-                console.log("Remove", textEditElement.el.getAttribute('type'), child.getAttribute('type'));
                 child.remove()
             }
         })
-
-
-        return found
     }
 
     addHeaderGroup(doc, newsItem, $$, groupContainer) {
@@ -32,26 +27,9 @@ class NewsMLExporter extends XMLExporter {
         if (headerElements.length > 0) {
             const idfHeaderGroup = newsItem.querySelector('idf group[type="header"]');
 
-            // for (const child of idfHeaderGroup.childNodes) {
-            //     if (this.isElementedConvertedByPlugins(headerElements, child)) {
-            //         child.remove()
-            //     }
-            // }
-            /* while (idfHeaderGroup.firstChild) {
-
-             // Only remove elements with the same type we have exported from the plugins
-             // So we dont remove unknown elements
-             if(this.isElementedConvertedByPlugins(headerElements, idfHeaderGroup.firstChild)) {
-             console.log("idfHeaderGroup.firstChild",idfHeaderGroup.firstChild.tagName, idfHeaderGroup.firstChild.getAttribute('type'), 'remove');
-             idfHeaderGroup.removeChild(idfHeaderGroup.firstChild);
-             }
-
-             }*/
-
             headerElements.forEach((elements) => {
                 elements.forEach(element => {
-                    console.log("(element.el", element.el.outerHTML);
-                    this.isElementedConvertedByPlugins(element, idfHeaderGroup.childNodes)
+                    this.removeElementIfExists(element, idfHeaderGroup.childNodes)
                     console.log("Add", element.el.tagName, element.el.getAttribute('type'));
                     idfHeaderGroup.appendChild(element.el)
                 })
@@ -112,7 +90,7 @@ class NewsMLExporter extends XMLExporter {
         const $$ = this.$$
         var groupContainer = newsItemArticle.querySelector('idf');
 
-        // this.addHeaderGroup(doc, newsItemArticle, $$, groupContainer);
+        this.addHeaderGroup(doc, newsItemArticle, $$, groupContainer);
         this.addBodyGroup(doc, newsItemArticle, groupContainer);
         this.addTeaser(newsItemArticle, groupContainer);
 

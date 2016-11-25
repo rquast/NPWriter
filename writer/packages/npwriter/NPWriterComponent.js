@@ -160,11 +160,14 @@ class NPWriter extends AbstractEditor {
         const headerEditorContainer = $$('div').addClass('se-header-editor-container')
 
         const doc = this.editorSession.getDocument()
-/*        var textEditComponents = this.props.configurator.getTextEditComponents()
+        var textEditComponents = this.props.configurator.getTextEditComponents()
 
         let textEditors = textEditComponents.map((editTextComponent) => {
 
             let node = doc.get(editTextComponent.nodeType)
+            if(!node) {
+                return null
+            }
             let component = this.getComponent(editTextComponent.nodeType)
 
             return $$(component, {
@@ -173,8 +176,8 @@ class NPWriter extends AbstractEditor {
                 containerId: 'headereditor',
             })
         });
-*/
-        // headerEditorContainer.append(textEditors)
+
+        headerEditorContainer.append(textEditors)
 
         return headerEditorContainer
     }
