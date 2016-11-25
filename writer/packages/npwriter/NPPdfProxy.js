@@ -6,7 +6,8 @@ class NPPdfProxy extends FileProxy {
 
     constructor(fileNode, context) {
         super(fileNode, context)
-        // TODO: assuming a life-cycle which would need discussion
+
+
         // 1. A file is considered upstream if it has a uuid set
         // 2. If no uuid but a local file is present, the file needs to be sync'd
         // 3. Due to permission reasons 'url' needs to be retrieved from the server everytime
@@ -16,16 +17,19 @@ class NPPdfProxy extends FileProxy {
         this.fileNode = fileNode
         // used locally e.g. after drop or file dialog
 
+        // If a file upload is in progress
+        this.uploadPromise = null
+
         // If this file is being uploaded
         this._isSyncing = false
 
         // When an url (String) is given as the data an uri needs to be 'uploaded'
-        if (isString(fileNode.data)) {
-            this.uri = fileNode.data
+        if (fileNode.sourceUrl) {
+            this.sourceUrl = fileNode.sourceUrl
         } else {
-            this.file = fileNode.data
-            if (this.file) {
-                this._fileUrl = URL.createObjectURL(this.file)
+            this.sourceFile = fileNode.sourceFile
+            if (this.sourceFile) {
+                this._fileUrl = URL.createObjectURL(this.sourceFile)
             }
         }
 
@@ -41,8 +45,8 @@ class NPPdfProxy extends FileProxy {
         if (this.url) {
             return this.url
         }
-        if (this.uri) {
-            return this.uri
+        if (this.sourceUrl) {
+            return this.sourceUrl
         }
         // if we have a local file, use it's data URL
         if (this._fileUrl) {
@@ -55,60 +59,63 @@ class NPPdfProxy extends FileProxy {
     fetchUrl() {
         this.fileService.getUrl(this.fileNode.uuid, this.fileNode.getImType())
             .then((url) => {
-                this.url = url
+                this.fileNode.url = url
                 this.triggerUpdate()
             })
     }
 
     sync() {
-        if(!this._isSyncing) {
-            this._isSyncing = true
-            if (!this.uuid && this.file) { // regular file upload
-                return new Promise((resolve, reject) => {
 
-                    const params = {
-                        imType: this.fileNode.getImType()
-                    }
-
-                    this.fileService.uploadFile(this.file, params)
-                        .then((xmlString) => {
-                            this.fileNode.handleDocument(xmlString);
-                            this._isSyncing = false
-                            this.triggerUpdate()
-                            resolve()
-                        })
-                        .catch((e) => {
-                            console.log("Error uploading", e);
-                            this._isSyncing = false
-                            reject(e)
-                        })
-                })
-            } else if (!this.uuid && this.uri) { // uri-based upload
-
-                return new Promise((resolve, reject) => {
-                    this.fileService.uploadURL(this.uri, this.fileNode.getImType())
-                        .then((xmlString) => {
-                            this.fileNode.handleDocument(xmlString);
-                            this._isSyncing = false
-                            resolve()
-                        })
-                        .catch((e) => {
-                            console.log("Error uploading", e);
-                            this._isSyncing = false
-                            reject(e)
-                        })
-                })
-
-
-            } else {
-                // console.log("Get url for", this.uuid);
-                // this.fetchUrl()
-                // return ""
-                return Promise.resolve()
-            }
+        if(this.uploadPromise){
+            return this.uploadPromise
         }
 
+        if (!this.uuid && this.sourceFile) { // regular file upload
+            this.uploadPromise = new Promise((resolve, reject) => {
+
+                const params = {
+                    imType: this.fileNode.getImType()
+                }
+
+                this.fileService.uploadFile(this.sourceFile, params)
+                    .then((xmlString) => {
+                        this.fileNode.handleDocument(xmlString)
+                        this.uploadPromise = null
+                        this.fetchUrl()
+                        resolve()
+                    })
+                    .catch((e) => {
+                        console.log("Error uploading", e)
+                        this.uploadPromise = null
+                        reject(e)
+                    })
+            })
+        } else if (!this.uuid && this.sourceUrl) { // uri-based upload
+
+            this.uploadPromise = new Promise((resolve, reject) => {
+                this.fileService.uploadURL(this.sourceUrl, this.fileNode.getImType())
+                    .then((xmlString) => {
+                        this.fileNode.handleDocument(xmlString);
+                        this.uploadPromise = null
+                        this.fetchUrl()
+                        resolve()
+                    })
+                    .catch((e) => {
+                        console.log("Error uploading", e);
+                        this.uploadPromise = null
+                        reject(e)
+                    })
+            })
+
+
+        } else {
+            return Promise.resolve()
+        }
+
+        return this.uploadPromise
     }
+
+
 }
 
 // to detect that this class should take responsibility for a fileNode

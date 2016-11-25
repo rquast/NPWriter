@@ -59,9 +59,12 @@ class NPWriter extends AbstractEditor {
         this.spellCheckManager.runGlobalCheck()
         this.editorSession.onUpdate(this.editorSessionUpdated, this)
 
-        this.addVersion = debounce(() => {
-            this.props.api.history.snapshot();
-        }, 1000)
+        this.addVersion = () => {
+
+        }
+        // this.addVersion = debounce(() => {
+        //     this.props.api.history.snapshot();
+        // }, 1000)
 
     }
 
