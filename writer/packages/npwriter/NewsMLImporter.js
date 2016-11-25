@@ -35,6 +35,7 @@ class NewsMLImporter extends XMLImporter {
 
         // Convert headergroup
         if(headerGroup) {
+            console.log("Convert header group");
             this.convertElement(headerGroup);
         }
 

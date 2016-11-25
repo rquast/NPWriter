@@ -6,16 +6,56 @@ class NewsMLExporter extends XMLExporter {
         super(...args)
     }
 
+    isElementedConvertedByPlugins(textEditElement, existingChildren) {
+        let found = false
+        existingChildren.forEach((child) => {
+            if (textEditElement.el.tagName === child.nodeName && textEditElement.el.getAttribute('type') === child.getAttribute('type')) {
+                console.log("Remove", textEditElement.el.getAttribute('type'), child.getAttribute('type'));
+                child.remove()
+            }
+        })
+
+
+        return found
+    }
+
     addHeaderGroup(doc, newsItem, $$, groupContainer) {
-        if (doc.get('metadata')) {
-            var idfHeaderGroup = newsItem.querySelector('idf group[type="header"]');
-            var headerElements = this.convertNode(doc.get('metadata'));
 
-            var parser = new DOMParser()
-            var headerDomElement = parser.parseFromString(headerElements.outerHTML, 'application/xml').firstChild;
+        const textEditComponents = this.context.api.configurator.getTextEditComponents()
 
-            groupContainer.removeChild(idfHeaderGroup);
-            groupContainer.appendChild(headerDomElement);
+        let headerElements = textEditComponents.map((textEditComponent) => {
+            const node = doc.get(textEditComponent.nodeType)
+            const convertedTextEdit = this.convertNode(node)
+            return convertedTextEdit.childNodes
+        })
+
+        if (headerElements.length > 0) {
+            const idfHeaderGroup = newsItem.querySelector('idf group[type="header"]');
+
+            // for (const child of idfHeaderGroup.childNodes) {
+            //     if (this.isElementedConvertedByPlugins(headerElements, child)) {
+            //         child.remove()
+            //     }
+            // }
+            /* while (idfHeaderGroup.firstChild) {
+
+             // Only remove elements with the same type we have exported from the plugins
+             // So we dont remove unknown elements
+             if(this.isElementedConvertedByPlugins(headerElements, idfHeaderGroup.firstChild)) {
+             console.log("idfHeaderGroup.firstChild",idfHeaderGroup.firstChild.tagName, idfHeaderGroup.firstChild.getAttribute('type'), 'remove');
+             idfHeaderGroup.removeChild(idfHeaderGroup.firstChild);
+             }
+
+             }*/
+
+            headerElements.forEach((elements) => {
+                elements.forEach(element => {
+                    console.log("(element.el", element.el.outerHTML);
+                    this.isElementedConvertedByPlugins(element, idfHeaderGroup.childNodes)
+                    console.log("Add", element.el.tagName, element.el.getAttribute('type'));
+                    idfHeaderGroup.appendChild(element.el)
+                })
+            })
         }
     }
 
@@ -32,7 +72,7 @@ class NewsMLExporter extends XMLExporter {
         var bodyGroup = document.createElement('group')
         bodyGroup.setAttribute('type', 'body');
 
-        for(var node of bodyElements) {
+        for (var node of bodyElements) {
             bodyGroup.appendChild(node.el);
         }
 
@@ -62,7 +102,6 @@ class NewsMLExporter extends XMLExporter {
             metadata.appendChild(newTeaser);
         }
     }
-
 
 
     exportDocument(doc, newsItemArticle) {
