@@ -5,6 +5,7 @@ export default {
     DIALOG_CLOSE: 'dialog:close',
     NOTIFICATION_ADD: 'notification:add',
     HISTORY_SAVED: 'history:saved',
+    HISTORY_CLEARED: 'history:cleared',
     USERACTION_SAVE: 'useraction:save',
     USERACTION_CANCEL_SAVE: 'useraction:cancel_save'
 }

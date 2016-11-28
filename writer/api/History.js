@@ -95,7 +95,9 @@ class History {
             return false;
         }
 
-        this.storage.removeItem(HST_KEY+id)
+        const historyId = HST_KEY+id
+        this.storage.removeItem(historyId)
+        this.api.events.triggerEvent(null, Event.HISTORY_CLEARED, {historyId: historyId});
     }
 
 
