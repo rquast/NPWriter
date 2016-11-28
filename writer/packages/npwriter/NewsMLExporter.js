@@ -25,11 +25,17 @@ class NewsMLExporter extends XMLExporter {
 
         let headerElements = textEditComponents.map((textEditComponent) => {
             const node = doc.get(textEditComponent.nodeType)
-            const convertedTextEdit = this.convertNode(node)
-            return convertedTextEdit.childNodes
+            if(node) {
+                const convertedTextEdit = this.convertNode(node)
+                return convertedTextEdit.childNodes
+            }
+        }).filter((headerElement) => {
+            if(headerElement) {
+                return headerElement
+            }
         })
 
-        if (headerElements.length > 0) {
+        if (headerElements && headerElements.length > 0) {
             headerElements.forEach((elements) => {
                 elements.forEach(element => {
                     this.removeElementIfExists(element, idfHeaderGroup.childNodes)
