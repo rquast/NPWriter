@@ -62,6 +62,8 @@ class PluginManager {
         const pluginRegisterFunction = this.registerPluginList.get(pluginPackage.id);
         if (pluginRegisterFunction) {
             pluginRegisterFunction(pluginPackage);
+        } else {
+            console.info("Trying to call register on a plugin that's not registered with the writer",pluginPackage.id);
         }
     }
 
@@ -91,7 +93,7 @@ class PluginManager {
 
                 this.registerPluginList.set(plugin.id, (pluginPackage) => {
                     pluginPackage.index = idx // Set the sort index for the package
-                    this.pluginPackages.push(pluginPackage)
+                    this.pluginPackages.push({pluginPackage:pluginPackage, pluginConfigObject: plugin})
                     resolved = true;
                     this.plugins.set(plugin.id, plugin)
                     this.registerPluginList.delete(plugin.id)
@@ -124,14 +126,14 @@ class PluginManager {
     importPluginPackagesSortedByIndex() {
 
         let packages = sortBy(this.pluginPackages, [(pluginPackage) => {
-            if(pluginPackage.index === undefined) { // Undefined is a higher number than zero
-                pluginPackage.index = 0
+            if(pluginPackage.pluginPackage.index === undefined) { // Undefined is a higher number than zero
+                pluginPackage.pluginPackage.index = 0
             }
-            return pluginPackage.index;
+            return pluginPackage.pluginPackage.index;
         }])
 
         packages.forEach((pluginPackage) => {
-            this.configurator.import(pluginPackage)
+            this.configurator.import(pluginPackage.pluginPackage, pluginPackage.pluginConfigObject)
         })
     }
 

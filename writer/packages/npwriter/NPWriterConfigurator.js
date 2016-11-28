@@ -88,8 +88,9 @@ class NPWriterConfigurator extends Configurator {
      * @param id
      * @param tabId
      * @param component
+     * @param {object} pluginConfigObject Pass the plugin config object
      */
-    addComponentToSidebarWithTabId(id, tabId, component) {
+    addComponentToSidebarWithTabId(id, tabId, component, pluginConfigObject) {
         if (!component instanceof Component) {
             throw new Error('Ui must be an instance of Component')
         }
@@ -99,6 +100,7 @@ class NPWriterConfigurator extends Configurator {
             id: id,
             tabId: tabId,
             component: component,
+            pluginConfigObject: pluginConfigObject,
             getCSSFriendlyName: () => {
                 return id.replace(/\./g, '-')
             }

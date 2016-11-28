@@ -63,12 +63,12 @@ class SidebarComponent extends Component {
      * @returns {Array} - Returns an array with components
      */
     getSidebarPanelsForTabId($$, tabId) {
-        return this.context.configurator.getSidebarPanels().filter((panel) => {
-            return panel.tabId === tabId
-        }).map((panel) => {
+        return this.context.configurator.getSidebarPanels().filter((plugin) => {
+            return plugin.tabId === tabId
+        }).map((plugin) => {
             return $$('div')
-                .addClass('plugin plugin-' + panel.getCSSFriendlyName())
-                .append($$(panel.component, {panel: panel}))
+                .addClass('plugin plugin-' + plugin.getCSSFriendlyName())
+                .append($$(plugin.component, {pluginConfigObject: plugin}))
         })
     }
 }

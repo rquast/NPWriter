@@ -196,13 +196,29 @@
             "mandatory": false
         },
         {
-            "id": "se.infomaker.ximplace",
+            "id": "se.infomaker.ximplace-position",
             "name": "ximplace",
             "url": "http://localhost:5001/index.js",
             "style": "http://localhost:5001/style.css",
             "enabled": true,
             "mandatory": true,
             "data": {
+                "features": "position",
+                "googleMapAPIKey": "AIzaSyB0pmf9RAml2HL3AgiB_yYTwIeMILqQ_1w"
+            }
+        },
+        {
+            "id": "se.infomaker.ximplace-polygon",
+            "name": "ximplace",
+            "url": "http://localhost:5001/index.js",
+            "style": "http://localhost:5001/style.css",
+            "enabled": true,
+            "mandatory": true,
+            "data": {
+                "features": "polygon",
+                "polygon": {
+                    "editable": false
+                },
                 "googleMapAPIKey": "AIzaSyB0pmf9RAml2HL3AgiB_yYTwIeMILqQ_1w"
             }
         },
