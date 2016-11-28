@@ -309,13 +309,7 @@
             "name": "headereditor",
             "url": "http://localhost:5001/index.js",
             "mandatory": false,
-            "enabled": true,
-            "data": {
-                "elements": [
-                    "headline",
-                    "leadin"
-                ]
-            }
+            "enabled": true
         },
         {
             "id": "se.infomaker.newspriority",
