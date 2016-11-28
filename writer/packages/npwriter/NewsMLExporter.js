@@ -6,16 +6,42 @@ class NewsMLExporter extends XMLExporter {
         super(...args)
     }
 
+    removeElementIfExists(textEditElement, existingChildren) {
+        existingChildren.forEach((child) => {
+            if (textEditElement.el.tagName === child.nodeName && textEditElement.el.getAttribute('type') === child.getAttribute('type')) {
+                child.remove()
+            }
+        })
+    }
+
     addHeaderGroup(doc, newsItem, $$, groupContainer) {
-        if (doc.get('metadata')) {
-            var idfHeaderGroup = newsItem.querySelector('idf group[type="header"]');
-            var headerElements = this.convertNode(doc.get('metadata'));
 
-            var parser = new DOMParser()
-            var headerDomElement = parser.parseFromString(headerElements.outerHTML, 'application/xml').firstChild;
+        const idfHeaderGroup = newsItem.querySelector('idf group[type="header"]')
+        if(!idfHeaderGroup) {
+            return
+        }
 
-            groupContainer.removeChild(idfHeaderGroup);
-            groupContainer.appendChild(headerDomElement);
+        const textEditComponents = this.context.api.configurator.getTextEditComponents()
+
+        let headerElements = textEditComponents.map((textEditComponent) => {
+            const node = doc.get(textEditComponent.nodeType)
+            if(node) {
+                const convertedTextEdit = this.convertNode(node)
+                return convertedTextEdit.childNodes
+            }
+        }).filter((headerElement) => {
+            if(headerElement) {
+                return headerElement
+            }
+        })
+
+        if (headerElements && headerElements.length > 0) {
+            headerElements.forEach((elements) => {
+                elements.forEach(element => {
+                    this.removeElementIfExists(element, idfHeaderGroup.childNodes)
+                    idfHeaderGroup.appendChild(element.el)
+                })
+            })
         }
     }
 
@@ -32,7 +58,7 @@ class NewsMLExporter extends XMLExporter {
         var bodyGroup = document.createElement('group')
         bodyGroup.setAttribute('type', 'body');
 
-        for(var node of bodyElements) {
+        for (var node of bodyElements) {
             bodyGroup.appendChild(node.el);
         }
 
@@ -62,7 +88,6 @@ class NewsMLExporter extends XMLExporter {
             metadata.appendChild(newTeaser);
         }
     }
-
 
 
     exportDocument(doc, newsItemArticle) {

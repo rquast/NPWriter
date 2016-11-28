@@ -8,6 +8,7 @@ class NPWriterConfigurator extends Configurator {
     constructor(...args) {
         super(...args)
 
+        this.config.textEditComponents = []
         this.config.popovers = []
         this.config.validators = []
         this.config.sidebarTopBar = []
@@ -23,11 +24,11 @@ class NPWriterConfigurator extends Configurator {
      */
     getLabelProvider() {
         let labelLanguage = 'en'
-        if(this.config.writerConfigFile && this.config.writerConfigFile.labelLanguage) {
+        if (this.config.writerConfigFile && this.config.writerConfigFile.labelLanguage) {
             labelLanguage = this.config.writerConfigFile.labelLanguage
         }
 
-        if(!this.labelProvider) {
+        if (!this.labelProvider) {
             this.labelProvider = new LabelProvider(this.config.labels, labelLanguage)
         }
         return this.labelProvider
@@ -168,7 +169,7 @@ class NPWriterConfigurator extends Configurator {
         try {
             return this.config.writerConfigFile.newsItemTemplateId
         }
-        catch(_) {
+        catch (_) {
             throw new Error('Could not find newsItemTemplateId in configuration')
         }
 
@@ -205,6 +206,11 @@ class NPWriterConfigurator extends Configurator {
         super.addTool(toolName, ToolClass, options)
     }
 
+    /**
+     * Adds a tool that will displayed in overlay/annotations
+     * @param toolName
+     * @param ToolClass
+     */
     addOverlayTool(toolName, ToolClass) {
         const options = {
             toolGroup: 'overlay'
@@ -213,6 +219,27 @@ class NPWriterConfigurator extends Configurator {
         super.addTool(toolName, ToolClass, options)
     }
 
+
+    /**
+     * Adds a text edit component placed above or below the editor
+     * Will be exported into the header group in IDF section
+     * @param name
+     * @param componentClass
+     */
+    addTextEditComponent(nodeType, componentClass, options) {
+
+        this.config.textEditComponents.push({
+            nodeType: nodeType,
+            componentClass: componentClass,
+            options: options
+        })
+
+        super.addComponent(nodeType, componentClass)
+    }
+
+    getTextEditComponents() {
+        return this.config.textEditComponents
+    }
 
 }
 
