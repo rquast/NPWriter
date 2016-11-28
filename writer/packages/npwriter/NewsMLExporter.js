@@ -16,6 +16,11 @@ class NewsMLExporter extends XMLExporter {
 
     addHeaderGroup(doc, newsItem, $$, groupContainer) {
 
+        const idfHeaderGroup = newsItem.querySelector('idf group[type="header"]')
+        if(!idfHeaderGroup) {
+            return
+        }
+
         const textEditComponents = this.context.api.configurator.getTextEditComponents()
 
         let headerElements = textEditComponents.map((textEditComponent) => {
@@ -25,12 +30,9 @@ class NewsMLExporter extends XMLExporter {
         })
 
         if (headerElements.length > 0) {
-            const idfHeaderGroup = newsItem.querySelector('idf group[type="header"]');
-
             headerElements.forEach((elements) => {
                 elements.forEach(element => {
                     this.removeElementIfExists(element, idfHeaderGroup.childNodes)
-                    console.log("Add", element.el.tagName, element.el.getAttribute('type'));
                     idfHeaderGroup.appendChild(element.el)
                 })
             })

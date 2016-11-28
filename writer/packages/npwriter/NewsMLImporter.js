@@ -33,7 +33,7 @@ class NewsMLImporter extends XMLImporter {
         var groups = newsItemElement.findAll('idf > group[type="body"]');
         var headerGroup = newsItemElement.find('idf > group[type="header"]');
 
-        // Convert headergroup
+        // Convert headergroup if it exist
         if(headerGroup) {
             this.convertElement(headerGroup);
         }
