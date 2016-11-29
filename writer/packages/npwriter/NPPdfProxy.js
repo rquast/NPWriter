@@ -70,7 +70,7 @@ class NPPdfProxy extends FileProxy {
             return this.uploadPromise
         }
 
-        if (!this.uuid && this.sourceFile) { // regular file upload
+        if (!this.fileNode.uuid && this.sourceFile) { // regular file upload
             this.uploadPromise = new Promise((resolve, reject) => {
 
                 const params = {
@@ -90,7 +90,7 @@ class NPPdfProxy extends FileProxy {
                         reject(e)
                     })
             })
-        } else if (!this.uuid && this.sourceUrl) { // uri-based upload
+        } else if (!this.fileNode.uuid && this.sourceUrl) { // uri-based upload
 
             this.uploadPromise = new Promise((resolve, reject) => {
                 this.fileService.uploadURL(this.sourceUrl, this.fileNode.getImType())
