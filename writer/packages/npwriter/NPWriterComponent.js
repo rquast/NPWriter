@@ -60,29 +60,16 @@ class NPWriter extends AbstractEditor {
         this.spellCheckManager.runGlobalCheck()
         this.editorSession.onUpdate(this.editorSessionUpdated, this)
 
-        this.addVersion = () => {
-
-        }
-        // this.addVersion = debounce(() => {
-        //     this.props.api.history.snapshot();
-        // }, 1000)
+        this.addVersion = debounce(() => {
+            this.props.api.history.snapshot();
+        }, 7000)
 
     }
 
 
     editorSessionUpdated(data) {
         if (data._change) {
-
             this.addVersion()
-
-            // console.log('...has unsaved changes', data._hasUnsavedChanges)
-            // console.log('...is transacting     ', data._isTransacting)
-            // console.log('...is saving          ', data._isSaving)
-            // console.log('...number of changes  ', data._history.doneChanges.length);
-            // console.log('...change             ', data._change);
-            // console.log('...current change     ', data._currentChange);
-            // console.log('-----------------------------------------------------')
-
             if (data._info.history === false) {
                 // Don't trigger document change for internal changes that the user cannot undo/redo
                 return
@@ -164,6 +151,33 @@ class NPWriter extends AbstractEditor {
         return this.componentRegistry.get(name)
     }
 
+    _renderHeaderEditors($$) {
+
+        const headerEditorContainer = $$('div').addClass('se-header-editor-container')
+
+        const doc = this.editorSession.getDocument()
+        var textEditComponents = this.props.configurator.getTextEditComponents()
+
+        let textEditors = textEditComponents.map((editTextComponent) => {
+
+            let node = doc.get(editTextComponent.nodeType)
+            if(!node) {
+                return null
+            }
+            let component = this.getComponent(editTextComponent.nodeType)
+
+            return $$(component, {
+                node: node,
+                name: 'headerEditor',
+                containerId: 'headereditor',
+            })
+        });
+
+        headerEditorContainer.append(textEditors)
+
+        return headerEditorContainer
+    }
+
     _renderContentPanel($$) {
         const doc = this.editorSession.getDocument()
         const body = doc.get('body')
@@ -191,6 +205,7 @@ class NPWriter extends AbstractEditor {
         )
 
         contentPanel.append([
+            this._renderHeaderEditors($$),
             layout,
             $$(ContextMenu),
             $$(OverlayMenu),

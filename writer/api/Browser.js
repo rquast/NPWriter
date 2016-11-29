@@ -1,3 +1,4 @@
+import ResourceLoader from '../utils/ResourceLoader'
 /**
  * Class used internally to handle browser behaviour.
  */
@@ -35,7 +36,7 @@ class Browser {
     /**
      * Trigger a reload of the writer based on current hash held internally in the api
      */
-    reload () {
+    reload() {
         if (this.ignoreNextHashChange) {
             this.ignoreNextHashChange = false;
             return;
@@ -73,5 +74,16 @@ class Browser {
         window.location.hash = hash;
         return this.getHash();
     }
+
+    /**
+     * Adds a script tag in html document
+     * @param scriptSource
+     * @returns {Promise}
+     */
+    addExternalScript(scriptSource) {
+        const resourceLoader = new ResourceLoader()
+        return resourceLoader.load({url: scriptSource}, 'js')
+    }
+
 }
 export default Browser

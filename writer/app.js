@@ -19,7 +19,7 @@ import lodash from 'lodash'
 import SourceComponent from './packages/dialog/SourceComponent'
 import jxon from 'jxon'
 import Validator from './packages/npwriter/Validator'
-
+import uuidv5 from 'uuidv5'
 
 const STATUS_ISREADY = 'isReady',
     STATUS_LOADING = 'loading',
@@ -123,6 +123,7 @@ class App extends Component {
         api.apiManager.expose('lodash', lodash) // Expose the ID Generator helper method
         api.apiManager.expose('jxon', jxon) // Expose JXON library
         api.apiManager.expose('Validator', Validator) // Expose JXON library
+        api.apiManager.expose('uuidv5', uuidv5) // Expose a UUID V5 library
 
         var promise = this.configurator.loadConfigJSON('/api/config')                     // Load config file and store it in configurator
             .then(() => this.configurator.config.writerConfigFile.plugins)  // Get the plugins section from config (stored in the configurator)
