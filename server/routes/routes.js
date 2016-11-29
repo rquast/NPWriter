@@ -25,11 +25,7 @@ router.use(function timeLog(req, res, next) {
 });
 
 router.use(bodyParser.json({limit: '50Mb', extended: true, type: "application/json"}));
-router.use(bodyParser.raw({limit: '50Mb', extended: true, type: "application/xml"}));
-router.use(bodyParser.raw({limit: '50Mb', extended: true, type: "image/jpg"}));
-router.use(bodyParser.raw({limit: '50Mb', extended: true, type: "image/jpeg"}));
-router.use(bodyParser.raw({limit: '50Mb', extended: true, type: "image/png"}));
-router.use(bodyParser.raw({limit: '50Mb', extended: true, type: "image/gif"}));
+router.use(bodyParser.raw({limit: '50Mb', extended: true, type: "*/*"}));
 
 router.route('/config').get(ConfigRoutes.getConfig);
 router.route('/config').post(ConfigRoutes.setConfig);

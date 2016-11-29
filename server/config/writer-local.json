@@ -402,6 +402,13 @@
                     }
                 ]
             }
+        },
+        {
+            "id": "se.infomaker.ximpdf",
+            "name": "ximpdf",
+            "url": "http://localhost:5001/index.js",
+            "mandatory": false,
+            "enabled": true
         }
     ]
 }

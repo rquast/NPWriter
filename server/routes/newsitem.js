@@ -191,6 +191,8 @@ router.post('/image', function (req, res) {
  * Expects header x-infomaker-type to be set, e.g. 'x-im/image'.
  */
 router.post('/binary', function (req, res) {
+    log.info('Binary post request: ', req);
+
     var objectName, imType, maxSize, buffer, tmpFileName, fd;
 
     objectName = decodeURIComponent(req.headers['x-filename']);
