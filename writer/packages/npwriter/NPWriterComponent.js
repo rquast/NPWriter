@@ -64,9 +64,8 @@ class NPWriter extends AbstractEditor {
         this.editorSession.onUpdate(this.editorSessionUpdated, this)
 
         this.addVersion = debounce(() => {
-            console.log("Add to version");
             this.props.api.history.snapshot();
-        }, 1000)
+        }, 7000)
 
     }
 
