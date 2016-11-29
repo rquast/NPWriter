@@ -4,6 +4,20 @@
     "labelLanguage": "sv",
     "plugins": [
         {
+            "id": "se.infomaker.history",
+            "name": "history",
+            "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
+            "enabled": true,
+            "mandatory": false
+        },
+        {
+            "id": "se.infomaker.textanalyzer",
+            "name": "textanalyzer",
+            "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
+            "mandatory": false,
+            "enabled": true
+        },
+        {
             "id": "se.infomaker.publishflow",
             "name": "publishflow",
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
@@ -12,10 +26,16 @@
             "mandatory": true
         },
         {
+            "id": "se.infomaker.contentrelations",
+            "name": "contentrelations",
+            "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
+            "enabled": true,
+            "mandatory": false
+        },
+        {
             "id": "se.infomaker.ximauthor",
             "name": "ximauthor",
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
-            "style": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/style.css",
             "enabled": true,
             "mandatory": true
         },
@@ -27,13 +47,27 @@
             "mandatory": false
         },
         {
-            "id": "se.infomaker.ximplace",
+            "id": "se.infomaker.ximplace-position",
             "name": "ximplace",
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
-            "style": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/style.css",
             "enabled": true,
             "mandatory": true,
             "data": {
+                "features": "position",
+                "googleMapAPIKey": "AIzaSyB0pmf9RAml2HL3AgiB_yYTwIeMILqQ_1w"
+            }
+        },
+        {
+            "id": "se.infomaker.ximplace-polygon",
+            "name": "ximplace",
+            "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
+            "enabled": true,
+            "mandatory": true,
+            "data": {
+                "features": "polygon",
+                "polygon": {
+                    "editable": false
+                },
                 "googleMapAPIKey": "AIzaSyB0pmf9RAml2HL3AgiB_yYTwIeMILqQ_1w"
             }
         },
@@ -41,7 +75,6 @@
             "id": "se.infomaker.preamble",
             "name": "preamble",
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
-            "style": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/style.css",
             "enabled": true,
             "mandatory": true
         },
@@ -49,7 +82,6 @@
             "id": "se.infomaker.madmansrow",
             "name": "madmansrow",
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
-            "style": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/style.css",
             "enabled": true,
             "mandatory": true
         },
@@ -57,7 +89,6 @@
             "id": "se.infomaker.drophead",
             "name": "drophead",
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
-            "style": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/style.css",
             "enabled": true,
             "mandatory": true
         },
@@ -65,7 +96,6 @@
             "id": "se.infomaker.pagedateline",
             "name": "pagedateline",
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
-            "style": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/style.css",
             "enabled": true,
             "mandatory": true
         },
@@ -73,7 +103,6 @@
             "id": "se.infomaker.dateline",
             "name": "dateline",
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
-            "style": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/style.css",
             "enabled": true,
             "mandatory": true
         },
@@ -81,26 +110,8 @@
             "id": "se.infomaker.preleadin",
             "name": "preleadin",
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
-            "style": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/style.css",
             "enabled": true,
             "mandatory": true
-        },
-        {
-            "id": "se.infomaker.textanalyzer",
-            "name": "textanalyzer",
-            "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
-            "mandatory": false,
-            "enabled": true
-        },
-        {
-            "id": "se.infomaker.skeleton",
-            "name": "skeleton",
-            "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
-            "mandatory": false,
-            "enabled": false,
-            "data": {
-                "foo": "bar"
-            }
         },
         {
             "id": "se.infomaker.socialembed",
@@ -110,6 +121,19 @@
             "enabled": true,
             "data": {
                 "foo": "bar"
+            }
+        },
+        {
+            "id": "se.infomaker.headereditor",
+            "name": "headereditor",
+            "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
+            "mandatory": false,
+            "enabled": true,
+            "data": {
+                "elements": [
+                    "headline",
+                    "leadin"
+                ]
             }
         },
         {
@@ -134,26 +158,6 @@
             "url": "https://s3-eu-west-1.amazonaws.com/writer-dev-plugins/index.js",
             "mandatory": false,
             "enabled": true,
-            "data": {
-                "foo": "bar"
-            }
-        },
-        {
-            "id": "se.infomaker.open-modal",
-            "name": "open-modal",
-            "url": "http://localhost:5002/open-modal.build.js",
-            "mandatory": false,
-            "enabled": false,
-            "data": {
-                "foo": "bar"
-            }
-        },
-        {
-            "id": "se.infomaker.insertnode",
-            "name": "insertnode",
-            "url": "http://localhost:5002/insertnode.build.js",
-            "mandatory": false,
-            "enabled": false,
             "data": {
                 "foo": "bar"
             }
