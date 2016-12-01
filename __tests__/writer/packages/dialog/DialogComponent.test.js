@@ -144,6 +144,13 @@ describe('Open a modal window', () => {
         expect(body.querySelector('.modal-header')).toBe(null)
     })
 
+    test('It adds a custom css class to modal container', () => {
+        api.ui.showDialog(DummyDialogContent, {}, {cssClass: 'my-modal'})
+        const body = document.body
+
+        expect(body.querySelectorAll('.my-modal').length).toBe(1)
+    })
+
 
     test('It can add secondary button and onClose called with cancel action', () => {
         var callback = sinon.spy();

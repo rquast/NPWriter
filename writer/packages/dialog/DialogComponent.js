@@ -88,6 +88,9 @@ class DialogComponent extends Component {
         if(options.takeover) {
             modal.addClass('global takeover')
         }
+        if(options.cssClass) {
+            modal.addClass(options.cssClass)
+        }
 
         modalBody.append(modalInnerContent)
         this.addPrimaryButtonIfExist($$, modalFooter, options)
