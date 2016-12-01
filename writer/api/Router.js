@@ -60,10 +60,12 @@ class Router {
     /**
      * Get data from specified backend endpoint
      *
-     * @param {string} path
-     * @param {object} parameters
      *
-     * @return {object} jQuery ajax object
+     *
+     * @param {string} path
+     * @param {object} parameters - Could contain headers that will be passed along parameters.headers
+     *
+     * @return {promise} window fetch promise
      *
      * @example
      * this.context.api.router.get('/api/image/url/' + uuid)
@@ -79,6 +81,17 @@ class Router {
         let url = this.getEndpoint() + path,
             query = []
 
+        let requestProperties = {
+            method: 'GET'
+        }
+
+        // If headers is sent pass them
+        if(parameters && parameters.headers) {
+            requestProperties['headers'] = parameters.headers
+            delete parameters.headers
+        }
+
+
         if (isObject(parameters)) {
             for (name in parameters) {
                 query.push(name + '=' + encodeURI(parameters[name]));
@@ -87,11 +100,8 @@ class Router {
             url += '?' + query.join('&');
         }
 
-        return fetch(url, {
-            method: 'GET'
-        })
 
-        // return this.ajax('GET', 'text', path, parameters);
+        return fetch(url, requestProperties)
     }
 
     /**
@@ -146,7 +156,8 @@ class Router {
             dataType: dataType,
             url: url,
             headers: {
-                "Content-Type": "application/xml"
+                "Content-Type": "application/xml",
+                "Authorization": "Basic " +btoa("admin:xxx")
             }
         };
 

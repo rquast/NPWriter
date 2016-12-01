@@ -77,10 +77,14 @@ class NPWriterConfigurator extends Configurator {
      * @param name
      */
     addSidebarTab(id, name) {
-        this.config.sidebarTabs.push({
-            id: id,
-            name: name
-        })
+        if (!this.config.sidebarTabs.find((tab) => {
+                return tab.id === id
+            })) {
+            this.config.sidebarTabs.push({
+                id: id,
+                name: name
+            })
+        }
     }
 
     /**
