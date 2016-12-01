@@ -85,10 +85,10 @@ class DialogComponent extends Component {
         const contentComponent = props.content;
         const modalInnerContent = $$(contentComponent, props.contentProps).addClass('modal-inner-content').ref('contentComponent')
 
-        if(options.takeover) {
+        if(props.options.takeover) {
             modal.addClass('global takeover')
         }
-        if(options.cssClass) {
+        if(props.options.cssClass) {
             modal.addClass(options.cssClass)
         }
 
