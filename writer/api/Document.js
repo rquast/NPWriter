@@ -37,7 +37,7 @@ class Document {
                 selection: args.selection,
                 text: '$'
             });
-            var citationSel = this.doc.createSelection({
+            var citationSel = this.api.editorSession.createSelection({
                 type: 'property',
                 path: args.selection.path,
                 startOffset: args.selection.endOffset - 1,

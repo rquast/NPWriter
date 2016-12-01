@@ -27,6 +27,10 @@
 
     .im-blocknode__content {
         margin-left: 20px;
+
+        &.full-width {
+            margin-left:0;
+        }
     }
 
 
